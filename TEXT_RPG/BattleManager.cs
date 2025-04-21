@@ -126,8 +126,7 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("입력 오류");
             }
-            input--;
-            player.Attack(nowMonsters[input]);
+            Attack(player, nowMonsters[input-1]);
             playerTurn = false;
             Console.WriteLine("0. 다음");
             while (!int.TryParse(Console.ReadLine(), out input))
@@ -135,6 +134,27 @@ namespace TEXT_RPG
                 Console.WriteLine("입력 오류");
             }
             return input;
+        }
+        void Attack(Unit a,Unit b)
+        {
+            Random random = new Random();
+            if (random.Next(0, 100) < 10)
+            {
+                Console.Write($"{a.name}이(가) {b.GetName()}을(를) 공격했지만 회피!");
+                return;
+
+            }
+            Console.Write($"{a.name} 이(가)  {b. GetName()}을(를) 공격");
+
+            int calAtk=a.Attack();
+            if (random.Next(0, 100) < 15)
+            {
+                calAtk = (int)(calAtk * 1.6f);
+                Console.WriteLine("-치명타!");
+            }
+            Console.WriteLine();
+            b.Damaged(calAtk);
+            Console.WriteLine($"{b.name}은(는) {calAtk} 데미지를 입었다");
         }
         void OnMonsterDefeated(Monster monster)
         {
@@ -150,11 +170,11 @@ namespace TEXT_RPG
          
             for (int i = 0; i < nowMonsters.Count; i++)
             {
-                if(nowMonsters[i].IsAlive)
-                if (nowMonsters[i].Attack(player))
-                {
+                if (nowMonsters[i].IsAlive)
+                    Attack(nowMonsters[i], player);
+                if(!player.IsAlive)
                     break;
-                }
+                
                 Console.WriteLine("0. 다음");
 
                 while (!int.TryParse(Console.ReadLine(), out input))

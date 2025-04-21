@@ -27,25 +27,13 @@ namespace TEXT_RPG
         List<Item> items;
         List<Skill> skills;
 
-        public virtual bool Attack(Unit enemy)
+        public virtual int Attack()
         {
             Random random = new Random();
-            if (random.Next(0, 100) < 10)
-            {
-                Console.Write($"{name}이(가) {enemy.GetName()}을(를) 공격했지만 회피!");
-                return false;
-                
-            }
-            Console.Write($"{name}이(가) {enemy.GetName()}을(를) 공격");
-        
+          
             int calAtk = random.Next((int)atk*90/100,(int)atk*110/100);
-            if (random.Next(0, 100) < 15)
-            {
-                calAtk =(int)(calAtk* 1.6f);
-                Console.WriteLine("-치명타!");
-            }
-            Console.WriteLine();
-            return enemy.Damaged(calAtk);
+
+            return calAtk;
         }
         public string GetName()
         {
@@ -54,7 +42,7 @@ namespace TEXT_RPG
         public virtual bool Damaged(float atkD)
         {
             hp -= atkD;
-            Console.WriteLine($"{name}은(는) {atkD} 데미지를 입었다");
+           
             if (hp <= 0) {
                 Dead();
                 return true;
