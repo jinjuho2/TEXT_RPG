@@ -45,29 +45,42 @@ namespace TEXT_RPG
 
 
 
-        public List<Item> Inventory = new(); // 인벤토리 아이템 리스트
-        public List<Skill> Skills = new(); // 보유 스킬 리스트
+        public List<Item> inventory = new(); // 인벤토리 아이템 리스트
+        public List<Skill> skills = new(); // 보유 스킬 리스트
 
         public void ShowStat() { }
         public void ShowInventory() { }
         public void ShowSkillList()
         {
             Console.WriteLine($"[{Name}]의 스킬 목록:");
-            for (int i = 0; i < Skills.Count; i++)
+            for (int i = 0; i < skills.Count; i++)
             {
-                Skill skill = Skills[i];
+                Skill skill = skills[i];
                 Console.WriteLine($"{i + 1}. {skill.Name} - {skill.Description} (MP: {skill.MPCost})");
             }
         }
         public void LevelUp() { }
         public void TakeDamage(int damage) { }
         public void Dead() { }
-        public void UseItem(Item item) { }
+        public void UseItem(Item item)
+        {
+            if(item.Type == "accessory")
+            {
+                inventory.Remove(item);
+                CurrentHp = CurrentHp+item.
+            }
+
+            
+        }
         public string UseSkill(Skill skill)
         {
             return $"{skill.Type}+{skill.Damage}+{skill.TargetNum}";
         }
 
+        public void GetItem (Item item)
+        {
+            inventory.Add(item);
+        }
 
 
 
