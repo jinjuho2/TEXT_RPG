@@ -6,19 +6,43 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Player
+    
+    internal class Player 
     {
-        public string Name; // 플레이어 이름
-        public Jop Job; // 플레이어 직업
-        public int Level; // 플레이어 레벨
-        public int Exp; // 현재 경험치
-        public float Attack; // 기본 공격력
-        public float Defense; // 기본 방어력
-        public int MaxHp; // 최대 체력
-        public int CurrentHp; // 현재 체력
-        public int MaxMp; // 최대 마나
-        public int CurrentMp; // 현재 마나
-        public int Gold; // 소지 골드
+        private static Player instance;
+        public static Player Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new Player();
+                return instance;
+            }
+        }
+
+
+
+        public string Name { get; set; } // 플레이어 이름
+        public Jop Job { get; set; } // 플레이어 직업
+        public int Level { get; set; } // 플레이어 레벨
+        public int Exp { get; set; } // 현재 경험치
+        public float Attack { get; set; } // 기본 공격력
+        public float Defense { get; set; } // 기본 방어력
+        public int MaxHp { get; set; } // 최대 체력
+        public int CurrentHp { get; set; } // 현재 체력
+        public int MaxMp { get; set; } // 최대 마나
+        public int CurrentMp { get; set; } // 현재 마나
+        public int Gold { get; set; } // 소지 골드
+
+
+        public string WeaponEquipped { get; set; }// 장착 여부  // 추가
+        public string Armor1Equipped { get; set; }// 장착 여부  // 추가
+        public string Armor2Equipped { get; set; }// 장착 여부  // 추가
+        public string Armor3Equipped { get; set; }// 장착 여부  // 추가
+        public string Armor4Equipped { get; set; }// 장착 여부  // 추가
+
+        
+
 
 
         public List<Item> Inventory = new(); // 인벤토리 아이템 리스트
@@ -37,9 +61,14 @@ namespace TEXT_RPG
         }
         public void LevelUp() { }
         public void TakeDamage(int damage) { }
-        public void AttackMonster(Monster monster) { }
+        public void Dead() { }
         public void UseItem(Item item) { }
-        public void UseSkill(Skill skill, Monster target) { }
+        public string UseSkill(Skill skill)
+        {
+            return $"{skill.Type}+{skill.Damage}+{skill.TargetNum}";
+        }
+
+
 
 
     }

@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    public class Skill
+    enum TYPE
     {
-        public string Name; // 스킬 이름
-        public string Description; // 설명
-        public int MPCost; // 마나 소모량
-        public float Damage; // 스킬 데미지
+        Normal, Fire, Water, Grass, Dark, Light
+    }
+    internal class Skill
+    {
+        public string Name { get; set; } // 스킬 이름
+        public string Description { get; set; } // 설명
+        public int MPCost { get; set; } // 마나 소모량
+        public float Damage { get; set; } // 스킬 데미지
+        public string Type { get; set; } // 스킬 데미지
+        public int TargetNum {  get; set; }// 스킬 타겟 마릿수
 
         public Skill(string name, string description, int damage)
         {
@@ -20,11 +26,16 @@ namespace TEXT_RPG
             Damage = damage;
         }
 
-        public float Cast()
+        public void MakeSkill(string name, string description, int mPCost, float damage, string Type, int TargetNum)
         {
-            Console.WriteLine($"{Name} 스킬 사용! 데미지: {Damage}");
-            // 실제 게임 로직에서는 여기에 스킬 효과 구현
-            return Damage;
+            Name = name;
+            Description = description;
+            MPCost = mPCost;
+            Damage = damage;
         }
+        
+
+
     }
+    
 }
