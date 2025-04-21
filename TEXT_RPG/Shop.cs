@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Shop : Item
+    internal class Shop : ItemManager
     {
-
+        public Shop shopw = new Shop(); // 상점 클래스
         private List<Item> shopItems = new List<Item>(); // 상점에서 판매하는 아이템 목록
 
         public void GenerateShopItems() // 상점 아이템 생성
@@ -31,7 +31,7 @@ namespace TEXT_RPG
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             Console.WriteLine();
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{Player.Instance.gold} G");
+            Console.WriteLine($"{Player.Instance.Gold} G");
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < shopItems.Count; i++)
@@ -40,7 +40,9 @@ namespace TEXT_RPG
             }
             Console.WriteLine();
             Console.WriteLine("1. 아이템 구매");
+            BuyItem();
             Console.WriteLine("2. 아이템 판매");
+            SellItem();
             Console.WriteLine("0. 메인 메뉴");
         }
 
@@ -53,7 +55,7 @@ namespace TEXT_RPG
                 Console.Clear();
                 for (int i = 0; i < items.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {items[i].ToString2()}");
+                    Console.WriteLine($"{i + 1}. {items[i].Name}");
                 }
                 Console.WriteLine();
                 Console.WriteLine();
@@ -75,16 +77,14 @@ namespace TEXT_RPG
 
                 Item selectedItem = items[input - 1];
 
-                if (!selectedItem.isHave && Player.Instance.gold >= selectedItem.price)
+                if (!selectedItem.IsHave && Player.Instance.Gold >= selectedItem.Price)
                 {
-                    selectedItem.isHave = true;
-                    Player.Instance.OwnedItemNames.Add(selectedItem.name);
-                    Console.WriteLine($"'{selectedItem.name}' 을(를) 구매했습니다");
-                    Player.Instance.gold -= selectedItem.price;
-                    Wait();
+                    selectedItem.IsHave = true;
+                    Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
+                    Player.Instance.Gold -= selectedItem.Price;
                 }
 
-                else if (!selectedItem.isHave && Player.Instance.gold < selectedItem.price)
+                else if (!selectedItem.IsHave && Player.Instance.Gold < selectedItem.Price)
                 {
                     Console.WriteLine($"골드가 부족합니다.");
                     
@@ -92,7 +92,7 @@ namespace TEXT_RPG
 
                 else
                 {
-                    Console.WriteLine($"'{selectedItem.name}' 을(를) 이미 구매하였습니다.");
+                    Console.WriteLine($"'{selectedItem.Name}' 을(를) 이미 구매하였습니다.");
                     
                 }
             }
@@ -104,12 +104,11 @@ namespace TEXT_RPG
             {
                 Console.Clear();
 
-                var ownedItems = ItemManager.Instance().items.Where(item => item.isHave).ToList();
+                var ownedItems = ItemManager.Instance().items.Where(item => item.IsHave).ToList();
 
                 if (ownedItems.Count == 0)
                 {
                     Console.WriteLine("소지한 아이템이 없습니다.");
-                    Wait();
                     ShowMenu();
                     return;
                 }
@@ -117,7 +116,7 @@ namespace TEXT_RPG
                 Console.WriteLine("[소지한 아이템 목록]");
                 for (int i = 0; i < ownedItems.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {ownedItems[i].ToString3()}");
+                    Console.WriteLine($"{i + 1}. {ownedItems[i].Name}");
                 }
 
                 Console.WriteLine();
@@ -135,16 +134,15 @@ namespace TEXT_RPG
                     else if (input >= 1 && input <= ownedItems.Count)
                     {
                         Item selectedItem = ownedItems[input - 1];
-                        if (selectedItem.isEquipped)
+                        if (selectedItem.IsEquipped)
                         {
-                            Console.WriteLine($"'{selectedItem.name}'은(는) 장착 중인 아이템입니다. 판매할 수 없습니다.");
-                            Wait();
+                            Console.WriteLine($"'{selectedItem.Name}'은(는) 장착 중인 아이템입니다. 판매할 수 없습니다.");
+                            
                             continue;
                         }
-                        selectedItem.isHave = false;
-                        Player.Instance.gold += (int)(selectedItem.price * 0.85f);
-                        Player.Instance.OwnedItemNames.Remove(selectedItem.name);
-                        Console.WriteLine($"'{selectedItem.name}' 을(를) 판매했습니다.");
+                        selectedItem.IsHave = false;
+                        Player.Instance.Gold += (int)(selectedItem.Price * 0.85f);
+                        Console.WriteLine($"'{selectedItem.Name}' 을(를) 판매했습니다.");
                         
                         continue;
                     }
