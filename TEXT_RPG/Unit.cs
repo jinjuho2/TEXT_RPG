@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    enum type
+    enum TYPE
     {
         Normal,Fire,Water,Grass,Dark,Light
     }
