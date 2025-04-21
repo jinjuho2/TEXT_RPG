@@ -12,15 +12,15 @@ namespace TEXT_RPG
     }
     internal class Unit
     {
-        protected string name;
-       protected float atk;
-       protected float def;
-        protected float maxHp;
-        protected float hp;
-        protected float maxMp;
-        protected float mp;
-        protected int speed;
-        protected int lvl;
+       public string name;
+       public float atk;
+       public float def;
+       public float maxHp;
+       public float hp;
+       public float maxMp;
+       public float mp;
+       public int speed;
+       public int lvl;
         
         public bool IsAlive => hp > 0;
 
@@ -29,9 +29,22 @@ namespace TEXT_RPG
 
         public virtual bool Attack(Unit enemy)
         {
-            Console.WriteLine($"{name}이(가) {enemy.GetName()}을(를) 공격");
             Random random = new Random();
+            if (random.Next(0, 100) < 10)
+            {
+                Console.Write($"{name}이(가) {enemy.GetName()}을(를) 공격했지만 회피!");
+                return false;
+                
+            }
+            Console.Write($"{name}이(가) {enemy.GetName()}을(를) 공격");
+        
             int calAtk = random.Next((int)atk*90/100,(int)atk*110/100);
+            if (random.Next(0, 100) < 15)
+            {
+                calAtk =(int)(calAtk* 1.6f);
+                Console.WriteLine("-치명타!");
+            }
+            Console.WriteLine();
             return enemy.Damaged(calAtk);
         }
         public string GetName()

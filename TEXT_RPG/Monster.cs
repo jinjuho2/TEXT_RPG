@@ -14,6 +14,7 @@ namespace TEXT_RPG
             hp = 10;
             lvl = 0;
             name = "임시몬스터";
+            speed = 3;
         }
      
     }

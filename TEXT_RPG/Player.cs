@@ -16,6 +16,7 @@ namespace TEXT_RPG
             hp = maxHp;
             atk = 5;
             def = 5;
+            speed = 5;
 
         }
         public override void ShowSimple()

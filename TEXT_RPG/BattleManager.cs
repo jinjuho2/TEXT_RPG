@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Spectre.Console;
 
 namespace TEXT_RPG
 {
@@ -12,35 +15,13 @@ namespace TEXT_RPG
         List<Monster> nowMonsters;
         Player player;
         int turn = 0;
-
+        bool playerTurn=false;
+        int monsterCount;
+        int OriginHP;
         public void Battle(Player player)
         {
             Init(player);
-            Console.WriteLine("전투 개시");
-            while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
-            {
-                NextTurn();
-            }
-            if (player.IsAlive) {
-                Victory();
-            }
-     
-        }
-        void Victory()
-        {
-            Console.WriteLine("WIN");
-        }
-        private void Init(Player player)
-        {
-             nowMonsters= new List<Monster>();
-            nowMonsters.Add(new Monster());
-            this.player = player;
-           
-        }
-        int BattleMenu()
-        {
-            Console.WriteLine("Battle");
-            int input;
+
             for (int i = 0; i < nowMonsters.Count; i++)
             {
                 nowMonsters[i].ShowSimple();
@@ -49,6 +30,67 @@ namespace TEXT_RPG
 
             player.ShowSimple();
             Console.WriteLine("전투 개시");
+
+          
+
+            while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
+            {
+                if (playerTurn)
+                {
+                    BattleMenu();
+                }
+                else
+                {
+
+                    monsterTurn();
+                }
+            }
+            if (player.IsAlive) {
+                Victory();
+            }
+            
+
+        }
+        void Victory()
+        {
+            Console.WriteLine("WIN");
+            Console.WriteLine($"몬스터 {monsterCount} 해결");
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.lvl} {player.name}");
+            Console.WriteLine($"HP {player.hp}/{player.maxHp}");
+            Console.WriteLine();
+        }
+        private void Init(Player player)
+        {
+             nowMonsters= new List<Monster>();
+            nowMonsters.Add(new Monster());
+            this.player = player;
+            monsterCount = 0;
+            int Pspeed = player.speed;
+            int Espeed = 0;
+            foreach (Monster m in nowMonsters)
+            {
+                Espeed += m.speed;
+            }
+            if (Pspeed > Espeed / nowMonsters.Count)
+            {
+                playerTurn = true;
+            }
+            else
+                playerTurn = false;
+
+            }
+        int BattleMenu()
+        {
+            Console.WriteLine("Battle");
+           
+            int input;
+            for (int i = 0; i < nowMonsters.Count; i++)
+            {
+                nowMonsters[i].ShowSimple();
+            }
+            Console.WriteLine();
+
             Console.WriteLine("1. 공격");
 
             while (!int.TryParse(Console.ReadLine(), out input) || input<0||input>1)
@@ -84,29 +126,28 @@ namespace TEXT_RPG
             {
                 Console.WriteLine("입력 오류");
             }
-            if(input == 0)
-                 BattleMenu();
             input--;
-
-            return input;
-        }
-        void OnMonsterDefeated(Monster monster)
-        {
-           // nowMonsters.Remove(monster);
-        }
-        private void NextTurn()
-        {
-            turn++;
-            
-         
-            int input = BattleMenu();
-            if (player.Attack(nowMonsters[input]))
-                OnMonsterDefeated(nowMonsters[input]);
+            player.Attack(nowMonsters[input]);
+            playerTurn = false;
             Console.WriteLine("0. 다음");
             while (!int.TryParse(Console.ReadLine(), out input))
             {
                 Console.WriteLine("입력 오류");
             }
+            return input;
+        }
+        void OnMonsterDefeated(Monster monster)
+        {
+            monsterCount++;
+           // nowMonsters.Remove(monster);
+        }
+        private void monsterTurn()
+        {
+            turn++;
+
+            int input;
+          
+         
             for (int i = 0; i < nowMonsters.Count; i++)
             {
                 if(nowMonsters[i].IsAlive)
@@ -122,6 +163,11 @@ namespace TEXT_RPG
                 }
 
             }
+            playerTurn = true;
         }
+
+     
+
+
     }
 }
