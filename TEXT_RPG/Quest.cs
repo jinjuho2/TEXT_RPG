@@ -16,7 +16,7 @@ namespace TEXT_RPG
         public int TargetCount { get; set; }
 
         public bool IsClear { get; set; }
-
+        public bool IsActive { get; set; }
         public QuestType Type { get; set; }
 
         public int level;
@@ -28,7 +28,7 @@ namespace TEXT_RPG
     {
         Hunting,
         StageClear,
-        Event,
+        ItemEvent,
         Hidden
     }
 }
