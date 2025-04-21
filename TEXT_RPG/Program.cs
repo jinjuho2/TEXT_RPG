@@ -8,8 +8,8 @@ namespace TEXT_RPG
         {
             Console.WriteLine("Hello, World!");
 
-            GameManager gameManager = new GameManager();
-            gameManager.Start();
+            //GameManager gameManager = new GameManager();
+            //gameManager.Start();
             
 
            
