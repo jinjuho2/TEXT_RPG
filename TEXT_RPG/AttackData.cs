@@ -9,11 +9,11 @@ namespace TEXT_RPG
     internal class AttackData
     {
         public float Damage { get; set; }
-        public TYPE type { get; set; }
+        public TYPE Type { get; set; }
         public bool IsCr { get; set; }
         public AttackData(float _Damage, TYPE _type, bool _IsCr) {
             Damage = _Damage;
-            type = _type;
+            Type = _type;
             IsCr = _IsCr;
         
         }
