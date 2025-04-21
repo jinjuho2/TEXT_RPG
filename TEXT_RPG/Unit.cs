@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
+    enum type
+    {
+        Normal,Fire,Water,Grass,Dark,Light
+    }
     internal class Unit
     {
         protected string name;
@@ -13,15 +17,17 @@ namespace TEXT_RPG
        protected float def;
         protected float maxHp;
         protected float hp;
-        protected float mP;
-        protected int turn;
+        protected float maxMp;
+        protected float mp;
+        protected int speed;
         protected int lvl;
+        
         public bool IsAlive => hp > 0;
 
         List<Item> items;
-        List<Skill> skill;
+        List<Skill> skills;
 
-        public bool Attack(Unit enemy)
+        public virtual bool Attack(Unit enemy)
         {
             Console.WriteLine($"{name}이(가) {enemy.GetName()}을(를) 공격");
             Random random = new Random();
@@ -32,7 +38,7 @@ namespace TEXT_RPG
         {
             return name;
         }
-        public bool Damaged(float atkD)
+        public virtual bool Damaged(float atkD)
         {
             hp -= atkD;
             Console.WriteLine($"{name}은(는) {atkD} 데미지를 입었다");
