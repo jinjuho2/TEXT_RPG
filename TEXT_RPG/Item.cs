@@ -8,8 +8,6 @@ namespace TEXT_RPG
 {
     internal class Item : ItemManager
     {
-        public static List<Item> items = new List<Item>();
-        
 
         public string Name { get; set; }
         public string Type { get; set; } // "weapon", "armor", "accessory"
