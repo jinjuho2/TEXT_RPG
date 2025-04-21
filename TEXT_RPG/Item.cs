@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Item
+    internal class Item : ItemManager
     {
         public static List<Item> items = new List<Item>();
         
