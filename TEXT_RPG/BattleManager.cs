@@ -8,8 +8,7 @@ namespace TEXT_RPG
 {
     internal class BattleManager
     {
-        List<Dungeon> dungeons;
-        Dungeon nowDungeon;
+        
         List<Monster> nowMonsters;
         Player player;
         int turn = 0;
@@ -29,14 +28,12 @@ namespace TEXT_RPG
         }
         void Victory()
         {
-            Console.WriteLine("");
+            Console.WriteLine("WIN");
         }
         private void Init(Player player)
         {
-            nowDungeon = new Dungeon();
-            nowDungeon.SetMonster(new Monster());
-            nowDungeon.SetMonster(new Monster());
-            nowMonsters = nowDungeon.SpawnMonster();
+             nowMonsters= new List<Monster>();
+            nowMonsters.Add(new Monster());
             this.player = player;
            
         }
@@ -105,13 +102,25 @@ namespace TEXT_RPG
             int input = BattleMenu();
             if (player.Attack(nowMonsters[input]))
                 OnMonsterDefeated(nowMonsters[input]);
-               
+            Console.WriteLine("0. 다음");
+            while (!int.TryParse(Console.ReadLine(), out input))
+            {
+                Console.WriteLine("입력 오류");
+            }
             for (int i = 0; i < nowMonsters.Count; i++)
             {
+                if(nowMonsters[i].IsAlive)
                 if (nowMonsters[i].Attack(player))
                 {
                     break;
                 }
+                Console.WriteLine("0. 다음");
+
+                while (!int.TryParse(Console.ReadLine(), out input))
+                {
+                    Console.WriteLine("입력 오류");
+                }
+
             }
         }
     }
