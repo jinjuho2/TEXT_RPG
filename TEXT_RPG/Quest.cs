@@ -8,5 +8,27 @@ namespace TEXT_RPG
 {
     internal class Quest
     {
+        public string Title { get; set; }
+        public string Etc { get; set; }
+
+        public int CurrentCount { get; set; }
+
+        public int TargetCount { get; set; }
+
+        public bool IsClear { get; set; }
+
+        public QuestType Type { get; set; }
+
+        public int level;
+
+
+
+    }
+    public enum QuestType
+    {
+        Hunting,
+        StageClear,
+        Event,
+        Hidden
     }
 }
