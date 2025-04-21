@@ -31,21 +31,21 @@ namespace TEXT_RPG
             Potions.Add(new Potion("마나 엘릭서", "MP", 0, 300, 320, false));
         }
 
-        public void Use(Player player) // 포션 사용
+        public void Use() // 포션 사용
         {
-            if (Type == "HP" && player.CurrentHp < player.MaxHp && IsHave)
+            if (Type == "HP" && Player.Instance.CurrentHP < Player.Instance.MaxHp && IsHave)
             {
-                player.CurrentHp += RecoverHp;
-                if (player.CurrentHp > player.MaxHp)
-                    player.CurrentHp = player.MaxHp;
+                Player.Instance.CurrentHP += RecoverHp;
+                if (Player.Instance.CurrentHP    > Player.Instance.MaxHp)
+                    Player.Instance.CurrentHP = Player.Instance.MaxHp;
 
                 Console.WriteLine($"{Name}을 사용하여 HP {RecoverHp} 회복했습니다.");
             }
-            else if (Type == "MP" && player.CurrentMp < player.MaxMp && IsHave)
+            else if (Type == "MP" && Player.Instance.CurrentMP < Player.Instance.MaxMp && IsHave)
             {
-                player.CurrentMp += RecoverMp;
-                if (player.CurrentMp > player.MaxMp)
-                    player.CurrentMp = player.MaxMp;
+                Player.Instance.CurrentMP += RecoverMp;
+                if (Player.Instance.CurrentMP > Player.Instance.MaxMp)
+                    Player.Instance.CurrentMP = Player.Instance.MaxMp;
 
                 Console.WriteLine($"{Name}을 사용하여 MP {RecoverMp} 회복했습니다.");
             }

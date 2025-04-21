@@ -9,17 +9,19 @@ namespace TEXT_RPG
     internal class Monster:Unit
     {
         public Monster() {
-            atk = 10;
-            def = 10;
-            hp = 30;
-            lvl = 0;
-            name = "임시몬스터";
-            speed = 3;
+            Attack = 10;
+            Defense = 10;
+            MaxHp = 30;
+            CurrentHP=MaxHp;
+
+            Level = 0;
+            Name = "임시몬스터";
+            Speed = 3;
             WeakType = TYPE.Normal;
             IsWeak = false;
             Gold = 100;
             items = new List<Item>();
-            items.Add(new Item());  
+     
 
         }
      

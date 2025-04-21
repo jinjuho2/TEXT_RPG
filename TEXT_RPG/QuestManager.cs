@@ -11,9 +11,9 @@ namespace TEXT_RPG
         public List<Quest> Quests { get; set; }
 
         private GameManager gameManager;
-        public QuestManager(GameManager gameManager)
-        {
-            this.gameManager = gameManager;
+        public QuestManager()//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
+        {                    //만약 게임 매니저의 값이 필요하시다면 메소드를 통해 가져오던가 게임매니저를 싱글톤으로 바꾸는 게 낫겠습니다     
+
             Quests = new List<Quest>();
         }
 
@@ -29,7 +29,8 @@ namespace TEXT_RPG
                 if (input == 0)
                 {
                     isRunning = true;
-                    gameManager.Start();
+                    //gameManager.Start();
+                    break; //로 해도 괜찮을듯합니다...
                 }
                 else if (input <= Quests.Count)
                 {

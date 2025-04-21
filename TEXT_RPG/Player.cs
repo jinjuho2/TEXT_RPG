@@ -34,7 +34,9 @@ namespace TEXT_RPG
         public int MaxMp { get; set; } // 최대 마나
         public int CurrentMP { get; set; } // 현재 마나
         public int Gold { get; set; } // 소지 골드
-
+        public int Speed { get; set; } // 속도... 선턴 잡습니다...
+        public bool IsWeak { get; set; } // 약점 찌름 당함...
+        public TYPE WeakType { get; set; } //약점 : 리스트가 나을수도
 
         public string WeaponEquipped { get; set; }// 장착 여부  // 추가
         public string Armor1Equipped { get; set; }// 장착 여부  // 추가
@@ -42,8 +44,8 @@ namespace TEXT_RPG
         public string Armor3Equipped { get; set; }// 장착 여부  // 추가
         public string Armor4Equipped { get; set; }// 장착 여부  // 추가
 
-        
 
+        public bool IsAlive => CurrentHP > 0; //살아있나 확인...
 
 
         public List<Item> inventory = new(); // 인벤토리 아이템 리스트
@@ -86,7 +88,24 @@ namespace TEXT_RPG
             inventory.Add(item);
         }
 
+        public virtual AttackData AttackM() //공격 메소드... 수정하셔도 괜찮습니다.
+        {
+            Random random = new Random();
 
+            int calAtk = random.Next((int)Attack * 90 / 100, (int)Attack * 110 / 100); //공격 범위 지정
+            AttackData ad;
+            if (random.Next(0, 100) < 15) //크리티컬수치 여기서 교체 가능합니다.
+            {
+                calAtk = (int)(calAtk * 1.6f);
+
+                ad = new AttackData(calAtk, TYPE.Normal, true);
+            }
+            else
+            {
+                ad = new AttackData(calAtk, TYPE.Normal, false);
+            }
+            return ad;
+        }
 
     }
 

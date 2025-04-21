@@ -6,36 +6,35 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    enum TYPE
-    {
-        Normal,Fire,Water,Grass,Dark,Light
-    }
     internal class Unit
     {
-       public string name;
-       public float atk;
-       public float def;
-       public float maxHp;
-       public float hp;
-       public float maxMp;
-       public float mp;
-       public int speed;
-       public int lvl;
-        
+        public string Name { get; set; } // 플레이어 이름
+        public Jop Job { get; set; } // 플레이어 직업
+        public int Level { get; set; } // 플레이어 레벨
+        public int Exp { get; set; } // 현재 경험치
+        public float Attack { get; set; } // 기본 공격력
+        public float Defense { get; set; } // 기본 방어력
+        public int MaxHp { get; set; } // 최대 체력
+        public int CurrentHP { get; set; } // 현재 체력
+        public int MaxMp { get; set; } // 최대 마나
+        public int CurrentMP { get; set; } // 현재 마나
+        public int Gold { get; set; } // 소지 골드
+        public int Speed { get; set; } // 속도... 선턴 잡습니다...
+        public bool IsWeak { get; set; } // 약점 찌름 당함...
+
         public TYPE WeakType { get; set; }
-        public int Gold { get; set; }
-        public bool IsWeak { get; set; }
+     
         
-        public bool IsAlive => hp > 0;
+        public bool IsAlive => CurrentHP > 0;
 
         public List<Item> items;
         List<Skill> skills;
 
-        public virtual AttackData Attack()
+        public virtual AttackData AttackM()
         {
             Random random = new Random();
           
-            int calAtk = random.Next((int)atk*90/100,(int)atk*110/100);
+            int calAtk = random.Next((int)Attack*90/100,(int)Attack*110/100);
             AttackData ad;
             if (random.Next(0, 100) < 15)
             {
@@ -49,17 +48,14 @@ namespace TEXT_RPG
             }
             return ad;
         }
-        public string GetName()
-        {
-            return name;
-        }
-        public virtual bool Damaged(int atkD)
+       
+        public virtual bool TakeDamage(int atkD)
         {
 
 
-            hp -= atkD;
+            CurrentHP -= atkD;
             
-            if (hp <= 0) {
+            if (CurrentHP <= 0) {
                 Dead();
                 return true;
             }
@@ -69,13 +65,13 @@ namespace TEXT_RPG
         {
             if (!IsAlive) { 
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"Lv.{lvl} {name} 기절");
+            Console.WriteLine($"Lv.{Level} {Name} 기절");
             Console.ResetColor(); 
           }
-            else Console.WriteLine($"Lv.{lvl} {name} HP {hp}");
+            else Console.WriteLine($"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}");
         }
         private void Dead() {
-            Console.WriteLine($"{name} 기절");
+            Console.WriteLine($"{Name} 기절");
         }
 
     }
