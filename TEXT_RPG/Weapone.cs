@@ -14,14 +14,14 @@ namespace TEXT_RPG
                        int price, int level, bool isHave, bool isEquipped)
             : base(name, type, atk, 0, critical, 0, 0, 0, price, level, isHave, isEquipped)
         {
-            this.name = name;
-            this.type = type;
-            this.atk = atk;
-            this.critical = critical;
-            this.price = price;
-            this.level = level;
-            this.isHave = isHave;
-            this.isEquipped = isEquipped;
+            this.Name = name;
+            this.Type = type;
+            this.Atk = atk;
+            this.Critical = critical;
+            this.Price = price;
+            this.Level = level;
+            this.IsHave = isHave;
+            this.IsEquipped = isEquipped;
         }
 
         public void AddWeapon(Weapone weapon)

@@ -11,42 +11,37 @@ namespace TEXT_RPG
         public static List<Item> items = new List<Item>();
         
 
-        public string name { get; set; }
-        public string type { get; set; } // "weapon", "armor", "accessory"
-        public float atk { get; set; }
-        public float def { get; set; }
-        public float critical { get; set; }
-        public float dodge { get; set; }
-        public int hp { get; set; }
-        public int mp { get; set; }
-        public int price { get; set; }
-        public int level { get; set; }
-        public bool isHave { get; set; }
-        public bool isEquipped { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; } // "weapon", "armor", "accessory"
+        public float Atk { get; set; }
+        public float Def { get; set; }
+        public float Critical { get; set; }
+        public float Dodge { get; set; }
+        public int HP { get; set; }
+        public int MP { get; set; }
+        public int Price { get; set; }
+        public int Level { get; set; }
+        public bool IsHave { get; set; }
+        public bool IsEquipped { get; set; }
 
         public Item(string name, string type ,float atk, float def, 
                     float critical,float dodge, int hp, int mp, 
                     int price, int level, bool isHave, bool isEquipped)
         {
-            this.name = name;
-            this.type = type;
-            this.atk = atk;
-            this.def = def;
-            this.critical = critical;
-            this.dodge = dodge;
-            this.hp = hp;
-            this.mp = mp;
-            this.price = price;
-            this.level = level;
-            this.isHave = isHave;
-            this.isEquipped = isEquipped;
+            this.Name = name;
+            this.Type = type;
+            this.Atk = atk;
+            this.Def = def;
+            this.Critical = critical;
+            this.Dodge = dodge;
+            this.HP = hp;
+            this.MP = mp;
+            this.Price = price;
+            this.Level = level;
+            this.IsHave = isHave;
+            this.IsEquipped = isEquipped;
         }
 
-        public void AddItem(Item item)
-        {
-            items.Add(new );
-        }   
-       
 
     }
 }

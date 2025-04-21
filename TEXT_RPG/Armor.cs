@@ -13,16 +13,16 @@ namespace TEXT_RPG
                      int price, int level, bool isHave, bool isEquipped)
             : base(name, type, 0, def, 0, dodge, hp, mp, price, level, isHave, isEquipped)
         {
-            this.name = name;
-            this.type = type;
-            this.def = def;
-            this.hp = hp;
-            this.mp = mp;
-            this.dodge = dodge;
-            this.price = price;
-            this.level = level;
-            this.isHave = isHave;
-            this.isEquipped = isEquipped;
+            this.Name = name;
+            this.Type = type;
+            this.Def = def;
+            this.HP = hp;
+            this.MP = mp;
+            this.Dodge = dodge;
+            this.Price = price;
+            this.Level = level;
+            this.IsHave = isHave;
+            this.IsEquipped = isEquipped;
         }
         public void AddArmor(Armor armor)
         {
