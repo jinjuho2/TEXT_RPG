@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
+
     
     internal class Player 
     {
@@ -88,4 +89,5 @@ namespace TEXT_RPG
 
 
     }
+
 }

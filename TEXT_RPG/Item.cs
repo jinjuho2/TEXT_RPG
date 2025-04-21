@@ -9,6 +9,7 @@ namespace TEXT_RPG
     internal class Item : ItemManager
     {
 
+
         public string Name { get; set; }
         public string Type { get; set; } // "weapon", "armor", "accessory"
         public float Atk { get; set; }
@@ -39,6 +40,7 @@ namespace TEXT_RPG
             this.IsHave = isHave;
             this.IsEquipped = isEquipped;
         }
+
 
 
     }
