@@ -29,9 +29,9 @@ namespace TEXT_RPG
         public float Attack { get; set; } // 기본 공격력
         public float Defense { get; set; } // 기본 방어력
         public int MaxHp { get; set; } // 최대 체력
-        public int CurrentHp { get; set; } // 현재 체력
+        public int CurrentHP { get; set; } // 현재 체력
         public int MaxMp { get; set; } // 최대 마나
-        public int CurrentMp { get; set; } // 현재 마나
+        public int CurrentMP { get; set; } // 현재 마나
         public int Gold { get; set; } // 소지 골드
 
 
@@ -61,17 +61,20 @@ namespace TEXT_RPG
         }
         public void LevelUp() { }
         public void TakeDamage(int damage) { }
-        public void Dead() { }
-        public void UseItem(Item item)
+        public void Dead()
         {
-            if(item.Type == "accessory")
-            {
-                inventory.Remove(item);
-                CurrentHp = CurrentHp+item.
-            }
+
+        }
+        //public void UseItem(Item item)
+        //{
+        //    if(item.Type == "accessory")
+        //    {
+        //        inventory.Remove(item);
+        //        CurrentHp = CurrentHp+item.
+        //    }
 
             
-        }
+        //}
         public string UseSkill(Skill skill)
         {
             return $"{skill.Type}+{skill.Damage}+{skill.TargetNum}";
