@@ -13,14 +13,14 @@ namespace TEXT_RPG
     {
         
         List<Monster> nowMonsters;
-        Player player;
+        Unit player;
         int turn = 0;
         bool playerTurn=false;
         int monsterCount;
         int OriginHP;
         int pTurn;
         int mTurn;
-        public void Battle(Player player)
+        public void Battle(Unit player)
         {
             Init(player);
 
@@ -70,7 +70,7 @@ namespace TEXT_RPG
             Console.WriteLine($"{gold}원 획득");
             Console.WriteLine("획득");
         }
-        private void Init(Player player)
+        private void Init(Unit player)
         {
              nowMonsters= new List<Monster>();
             nowMonsters.Add(new Monster());
@@ -180,7 +180,7 @@ namespace TEXT_RPG
                     b.IsWeak = true;
                     if (b is Monster)
                         pTurn++;
-                    if (b is Player)
+                    if (b is Unit)
                         mTurn++;
                     Console.WriteLine("한번 더");
                 }
