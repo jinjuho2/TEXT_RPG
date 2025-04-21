@@ -8,5 +8,6 @@ namespace TEXT_RPG
 {
     internal class Item
     {
+       
     }
 }

@@ -17,6 +17,8 @@ namespace TEXT_RPG
             atk = 5;
             def = 5;
             speed = 5;
+            WeakType = TYPE.Dark;
+            IsWeak = false;
 
         }
         public override void ShowSimple()

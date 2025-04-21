@@ -22,27 +22,43 @@ namespace TEXT_RPG
        public int speed;
        public int lvl;
         
+        public TYPE WeakType { get; set; }
+        public int Gold { get; set; }
+        public bool IsWeak { get; set; }
+        
         public bool IsAlive => hp > 0;
 
-        List<Item> items;
+        public List<Item> items;
         List<Skill> skills;
 
-        public virtual int Attack()
+        public virtual AttackData Attack()
         {
             Random random = new Random();
           
             int calAtk = random.Next((int)atk*90/100,(int)atk*110/100);
-
-            return calAtk;
+            AttackData ad;
+            if (random.Next(0, 100) < 15)
+            {
+                calAtk = (int)(calAtk * 1.6f);
+               
+                 ad = new AttackData(calAtk, TYPE.Normal, true);
+            }
+            else
+            {
+                     ad = new AttackData(calAtk, TYPE.Normal, false);
+            }
+            return ad;
         }
         public string GetName()
         {
             return name;
         }
-        public virtual bool Damaged(float atkD)
+        public virtual bool Damaged(int atkD)
         {
+
+
             hp -= atkD;
-           
+            
             if (hp <= 0) {
                 Dead();
                 return true;
