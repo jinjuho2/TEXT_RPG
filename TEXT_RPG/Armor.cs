@@ -8,28 +8,20 @@ namespace TEXT_RPG
 {
     internal class Armor : Item
     {
-        public static List<Armor> armors = new List<Armor>();
-        public Armor(string name, string type, float def, float dodge, int hp, int mp,
-                     int price, int level, bool isHave, bool isEquipped)
+        public static List<Armor> Armors = new List<Armor>();
+
+        public Armor(string name, string type, float def, float dodge, int hp, int mp,  // 이름 ,타입 ,방어력 ,회피율 ,쳐력 ,마나 ,
+                     int price, int level, bool isHave, bool isEquipped)                //가격,착용레벨,소지 여부, 장착 여부
             : base(name, type, 0, def, 0, dodge, hp, mp, price, level, isHave, isEquipped)
         {
-            this.Name = name;
-            this.Type = type;
-            this.Def = def;
-            this.HP = hp;
-            this.MP = mp;
-            this.Dodge = dodge;
-            this.Price = price;
-            this.Level = level;
-            this.IsHave = isHave;
-            this.IsEquipped = isEquipped;
         }
-        public void AddArmor(Armor armor)
+
+        public static void AddDefaultArmors() // 기본 방어구 추가
         {
-            armors.Add(new("가죽 갑옷", "갑옷", 5, 0.1f,0,0, 100, 1, false, false));
-            armors.Add(new("철 갑옷", "갑옷", 10, 5f,20,20, 200, 3, false, false));
-            armors.Add(new("은 갑옷", "갑옷", 20, 10f,50,50 ,300, 7, false, false));
-            armors.Add(new("금 갑옷", "갑옷", 30, 20f,100,100, 400, 12, false, false));
+            Armors.Add(new Armor("가죽 갑옷", "갑옷", 5, 0.1f, 0, 0, 100, 1, false, false));
+            Armors.Add(new Armor("철 갑옷", "갑옷", 10, 5f, 20, 20, 200, 3, false, false));
+            Armors.Add(new Armor("은 갑옷", "갑옷", 20, 10f, 50, 50, 300, 7, false, false));
+            Armors.Add(new Armor("금 갑옷", "갑옷", 30, 20f, 100, 100, 400, 12, false, false));
         }
     }
 }

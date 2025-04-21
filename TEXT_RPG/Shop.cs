@@ -9,15 +9,16 @@ namespace TEXT_RPG
     internal class Shop : Item
     {
 
-        private List<Item> shopItems = new List<Item>();
+        private List<Item> shopItems = new List<Item>(); // 상점에서 판매하는 아이템 목록
 
-        public void GenerateShopItems()
+        public void GenerateShopItems() // 상점 아이템 생성
+       
         {
             List<Item> allItems = new List<Item>();
 
-            allItems.AddRange(Weapone.weapons);
-            allItems.AddRange(Armor.armors);
-            allItems.AddRange(Potion.potions);
+            allItems.AddRange(Weapone.Weapons);
+            allItems.AddRange(Armor.Armors);
+            allItems.AddRange(Potion.Potions);
 
             Random random = new Random();
 
@@ -35,16 +36,15 @@ namespace TEXT_RPG
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < shopItems.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {shopItems[i].name} | {shopItems[i].type} | {shopItems[i].price}");
+                Console.WriteLine($"{i + 1}. {shopItems[i].Name} | {shopItems[i].Type} | {shopItems[i].Price}");
             }
             Console.WriteLine();
             Console.WriteLine("1. 아이템 구매");
             Console.WriteLine("2. 아이템 판매");
             Console.WriteLine("0. 메인 메뉴");
-            HandleInput();
         }
 
-        private void BuyItem()
+        private void BuyItem() // 구매
         {
             var items = ItemManager.Instance().items;
 
@@ -69,8 +69,7 @@ namespace TEXT_RPG
 
                 else if (input < 1 || items.Count < input)
                 {
-                    InvalidInput();
-                    Wait();
+                    
                     continue;
                 }
 
@@ -88,18 +87,18 @@ namespace TEXT_RPG
                 else if (!selectedItem.isHave && Player.Instance.gold < selectedItem.price)
                 {
                     Console.WriteLine($"골드가 부족합니다.");
-                    Wait();
+                    
                 }
 
                 else
                 {
                     Console.WriteLine($"'{selectedItem.name}' 을(를) 이미 구매하였습니다.");
-                    Wait();
+                    
                 }
             }
         }
 
-        private void SellItem()
+        private void SellItem() // 판매
         {
             while (true)
             {
@@ -146,14 +145,13 @@ namespace TEXT_RPG
                         Player.Instance.gold += (int)(selectedItem.price * 0.85f);
                         Player.Instance.OwnedItemNames.Remove(selectedItem.name);
                         Console.WriteLine($"'{selectedItem.name}' 을(를) 판매했습니다.");
-                        Wait();
+                        
                         continue;
                     }
 
                     else
                     {
-                        InvalidInput();
-                        Wait();
+                        
                         continue;
 
                     }
@@ -162,7 +160,7 @@ namespace TEXT_RPG
                 else
                 {
                     Console.WriteLine("숫자를 입력해주세요.");
-                    Wait();
+                    
                     continue;
                 }
             }
