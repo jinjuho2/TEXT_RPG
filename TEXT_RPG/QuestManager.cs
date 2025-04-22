@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,54 +21,79 @@ namespace TEXT_RPG
 
         public void QuestWindow()
         {
-            bool isRunning = false;
-            while (!isRunning)
+            AddQuest();
+            bool isRunning = true;
+            while (isRunning)
             {
-                Console.WriteLine("퀘스트창");
-                ShowQuest(1);
-                Console.WriteLine("고르셈 \n 0.나가기");
+                Console.Clear();
+                Console.WriteLine("-퀘스트창-\n");
+                ShowQuest(2);
+                Console.WriteLine("\n 1. 퀘스트 수주 \n 2. 퀘스트 취소 \n 0.나가기");
                 int input = int.Parse(Console.ReadLine());
-                if (input == 0)
+                switch(input)
                 {
-                    isRunning = true;
-                    //gameManager.Start();
+                    case 0:
+                    isRunning = false;
+                    gameManager.Run();
                     break; //로 해도 괜찮을듯합니다...
+                    case 1:
+                        isRunning = false;
+                        AcceptQuest();
+                        break;
+                    case 2:
+                        isRunning = false;
+                        CancelQuest();
+                        break;
+                    default:
+                        Console.WriteLine("올바른 입력하세요");
+                        break;
                 }
-                else if (input <= Quests.Count)
-                {
-                    Quests[input].IsActive = true;
-
-                }
+                
             }
 
 
         }
-
-        public void AddQuest()
+        void AcceptQuest()
         {
-            Quests.Add(new Quest { Title = "주황버섯을 잡아라!", Etc = "주황버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting});
-            Quests.Add(new Quest { Title = "뿔버섯을 잡아라!", Etc = "뿔버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false , level = 1 ,Type = QuestType.Hunting });
-            Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요",IsClear = false , level = 1 , Type = QuestType.StageClear });
+            Console.Clear ();
+            Console.WriteLine("-퀘스트창- '수주' \n");
+            ShowQuest(1, 0);
+            Console.WriteLine("\n 수주할 퀘스트를 고르세요.");
+        }
+
+        void CancelQuest()
+        {
+            ShowQuest(1, 0);
+        }
+
+
+        void AddQuest()
+        {
+            Quests.Add(new Quest { Title = "주황버섯을 잡아라!", Etc = "주황버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false ,IsClear = false, level = 1, Type = QuestType.Hunting});
+            Quests.Add(new Quest { Title = "뿔버섯을 잡아라!", Etc = "뿔버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false,IsClear = false , level = 1 ,Type = QuestType.Hunting });
+            Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", IsActive = false ,IsClear = false , level = 1 , Type = QuestType.StageClear });
 
             Quests.Add(new Quest { Title = "ㅇ버섯을 잡아라!", Etc = "주황버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 2, Type = QuestType.Hunting });
             Quests.Add(new Quest { Title = "ㄷ섯을 잡아라!", Etc = "뿔버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 2, Type = QuestType.Hunting });
             Quests.Add(new Quest { Title = "중급 여행가", Etc = "타워 20층을 완료하세요", IsClear = false, level = 2, Type = QuestType.StageClear });
         }
         
-        public void ShowQuest(int currentlevel)
+        public void ShowQuest(int currentlevel,int index = -1)
         {
-            
+            int counter = index >= 0 ? index : -1;
             foreach (Quest quest in Quests)
             {
-                if(quest.level <= currentlevel && quest.IsClear == false)
+                if(quest.level <= currentlevel)
                 {
+                    string questNum = counter >= 0 ? $"{counter + 1}." : "";
+                    string activeBool = quest.IsActive ? "[진행중]" : "";
                     switch (quest.Type)
                     {
                         case QuestType.Hunting:
-                            Console.WriteLine($"{quest.Title} : {quest.Etc} ");
+                            Console.WriteLine($"{questNum}{activeBool} {quest.Title} : {quest.Etc} ");
                             break;
                         case QuestType.StageClear:
-                            Console.WriteLine($"{quest.Title} : {quest.Etc} ");
+                            Console.WriteLine($"{questNum}{activeBool} {quest.Title} : {quest.Etc} ");
                             break;
                         case QuestType.ItemEvent:
 
@@ -75,6 +102,8 @@ namespace TEXT_RPG
 
                             break;
                     }
+                    if (counter >= 0)
+                        counter++;
                 }
             }
         }
