@@ -236,7 +236,7 @@ namespace TEXT_RPG
         {
             Console.WriteLine("이벤트 층 입니다.");
         }
-        public void restWarp()
+        public void restWarp()//완
         {
             Console.WriteLine("휴식의 층 입니다.");
         }
