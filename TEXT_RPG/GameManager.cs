@@ -25,7 +25,7 @@ namespace TEXT_RPG
         {
             d = new Dungeon();
             qm = new QuestManager();
-            ItemManager.InitializIeItem();
+            ItemManager.InitializIeItem(); // 아이템 초기화
             Player.Instance.Name = "임시 주인공";
             Player.Instance.MaxHP = 100;
             Player.Instance.CurrentHP = 100;

@@ -18,19 +18,26 @@ namespace TEXT_RPG
 
         public static void AddDefaultWeapons() // 기본 무기 추가
         {
-            Weapons.Add(new Weapone("나무 지팡이", "무기", 5, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("은 지팡이", "무기", 5, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("금 지팡이", "무기", 5, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("다이아 지팡이", "무기", 5, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("나무 활", "무기", 7, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("은 활", "무기", 7, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("금 활", "무기", 7, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("다이아 활", "무기", 7, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("나무 검", "무기", 10, 0, 100, 1, false, false));
-            Weapons.Add(new Weapone("철검", "무기", 20, 0, 200, 3, false, false));
-            Weapons.Add(new Weapone("은검", "무기", 30, 0, 300, 7, false, false));
-            Weapons.Add(new Weapone("금검", "무기", 40, 0, 400, 12, false, false));
-            Weapons.Add(new Weapone("다이아몬드 검", "무기", 50, 0, 500, 20, false, false));
+            Weapons.Add(new Weapone("나무 스태프",   "Staff", 5, 0, 100, 1, false, false));
+            Weapons.Add(new Weapone("위저드 스태프", "Staff", 15, 0, 1000, 15, false, false));
+            Weapons.Add(new Weapone("이블윙즈", "Staff", 30, 0, 3000, 30, false, false));
+            Weapons.Add(new Weapone("케이그", "Staff", 60, 0, 6000, 45, false, false));
+            Weapons.Add(new Weapone("사냥꾼의 활","Bow", 5, 0, 100, 1, false, false));
+            Weapons.Add(new Weapone("라이덴",      "Bow", 15, 0, 1000, 15, false, false));
+            Weapons.Add(new Weapone("봉황위궁",    "Bow", 30, 0, 3000, 30, false, false));
+            Weapons.Add(new Weapone("골든 니스록", "Bow", 60, 0, 6000, 45, false, false));
+            Weapons.Add(new Weapone("검",          "Sword", 5, 0, 100, 1, false, false));
+            Weapons.Add(new Weapone("카알 대검",    "Sword", 15, 0, 1000, 15, false, false));
+            Weapons.Add(new Weapone("화염의 카타나","Sword", 30, 0, 3000, 30, false, false));
+            Weapons.Add(new Weapone("라투핸드",     "Sword", 60, 0, 6000, 45, false, false));
+            Weapons.Add(new Weapone("가니어",       "Adae", 5, 0, 100, 1, false, false));
+            Weapons.Add(new Weapone("메바",        "Adae", 15, 0, 1000, 15, false, false));
+            Weapons.Add(new Weapone("다크 보닌",    "Adae", 30, 0, 3000, 30, false, false));
+            Weapons.Add(new Weapone("흑갑충",       "Adae", 60, 0, 6000, 45, false, false));
+            Weapons.Add(new Weapone("피스톨",       "Gun", 5, 0, 100, 1, false, false));
+            Weapons.Add(new Weapone("콜드 마인드",  "Gun", 15, 0, 1000, 15, false, false));
+            Weapons.Add(new Weapone("슈팅스타",     "Gun", 30, 0, 3000, 30, false, false));
+            Weapons.Add(new Weapone("피스메이커",   "Gun", 60, 0, 6000, 45, false, false));
         }
     }
 }

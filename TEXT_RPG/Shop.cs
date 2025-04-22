@@ -80,55 +80,72 @@ namespace TEXT_RPG
                     var item = shopItems[i];
                     bool result = item.IsHave;
                     string status = result ? "구매 완료" : "가격 : " + item.Price.ToString();
-                    string display = "";
-                    switch (item.Type)
+                    string display;
+                        switch (item.Type)
+                        {
+                            case "Sword":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "Staff":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "Bow":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "Adae":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "Gun":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "갑옷":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "HP":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | 가격 : {item.Price,-5}");
+                                Console.WriteLine(display);
+                                break;
+                            case "MP":
+                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
+                                Console.WriteLine(display);
+                                break;
+
+                        }
+                    
+                    Console.WriteLine();
+                    Console.WriteLine("0. 뒤로 가기");
+                    Console.Write("구매할 아이템을 입력하세요.: ");
+                    if (!int.TryParse(Console.ReadLine(), out int input)) continue;
+                    if (input == 0) { ShowMenu(); return; }
+                    if (input < 1 || input > shopItems.Count) continue;
+
+                    Item selectedItem = shopItems[input - 1];
+
+                    if (!selectedItem.IsHave && Player.Instance.Gold >= selectedItem.Price)
                     {
-                        case "무기":
-                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                            Console.WriteLine(display);
-                            break;
-                        case "갑옷":
-                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                            Console.WriteLine(display);
-                            break;
-                        case "HP":
-                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | 가격 : {item.Price,-5}");
-                            Console.WriteLine(display);
-                            break;
-                        case "MP":
-                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
-                            Console.WriteLine(display);
-                            break;
+                        selectedItem.IsHave = true;
+                        Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
+                        Player.Instance.Gold -= selectedItem.Price;
+                        Thread.Sleep(1000);
                     }
 
-                }
-                Console.WriteLine();
-                Console.WriteLine("0. 뒤로 가기");
-                Console.Write("구매할 아이템을 입력하세요.: ");
-                if (!int.TryParse(Console.ReadLine(), out int input)) continue;
-                if (input == 0) { ShowMenu(); return; }
-                if (input < 1 || input > shopItems.Count) continue;
+                    else if (!selectedItem.IsHave && Player.Instance.Gold < selectedItem.Price)
+                    {
+                        Console.WriteLine($"골드가 부족합니다.");
+                        Thread.Sleep(1000);
+                    }
 
-                Item selectedItem = shopItems[input - 1];
-
-                if (!selectedItem.IsHave && Player.Instance.Gold >= selectedItem.Price)
-                {
-                    selectedItem.IsHave = true;
-                    Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
-                    Player.Instance.Gold -= selectedItem.Price;
-                    Thread.Sleep(1000);
-                }
-
-                else if (!selectedItem.IsHave && Player.Instance.Gold < selectedItem.Price)
-                {
-                    Console.WriteLine($"골드가 부족합니다.");
-                    Thread.Sleep(1000);
-                }
-
-                else
-                {
-                    Console.WriteLine($"'{selectedItem.Name}' 을(를) 이미 구매하였습니다.");
-                    Thread.Sleep(1000);
+                    else
+                    {
+                        Console.WriteLine($"'{selectedItem.Name}' 을(를) 이미 구매하였습니다.");
+                        Thread.Sleep(1000);
+                    }
                 }
             }
         }
@@ -184,8 +201,8 @@ namespace TEXT_RPG
 
         public void GenerateShopItems() // 상점 아이템 생성
         {
+            
             List<Item> allItems = new List<Item>();
-
             allItems.AddRange(Weapone.Weapons);
             allItems.AddRange(Armor.Armors);
             allItems.AddRange(Potion.Potions);
