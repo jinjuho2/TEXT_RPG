@@ -12,7 +12,7 @@ namespace TEXT_RPG
         public int playerLevel = 2;
         public int currentStage = 11;
         public int monsterKill = 5;
-        public int currentEquip = 5;                 //이상 4개 변수는 퀘스트매니저에서 쓰는 임시변수
+        public int currentEquip = 3;                 //이상 4개 변수는 퀘스트매니저에서 쓰는 임시변수
 
         Dungeon d;
         QuestManager qm;
@@ -41,6 +41,7 @@ namespace TEXT_RPG
         }
         public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
         {
+            qm.CheckQuest();
             while (true)
             {
                 
@@ -60,7 +61,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
-                        qm.QuestWindow(); // 퀘스트 매니저 기능 실행
+                        qm.QuestInit(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
                         d.DungeonRun(); // 던전 매니저 기능 실행
