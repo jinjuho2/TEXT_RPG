@@ -20,6 +20,8 @@ namespace TEXT_RPG
 
         public bool IsVisible { get; set; }
 
+        public bool IsReward { get; set; }
+
 
 
     }

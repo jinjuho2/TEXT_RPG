@@ -12,10 +12,10 @@ namespace TEXT_RPG
         Dungeon d;
         QuestManager qm;
         Inven iv;
-        public int playerLevel = 0;
+        public int playerLevel = 2;
         public int monsterKill=9;
         public int currentStage = 11;
-        public int currentEquip = 5;
+        public int currentEquip = 4;
         public void Init()
         {
             d = new Dungeon();
@@ -33,6 +33,7 @@ namespace TEXT_RPG
             qm.CheckQuest();
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
                 Console.WriteLine("3.인벤 테스트");
@@ -46,7 +47,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
-                        qm.QuestWindow(); // 퀘스트 매니저 기능 실행
+                        qm.QuestInit(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
                         d.DungeonRun(); // 던전 매니저 기능 실행
