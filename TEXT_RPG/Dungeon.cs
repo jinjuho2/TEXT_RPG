@@ -176,8 +176,8 @@ namespace TEXT_RPG
             Console.WriteLine("");
             Console.WriteLine("Victory");
             Console.WriteLine("던전에서 몬스터를 n마리 잡으셨습니다.");
-            Console.WriteLine($"LV{Player.Instance.Level} {Player.Instance.Name}");
-            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({Player.Instance.CurrentHP})");// 해당 층 입장체력 어캐하지
+            Console.WriteLine($"LV{player.Level} {player.Name}");
+            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({player.CurrentHP})");// 해당 층 입장체력 어캐하지
 
             Console.WriteLine("");
 
@@ -272,14 +272,14 @@ namespace TEXT_RPG
         }
         public void RestFloor()
         {
-            if (Player.Instance.CurrentHP >= Player.Instance.MaxHP / 2)//플레이어의 현재체력이 50%보다 낮다면 
+            if (player.CurrentHP >= player.MaxHP / 2)//플레이어의 현재체력이 50%보다 낮다면 
             {
-                Player.Instance.CurrentHP += Player.Instance.MaxHP / 2;
+                player.CurrentHP += player.MaxHP / 2;
                 Console.WriteLine("충분한 휴식을 취해 체력이 회복되었습니다.");
             }
             else//플레이어의 체력이 50% 이상이면? 현재체력 + (최대체력-현재체력) = 풀피
             {
-                Player.Instance.CurrentHP += (Player.Instance.MaxHP -= Player.Instance.CurrentHP);
+                player.CurrentHP += (player.MaxHP -= player.CurrentHP);
                 Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
             }
         }
