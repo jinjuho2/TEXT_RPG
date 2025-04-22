@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-
-    
     internal class Player 
     {
         private static Player instance;
@@ -20,9 +18,7 @@ namespace TEXT_RPG
                 return instance;
             }
         }
-
-
-
+        
         public string Name { get; set; } // 플레이어 이름
         public Job Job { get; set; } // 플레이어 직업
         public int Level { get; set; } // 플레이어 레벨
@@ -93,19 +89,25 @@ namespace TEXT_RPG
             //패널티가 있다면 여기에
 
         }
-        //public void UseItem(Item item)
-        //{
-        //    if(item.Type == "accessory")
-        //    {
-        //        inventory.Remove(item);
-        //        CurrentHp = CurrentHp+item.
-        //    }
-
-            
-        //}
-        public string UseSkill(Skill skill)//스킬사용
+        
+        public Skill UseSkill()//스킬사용
         {
-            return $"{skill.Type}+{skill.Damage}+{skill.TargetNum}";
+            if (skills == null || skills.Count == 0)
+            {
+                Console.WriteLine("사용 가능한 스킬이 없습니다.");
+                return null;
+            }
+            List<int> validInputs = new List<int>();
+            for (int i = 0; i < skills.Count; i++)
+            {
+                Skill skill = skills[i];
+                Console.WriteLine($"{i + 1}. {skill.Name} 피해량 : {skill.Damage} 타겟수:{skill.TargetNum} (MP: {skill.MPCost})");
+                validInputs[i] = i + 1;
+
+            }
+            int a = GameManager.GetValidInput(validInputs)-1;
+            
+            return skills[a];
         }
 
         public void GetItem (Item item)//아이템 획득

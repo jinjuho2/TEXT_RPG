@@ -9,6 +9,18 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
+        private static GameManager instance;
+        public static GameManager Instance
+        {  get
+            {
+                if(instance == null)
+                {
+                    instance = new GameManager();
+                } 
+                return instance;
+            }
+        }
+
         Dungeon d;
         QuestManager qm;
         Inven iv;
@@ -103,11 +115,11 @@ namespace TEXT_RPG
         //}
 
         //정해진 정답 외에 쳐내는 메서드
-        public static int GetValidInput(params int[] validOptions)
+        public static int GetValidInput(List<int> validOptions)
         {
             while (true)
             {
-                Console.Write("\n원하시는 행동을 입력해주세요.\n>>");
+                Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out int selectedOption))
@@ -117,11 +129,8 @@ namespace TEXT_RPG
                         return selectedOption;
                     }
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
-                }
 
+                Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
     }
