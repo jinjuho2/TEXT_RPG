@@ -17,7 +17,7 @@ namespace TEXT_RPG
             d = new Dungeon();
             qm = new QuestManager();
             Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHp = 100;
+            Player.Instance.MaxHP = 100;
             Player.Instance.CurrentHP = 100;
             Player.Instance.Attack = 10;
             Player.Instance.Speed = 10;
@@ -28,6 +28,7 @@ namespace TEXT_RPG
         {
             while (true)
             {
+                
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
                 Console.WriteLine("3.인벤 테스트");
