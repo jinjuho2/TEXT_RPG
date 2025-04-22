@@ -12,7 +12,7 @@ namespace TEXT_RPG
 
         public Armor(string name, string type, float def, float dodge, int hp, int mp,  // 이름 ,타입 ,방어력 ,회피율 ,쳐력 ,마나 ,
                      int price, int level, bool isHave, bool isEquipped)                //가격,착용레벨,소지 여부, 장착 여부
-            : base(name, type, 0, def, 0, dodge, hp, mp, price, level, isHave, isEquipped)
+            : base(name, type, 0, def, 0, dodge, hp, mp,0,0 ,price, level, isHave, isEquipped)
         {
         }
 

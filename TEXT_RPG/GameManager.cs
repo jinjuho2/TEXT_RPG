@@ -12,15 +12,25 @@ namespace TEXT_RPG
         Dungeon d;
         QuestManager qm;
         Inven iv;
+        Shop shop = new Shop();
+        public static GameManager instance;
+        public static GameManager Instance()
+        {
+            if (instance == null)
+                instance = new GameManager();
+            return instance;
+        }
         public void Init()
         {
             d = new Dungeon();
             qm = new QuestManager();
+            ItemManager.InitializIeItem();
             Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHp = 100;
+            Player.Instance.MaxHP = 100;
             Player.Instance.CurrentHP = 100;
             Player.Instance.Attack = 10;
             Player.Instance.Speed = 10;
+            Player.Instance.Gold = 5000;
             Player.Instance.WeakType=TYPE.Dark;
             iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
         }
@@ -28,12 +38,15 @@ namespace TEXT_RPG
         {
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
                 Console.WriteLine("3.인벤 테스트");
                 Console.WriteLine("4.플레이어 테스트");
+                Console.WriteLine("5.상점 테스트");
+
                 int input;
-                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 5)
+                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
                 {
                     Console.WriteLine("입력 오류");
                 }
@@ -64,6 +77,10 @@ namespace TEXT_RPG
                             Player.Instance.ShowStat();
                         else
                             Player.Instance.ShowSkillList();
+                        break;
+                    case 5:
+                        shop.GenerateShopItems();
+                        shop.ShowMenu(); //상점 아이템 생성
                         break;
 
                     case 0:

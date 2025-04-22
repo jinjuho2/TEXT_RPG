@@ -29,9 +29,9 @@ namespace TEXT_RPG
         public int Exp { get; set; } // 현재 경험치
         public float Attack { get; set; } // 기본 공격력
         public float Defense { get; set; } // 기본 방어력
-        public int MaxHp { get; set; } // 최대 체력
+        public int MaxHP { get; set; } // 최대 체력
         public int CurrentHP { get; set; } // 현재 체력
-        public int MaxMp { get; set; } // 최대 마나
+        public int MaxMP { get; set; } // 최대 마나
         public int CurrentMP { get; set; } // 현재 마나
         public int Gold { get; set; } // 소지 골드
         public int Speed { get; set; } // 속도... 선턴 잡습니다...
