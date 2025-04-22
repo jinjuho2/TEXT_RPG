@@ -9,6 +9,11 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
+        public int playerLevel = 2;
+        public int currentStage = 11;
+        public int monsterKill = 5;
+        public int currentEquip = 5;                 //이상 4개 변수는 퀘스트매니저에서 쓰는 임시변수
+
         Dungeon d;
         QuestManager qm;
         Inven iv;
@@ -23,7 +28,7 @@ namespace TEXT_RPG
         public void Init()
         {
             d = new Dungeon();
-            qm = new QuestManager();
+            qm = new QuestManager(this);
             ItemManager.InitializIeItem();
             Player.Instance.Name = "임시 주인공";
             Player.Instance.MaxHP = 100;
