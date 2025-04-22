@@ -62,7 +62,6 @@ namespace TEXT_RPG
             {
                 case 1: BuyItem(); break;
                 case 2: SellItem(); break;
-                case 0: GameManager.Instance().Run(); break;
             }
 
 

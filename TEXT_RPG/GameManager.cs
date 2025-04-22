@@ -30,15 +30,10 @@ namespace TEXT_RPG
         {
             d = new Dungeon();
             qm = new QuestManager(this);
-            ItemManager.InitializIeItem();
-            Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHP = 100;
-            Player.Instance.CurrentHP = 100;
-            Player.Instance.Attack = 10;
-            Player.Instance.Speed = 10;
-            Player.Instance.Gold = 5000;
-            Player.Instance.WeakType=TYPE.Dark;
-            iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
+            
+            iv = new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
+            MakeName();
+            
         }
         public void MakeName() //이름생성
         {
@@ -102,12 +97,12 @@ namespace TEXT_RPG
 
        
 
-        }
+        
 
        
 
         //정해진 정답 외에 쳐내는 메서드
-        public static int GetValidInput(params int[] validOptions)
+        public static int GetValidInput(List<int> validOptions)
         {
             while (true)
             {

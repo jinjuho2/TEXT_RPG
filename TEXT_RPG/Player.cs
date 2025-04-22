@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Player
-
-    
     internal class Player 
     {
         private static Player instance;

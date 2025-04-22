@@ -43,7 +43,6 @@ namespace TEXT_RPG
                 {
                     case 0:
                         isRunning = false;
-                        gameManager.Run();
                         break; //로 해도 괜찮을듯합니다...
                     case 1:
                         isRunning = false;

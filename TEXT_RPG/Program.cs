@@ -9,8 +9,9 @@ namespace TEXTRPG
         static void Main(String[] args) 
         {
             GameManager gm = new GameManager();
+            ItemManager.InitializIeItem();
             gm.Init();
-            gm.Run();
+            
         }
     }
 }
