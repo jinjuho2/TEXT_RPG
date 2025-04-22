@@ -14,7 +14,7 @@ namespace TEXT_RPG
 
 
         public Potion(string name, string type, int recoverHp, int recoverMp, int price, bool isHave) // 이름 ,타입 ,회복량 ,가격, 소지 여부
-            : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false)
+            : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false,"")
         {
 
         }

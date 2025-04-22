@@ -54,11 +54,27 @@ namespace TEXT_RPG
                     string display = "";
                     switch (item.Type)
                     {
-                        case "무기":
-                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} ");
+                        case "Sword":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
                             Console.WriteLine(display);
                             break;
-                        case "갑옷":
+                        case "Staff":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Bow":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Adae":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Gun":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Armor":
                             display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5}");
                             Console.WriteLine(display);
                             break;
@@ -94,7 +110,7 @@ namespace TEXT_RPG
                 {
                     foreach (var item in ownedItems)
                     {
-                        if (selectedItem.Type == item.Type && item.IsEquipped)
+                        if (selectedItem.MainType == item.MainType && item.IsEquipped)
                         {
                             item.IsEquipped = false;
                             Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
@@ -104,6 +120,7 @@ namespace TEXT_RPG
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 장착했습니다");
                     Thread.Sleep(1000);
                 }
+
 
 
 

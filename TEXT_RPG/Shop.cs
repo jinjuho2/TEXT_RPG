@@ -29,11 +29,27 @@ namespace TEXT_RPG
                 string display = "";
                 switch (item.Type)
                 {
-                    case "무기":
+                    case "Sword":
                         display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
                         Console.WriteLine(display);
                         break;
-                    case "갑옷":
+                    case "Staff":
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                        Console.WriteLine(display);
+                        break;
+                    case "Bow":
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                        Console.WriteLine(display);
+                        break;
+                    case "Adae":
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                        Console.WriteLine(display);
+                        break;
+                    case "Gun":
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                        Console.WriteLine(display);
+                        break;
+                    case "Armor":
                         display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 래밸 : {item.Level,-5} | {status,-5}");
                         Console.WriteLine(display);
                         break;
@@ -81,42 +97,43 @@ namespace TEXT_RPG
                     bool result = item.IsHave;
                     string status = result ? "구매 완료" : "가격 : " + item.Price.ToString();
                     string display;
-                        switch (item.Type)
-                        {
-                            case "Sword":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "Staff":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "Bow":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "Adae":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "Gun":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "갑옷":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "HP":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | 가격 : {item.Price,-5}");
-                                Console.WriteLine(display);
-                                break;
-                            case "MP":
-                                display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
-                                Console.WriteLine(display);
-                                break;
+                    switch (item.Type)
+                    {
+                        case "Sword":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Staff":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Bow":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Adae":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Gun":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "Armor":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "HP":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | 가격 : {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
+                        case "MP":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
 
-                        }
+                    }
+                }
                     
                     Console.WriteLine();
                     Console.WriteLine("0. 뒤로 가기");
@@ -146,9 +163,10 @@ namespace TEXT_RPG
                         Console.WriteLine($"'{selectedItem.Name}' 을(를) 이미 구매하였습니다.");
                         Thread.Sleep(1000);
                     }
-                }
+                
             }
         }
+
 
         private void SellItem() // 판매
         {
