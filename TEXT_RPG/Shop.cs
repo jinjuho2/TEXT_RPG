@@ -57,14 +57,15 @@ namespace TEXT_RPG
             {
                 Console.Write("메인 메뉴로 돌아가려면 0을 입력하세요: ");
             }
-            if (input == 1)
-                BuyItem(); // 구매
-            else if (input == 2)
-                SellItem(); // 판매
-            else if (input == 0)
-                GameManager.Instance().Run(); // 메인 메뉴로 돌아가기
 
-            
+            switch (input)
+            {
+                case 1: BuyItem(); break;
+                case 2: SellItem(); break;
+                case 0: GameManager.Instance().Run(); break;
+            }
+
+
             Thread.Sleep(1000);
         }
 
@@ -73,7 +74,7 @@ namespace TEXT_RPG
             while (true)
             {
                 Console.Clear();
-                
+
                 for (int i = 0; i < shopItems.Count; i++)
                 {
                     var item = shopItems[i];
@@ -87,7 +88,7 @@ namespace TEXT_RPG
                             Console.WriteLine(display);
                             break;
                         case "갑옷":
-                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 회피율: {item.Level,-5} | {status,-5}");
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
                             Console.WriteLine(display);
                             break;
                         case "HP":
@@ -104,22 +105,9 @@ namespace TEXT_RPG
                 Console.WriteLine();
                 Console.WriteLine("0. 뒤로 가기");
                 Console.Write("구매할 아이템을 입력하세요.: ");
-                int input;
-                while (!int.TryParse(Console.ReadLine(), out input))
-                {
-                    Console.Write("구매할 아이템을 입력하세요.: ");
-                }
-                if (input == 0)
-                {
-                    ShowMenu();
-                    return;
-                }
-
-                else if (input < 1 || shopItems.Count < input)
-                {
-
-                    continue;
-                }
+                if (!int.TryParse(Console.ReadLine(), out int input)) continue;
+                if (input == 0) { ShowMenu(); return; }
+                if (input < 1 || input > shopItems.Count) continue;
 
                 Item selectedItem = shopItems[input - 1];
 
@@ -152,7 +140,7 @@ namespace TEXT_RPG
                 Console.Clear();
                 var ownedItems = ItemManager.Instance().items.Where(x => x.IsHave).ToList();
 
-                if (ownedItems.Count == 0 || ownedItems == null)
+                if (ownedItems.Count == 0)
                 {
                     Console.WriteLine("소지한 아이템이 없습니다.");
                     ShowMenu();
@@ -169,37 +157,28 @@ namespace TEXT_RPG
                 Console.WriteLine("0. 뒤로 가기");
                 Console.Write("판매할 아이템 번호를 입력하세요: ");
 
-                if (int.TryParse(Console.ReadLine(), out int input))
+                if (!int.TryParse(Console.ReadLine(), out int input)) continue;
+
+                if (input == 0) { ShowMenu(); return; }
+
+                if (input < 0 || input > ownedItems.Count) continue;
+                
+                Item selectedItem = ownedItems[input - 1];
+                
+                if (selectedItem.IsEquipped)
                 {
-                    if (input == 0)
-                    {
-                        ShowMenu();
-                        return;
-                    }
-
-                    else if (input >= 1 && input <= ownedItems.Count)
-                    {
-                        Item selectedItem = ownedItems[input - 1];
-                        if (selectedItem.IsEquipped)
-                        {
-                            Console.WriteLine($"'{selectedItem.Name}'은(는) 장착 중인 아이템입니다. 판매할 수 없습니다.");
-                            Thread.Sleep(1000);
-                            continue;
-                        }
-                        selectedItem.IsHave = false;
-                        Player.Instance.Gold += (int)(selectedItem.Price * 0.8);
-                        Console.WriteLine($"'{selectedItem.Name}' 을(를) 판매했습니다.");
-                        Thread.Sleep(1000);
-                        continue;
-                    }
-
+                    Console.WriteLine($"'{selectedItem.Name}'은(는) 장착 중인 아이템입니다. 판매할 수 없습니다.");
                 }
-
+                
                 else
                 {
-                    Console.WriteLine("숫자를 입력해주세요.");
-                    continue;
+                    selectedItem.IsHave = false;
+                    Player.Instance.Gold += (int)(selectedItem.Price * 0.8);
+                    Console.WriteLine($"'{selectedItem.Name}'을(를) 판매했습니다.");
                 }
+
+                Thread.Sleep(1000);
+
             }
         }
 
