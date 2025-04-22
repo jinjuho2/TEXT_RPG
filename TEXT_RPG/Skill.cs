@@ -19,9 +19,11 @@ namespace TEXT_RPG
         public TYPE Type { get; set; } // 스킬 타입
         public int TargetNum {  get; set; }// 스킬 타겟 마릿수
 
-        
+        public int Critical {  get; set; } //크리티컬 확률
 
-        public Skill MakeSkill(string name, string description, int mPCost, float damage, TYPE type, int targetNum)
+
+
+        public Skill MakeSkill(string name, string description, int mPCost, float damage, TYPE type, int targetNum int critical)
         {
             return new Skill
             {
@@ -30,7 +32,8 @@ namespace TEXT_RPG
                 MPCost = mPCost,
                 Damage = damage,
                 Type = type,
-                TargetNum = targetNum
+                TargetNum = targetNum,
+                Critical = critical
             };
             
         }
@@ -38,37 +41,42 @@ namespace TEXT_RPG
         public List<Skill> StartWizardSkill()//마법사 기본스킬
         {
             List<Skill> list = new List<Skill>();
-            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
-            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
+            list.Add(MakeSkill("기본공격", "기본 공격이다", 0, 10, TYPE.Normal, 1, 10));
+            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1,10));
+            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1,10));
             return list;
 
         }
         public List<Skill> StartPaladinSkill()//전사 기본스킬
         {
             List<Skill> list = new List<Skill>();
-            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
-            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
+            list.Add(MakeSkill("기본공격", "기본 공격이다", 0, 10, TYPE.Normal, 1, 10));
+            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
+            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
             return list;
         }
         public List<Skill> StartSheepinSkill()//도적 기본스킬
         {
             List<Skill> list = new List<Skill>();
-            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
-            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
+            list.Add(MakeSkill("기본공격", "기본 공격이다", 0, 10, TYPE.Normal, 1, 10));
+            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
+            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
             return list;
         }
         public List<Skill> StartArcherinSkill()//궁수 기본스킬
         {
             List<Skill> list = new List<Skill>();
-            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
-            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
+            list.Add(MakeSkill("기본공격", "기본 공격이다", 0, 10, TYPE.Normal, 1, 10));
+            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
+            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
             return list;
         }
         public List<Skill> StartPirateinSkill()//해적 기본스킬
         {
             List<Skill> list = new List<Skill>();
-            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
-            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1));
+            list.Add(MakeSkill("기본공격", "기본 공격이다", 0, 10, TYPE.Normal, 1, 10));
+            list.Add(MakeSkill("파이어볼", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
+            list.Add(MakeSkill("파이어볼2", "불덩이를 던지는 간단한 마법이다", 10, 10, TYPE.Fire, 1, 10));
             return list;
         }
 
