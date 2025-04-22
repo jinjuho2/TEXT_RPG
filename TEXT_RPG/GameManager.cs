@@ -15,7 +15,7 @@ namespace TEXT_RPG
         public void Init()
         {
             d = new Dungeon();
-            qm = new QuestManager();
+            qm = new QuestManager(this);
             Player.Instance.Name = "임시 주인공";
             Player.Instance.MaxHp = 100;
             Player.Instance.CurrentHP = 100;

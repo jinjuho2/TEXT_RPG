@@ -10,18 +10,24 @@ namespace TEXT_RPG
 {
     internal class QuestManager
     {
+        bool questOpen = false;
         public List<Quest> Quests { get; set; }
 
         private GameManager gameManager;
-        public QuestManager()//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
+        public QuestManager(GameManager gm)//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
         {                    //만약 게임 매니저의 값이 필요하시다면 메소드를 통해 가져오던가 게임매니저를 싱글톤으로 바꾸는 게 낫겠습니다     
-
+            gameManager = gm;
             Quests = new List<Quest>();
         }
 
         public void QuestWindow()
         {
-            AddQuest();
+            if (!questOpen)
+            {
+                AddQuest();
+                questOpen = true;
+            }
+            
             bool isRunning = true;
             while (isRunning)
             {
@@ -45,7 +51,8 @@ namespace TEXT_RPG
                         CancelQuest();
                         break;
                     default:
-                        Console.WriteLine("올바른 입력하세요");
+                        Console.WriteLine("올바른 입력이 아닙니다");
+                        Thread.Sleep(1000);
                         break;
                 }
                 
@@ -55,15 +62,80 @@ namespace TEXT_RPG
         }
         void AcceptQuest()
         {
-            Console.Clear ();
-            Console.WriteLine("-퀘스트창- '수주' \n");
-            ShowQuest(1, 0);
-            Console.WriteLine("\n 수주할 퀘스트를 고르세요.");
+            bool isRunning = true;
+            while (isRunning)
+            {
+                Console.Clear();
+                Console.WriteLine("-퀘스트창- '수주' \n");
+                ShowQuest(2, 0);
+                Console.WriteLine("\n 수주할 퀘스트를 고르세요.\n 0.나가기");
+                string? input = Console.ReadLine();
+                if (int.TryParse(input, out int select))
+                {
+                    if (select == 0)
+                    {
+                        isRunning = false;
+                        QuestWindow();
+                    }
+                    else if (select <= Quests.Count)
+                    {
+                        if (!Quests[select - 1].IsActive)                                       //수주상태가 아니면 활성화
+                        {
+                            Quests[select - 1].IsActive = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("이미 수주중인 퀘스트입니다!");
+                            Thread.Sleep(1000);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("올바른 입력이 아닙니다");
+                        Thread.Sleep(1000);
+                    }
+                }
+            }
         }
+        
 
         void CancelQuest()
         {
-            ShowQuest(1, 0);
+            bool isRunning = true;
+            while (isRunning)
+            {
+                Console.Clear();
+                Console.WriteLine("-퀘스트창- '취소' \n");
+                ShowQuest(2, 0);
+                Console.WriteLine("\n 취소할 퀘스트를 고르세요.\n 0.나가기");
+                string? input = Console.ReadLine();
+                if (int.TryParse(input, out int select))
+                {
+                    if (select == 0)
+                    {
+                        isRunning = false;
+                        QuestWindow();
+                    }
+                    else if (select <= Quests.Count)
+                    {
+                        if (Quests[select - 1].IsActive)
+                        {
+                            Quests[select - 1].IsActive = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("수주한 퀘스트가 아닙니다!");
+                            Thread.Sleep(1000);
+                        }
+                                      
+                    }
+                    else
+                    {
+                        Console.WriteLine("올바른 입력이 아닙니다");
+                        Thread.Sleep(1000);
+                    }
+                }
+            }
         }
 
 
@@ -86,14 +158,14 @@ namespace TEXT_RPG
                 if(quest.level <= currentlevel)
                 {
                     string questNum = counter >= 0 ? $"{counter + 1}." : "";
-                    string activeBool = quest.IsActive ? "[진행중]" : "";
+                    string questStatus = quest.IsActive ? "[진행중]" : "";
                     switch (quest.Type)
                     {
                         case QuestType.Hunting:
-                            Console.WriteLine($"{questNum}{activeBool} {quest.Title} : {quest.Etc} ");
+                            Console.WriteLine($"{questStatus} {questNum}{quest.Title} : {quest.Etc} ");
                             break;
                         case QuestType.StageClear:
-                            Console.WriteLine($"{questNum}{activeBool} {quest.Title} : {quest.Etc} ");
+                            Console.WriteLine($"{questStatus} {questNum}{quest.Title} : {quest.Etc} ");
                             break;
                         case QuestType.ItemEvent:
 
