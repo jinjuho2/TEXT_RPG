@@ -34,7 +34,7 @@ namespace TEXT_RPG
                         Console.WriteLine(display);
                         break;
                     case "갑옷":
-                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 회피율: {item.Level,-5} | {status,-5}");
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 래밸 : {item.Level,-5} | {status,-5}");
                         Console.WriteLine(display);
                         break;
                     case "HP":
