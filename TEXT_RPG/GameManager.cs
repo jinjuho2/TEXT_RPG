@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
@@ -39,9 +40,9 @@ namespace TEXT_RPG
             Player.Instance.WeakType=TYPE.Dark;
             iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
         }
-        public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
+        public void MakeName() //이름생성
         {
-            qm.CheckQuest();
+                Console.WriteLine("이름을 입력해주세요");
             while (true)
             {
                 
@@ -61,13 +62,12 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
-                        qm.QuestInit(); // 퀘스트 매니저 기능 실행
+                        qm.QuestWindow(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
                         d.DungeonRun(); // 던전 매니저 기능 실행
                         break;
                     case 3:
-                        
                        iv.ShowInventory(); //인벤 확인
                       break;
                     case 4:
@@ -100,30 +100,11 @@ namespace TEXT_RPG
 
         }
 
-        //public QuestManager questManager;
-        //public GameManager()
-        //{
-        //    questManager = new QuestManager(this);
-        //}
-        //public void Start()
-        //{
-        //    questManager.AddQuest();
-        //    bool isRunning = false;
-        //    while (!isRunning)
-        //    {
-        //        Console.WriteLine("1. 입장");
-        //        int input = int.Parse(Console.ReadLine());
-        //        if (input == 1)
-        //        {
-        //            isRunning = true;
-        //            questManager.QuestWindow();
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("다시");
-        //        }
-        //    }
-        //}
+       
+
+        }
+
+       
 
         //정해진 정답 외에 쳐내는 메서드
         public static int GetValidInput(params int[] validOptions)
