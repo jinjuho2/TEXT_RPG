@@ -18,6 +18,8 @@ namespace TEXT_RPG
 
         public int level;
 
+        public bool IsVisible { get; set; }
+
 
 
     }
@@ -25,7 +27,6 @@ namespace TEXT_RPG
     {
         Hunting,
         StageClear,
-        ItemEvent,
         Hidden
     }
 }

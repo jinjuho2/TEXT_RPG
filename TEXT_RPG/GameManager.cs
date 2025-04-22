@@ -12,6 +12,10 @@ namespace TEXT_RPG
         Dungeon d;
         QuestManager qm;
         Inven iv;
+        public int playerLevel = 0;
+        public int monsterKill=9;
+        public int currentStage = 11;
+        public int currentEquip = 5;
         public void Init()
         {
             d = new Dungeon();
@@ -26,6 +30,7 @@ namespace TEXT_RPG
         }
         public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
         {
+            qm.CheckQuest();
             while (true)
             {
                 Console.WriteLine("1.퀘스트 매니저 테스트");
