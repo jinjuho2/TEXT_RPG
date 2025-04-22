@@ -43,7 +43,7 @@ namespace TEXT_RPG
             Job wizard = MakeJob("마법사", 10, 20, 10, 10, skill.StartWizardSkill());
             wizard.ApplyTo(Player.Instance);
         }
-        public void StartPalad()
+        public void StartPaladin()
         {
             Job wizard = MakeJob("전사", 10, 20, 10, 10, skill.StartPaladinSkill());
             wizard.ApplyTo(Player.Instance);

@@ -4,20 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
     internal class GameManager
     {
-        public int playerLevel = 2;
-        public int currentStage = 11;
-        public int monsterKill = 5;
-        public int currentEquip = 3;                 //이상 4개 변수는 퀘스트매니저에서 쓰는 임시변수
-
-        Dungeon d;
-        QuestManager qm;
-        Inven iv;
-        Shop shop = new Shop();
         public static GameManager instance;
         public static GameManager Instance()
         {
@@ -25,112 +17,156 @@ namespace TEXT_RPG
                 instance = new GameManager();
             return instance;
         }
-        public void Init()
+
+        private Dungeon dungeon;
+        private QuestManager questManager;
+        private Inven inven;
+        private Shop shop;
+
+        public void Init() //시작전
         {
-            d = new Dungeon();
-            qm = new QuestManager(this);
-            ItemManager.InitializIeItem();
-            Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHP = 100;
-            Player.Instance.CurrentHP = 100;
-            Player.Instance.Attack = 10;
-            Player.Instance.Speed = 10;
-            Player.Instance.Gold = 5000;
-            Player.Instance.WeakType=TYPE.Dark;
-            iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
+            
+        }
+        public void MakeName() //이름생성
+        {
+                Console.WriteLine("이름을 입력해주세요");
+            while (true)
+            {
+                string name = Console.ReadLine()?.Trim();
+
+                Console.WriteLine($"정말 {name}이 맞습니까?");
+                Console.WriteLine("1. 예");
+                Console.WriteLine("2. 아니오");
+
+                int selectNum = GetValidInput(new List<int> { 1, 2 });
+
+                if (selectNum == 1)
+                {
+                    Player.Instance.Name = name;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("다시 입력해주세요.");
+                }
+            }
+        }
+        public void ChooseJob()
+        {
+            Job job = new Job();
+            while (true)
+            {
+                Console.WriteLine("직업을 선택해 주세요");
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 궁수");
+                Console.WriteLine("3. 마법사");
+                Console.WriteLine("4. 도적");
+                Console.WriteLine("5. 해적");
+
+                int selectNum = GetValidInput(new List<int> { 1, 2, 3, 4, 5 });
+
+                // 선택한 직업명 가져오기
+                string jobName = GetJobName(selectNum);
+                Console.WriteLine($"\n정말 [{jobName}]이 맞습니까?");
+                Console.WriteLine("1. 예");
+                Console.WriteLine("2. 아니오");
+
+                int confirm = GetValidInput(new List<int> { 1, 2 });
+                if (confirm == 1) // 예를 선택한 경우에만 직업 적용
+                {
+                    switch (selectNum)
+                    {
+                        case 1: job.StartPaladin(); break;
+                        case 2: job.StartArcher(); break;
+                        case 3: job.StartWizard(); break;
+                        case 4: job.StartSheep(); break;
+                        case 5: job.StartPiratein(); break;
+                    }
+                    Console.WriteLine($"[{jobName}] 직업이 선택되었습니다!");
+                    break; 
+                }
+            }
+        }
+
+        private string GetJobName(int selectNum)
+        {
+            return selectNum switch
+            {
+                1 => "전사",
+                2 => "궁수",
+                3 => "마법사",
+                4 => "도적",
+                5 => "해적",
+                _ => "알 수 없는 직업"
+            };
         }
         public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
         {
-            qm.CheckQuest();
-            while (true)
-            {
+            //while (true)
+            //{
                 
-                Console.Clear();
-                Console.WriteLine("1.퀘스트 매니저 테스트");
-                Console.WriteLine("2.던전 테스트");
-                Console.WriteLine("3.인벤 테스트");
-                Console.WriteLine("4.플레이어 테스트");
-                Console.WriteLine("5.상점 테스트");
+            //    Console.Clear();
+            //    Console.WriteLine("1.퀘스트 매니저 테스트");
+            //    Console.WriteLine("2.던전 테스트");
+            //    Console.WriteLine("3.인벤 테스트");
+            //    Console.WriteLine("4.플레이어 테스트");
+            //    Console.WriteLine("5.상점 테스트");
 
-                int input;
-                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
-                {
-                    Console.WriteLine("입력 오류");
-                }
+            //    int input;
+            //    while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
+            //    {
+            //        Console.WriteLine("입력 오류");
+            //    }
+                
+            //    switch (input)
+            //    {
+            //        case 1:
+            //            qm.QuestWindow(); // 퀘스트 매니저 기능 실행
+            //            break;
+            //        case 2:
+            //            d.DungeonRun(); // 던전 매니저 기능 실행
+            //            break;
+            //        case 3:
+            //           iv.ShowInventory(); //인벤 확인
+            //          break;
+            //        case 4:
+            //            while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 4)
+            //            {
+            //                Console.WriteLine("입력 오류");
+            //            }
+            //            Console.WriteLine("1.플레이어 인벤");
+            //            Console.WriteLine("2.플레이어 스탯");
+            //            Console.WriteLine("3.플레이어 스킬");
+            //            if (input==1)
+            //            Player.Instance.ShowInventory(); //플레이어 기능들 확인.... 
+            //            else if(input==2) 
+            //                Player.Instance.ShowStat();
+            //            else
+            //                Player.Instance.ShowSkillList();
+            //            break;
+            //        case 5:
+            //            shop.GenerateShopItems();
+            //            shop.ShowMenu(); //상점 아이템 생성
+            //            break;
 
-                switch (input)
-                {
-                    case 1:
-                        qm.QuestInit(); // 퀘스트 매니저 기능 실행
-                        break;
-                    case 2:
-                        d.DungeonRun(); // 던전 매니저 기능 실행
-                        break;
-                    case 3:
-                        
-                       iv.ShowInventory(); //인벤 확인
-                      break;
-                    case 4:
-                        while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 4)
-                        {
-                            Console.WriteLine("입력 오류");
-                        }
-                        Console.WriteLine("1.플레이어 인벤");
-                        Console.WriteLine("2.플레이어 스탯");
-                        Console.WriteLine("3.플레이어 스킬");
-                        if (input==1)
-                        Player.Instance.ShowInventory(); //플레이어 기능들 확인.... 
-                        else if(input==2) 
-                            Player.Instance.ShowStat();
-                        else
-                            Player.Instance.ShowSkillList();
-                        break;
-                    case 5:
-                        shop.GenerateShopItems();
-                        shop.ShowMenu(); //상점 아이템 생성
-                        break;
-
-                    case 0:
-                    Console.WriteLine("종료");
-                    return;
+            //        case 0:
+            //        Console.WriteLine("종료");
+            //        return;
                     
 
-                }
-            }
+            //    }
+            //}
 
         }
 
-        //public QuestManager questManager;
-        //public GameManager()
-        //{
-        //    questManager = new QuestManager(this);
-        //}
-        //public void Start()
-        //{
-        //    questManager.AddQuest();
-        //    bool isRunning = false;
-        //    while (!isRunning)
-        //    {
-        //        Console.WriteLine("1. 입장");
-        //        int input = int.Parse(Console.ReadLine());
-        //        if (input == 1)
-        //        {
-        //            isRunning = true;
-        //            questManager.QuestWindow();
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("다시");
-        //        }
-        //    }
-        //}
+       
 
         //정해진 정답 외에 쳐내는 메서드
-        public static int GetValidInput(params int[] validOptions)
+        public static int GetValidInput(List<int> validOptions)
         {
             while (true)
             {
-                Console.Write("\n원하시는 행동을 입력해주세요.\n>>");
+                Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out int selectedOption))
@@ -140,11 +176,8 @@ namespace TEXT_RPG
                         return selectedOption;
                     }
                 }
-                else
-                {
-                    Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
-                }
 
+                Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
     }
