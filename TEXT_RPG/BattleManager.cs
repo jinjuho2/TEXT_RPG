@@ -11,7 +11,9 @@ namespace TEXT_RPG
 {
     internal class BattleManager
     {
-        
+        List<string> monsterInfo = new List<string> { "1,슬라임,1,Normal,10,5,3,30,30,10", "2,빅슬라임,1,Dark,10,5,3,30,30,10" };
+
+
         List<Monster> nowMonsters;
  
         int turn = 0;
@@ -71,12 +73,23 @@ namespace TEXT_RPG
             Console.WriteLine($"{gold}원 획득");
             Console.WriteLine("획득");
         }
+        bool setMonster(int i)
+        {
+            i--;
+            if (i < 0 || i >=monsterInfo.Count)
+                return false;
+            string[] x = monsterInfo[i].Split(',');
+            nowMonsters.Add(new Monster(int.Parse(x[0]), x[1],int.Parse( x[2]), (TYPE)Enum.Parse(typeof(TYPE), x[3]), float.Parse(x[4]), 
+                float.Parse(x[5]), int.Parse(x[6]), int.Parse(x[7]), int.Parse(x[8]), int.Parse(x[9])));
+            return true;
+        }
         private void Init()
         {
              nowMonsters= new List<Monster>();
-            nowMonsters.Add(new Monster());
-            nowMonsters.Add(new Monster());
-           
+            
+            setMonster(1);
+            setMonster(2);
+
             monsterCount = 0;
             int Pspeed = Player.Instance.Speed;
             int Espeed = 0;
