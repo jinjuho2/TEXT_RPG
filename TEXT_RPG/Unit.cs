@@ -72,6 +72,7 @@ namespace TEXT_RPG
         }
         private void Dead() {
             Console.WriteLine($"{Name} 기절");
+            
         }
 
     }

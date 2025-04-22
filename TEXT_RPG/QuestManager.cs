@@ -163,6 +163,7 @@ namespace TEXT_RPG
                     {
                         case QuestType.Hunting:
                             Console.WriteLine($"{questStatus} {questNum}{quest.Title} : {quest.Etc} ");
+                            if (quest.IsActive == true) Console.WriteLine($"진행상황 : {quest.CurrentCount} / {quest.TargetCount}");
                             break;
                         case QuestType.StageClear:
                             Console.WriteLine($"{questStatus} {questNum}{quest.Title} : {quest.Etc} ");
@@ -179,12 +180,45 @@ namespace TEXT_RPG
                 }
             }
         }
-
-        public void QuestClear(QuestType type)
+        public void CheckQuest(Player player)
         {
-            //player 골드 , 경험치 증가
-            //성공한 해당 퀘스트 사라짐
+            foreach (Quest quest in Quests)
+            {
+                if (!quest.IsActive || quest.IsClear)
+                    continue;
+
+                switch (quest.Type)
+                {
+                    //case QuestType.Hunting:
+                    //    if (player.MonsterKillCount >= quest.TargetCount)
+                    //    {
+                    //        ClearQuest(quest);
+                    //    }
+                    //    break;
+                    //case QuestType.StageClear:
+                    //    if (player.CurrentStage >= quest.TargetCount)
+                    //    {
+                    //        ClearQuest(quest);
+                    //    }
+                    //    break;
+                }
+            }
+        }
+        public void ClearQuest(Quest Quests)
+        {
             
+            if(Quests.level == 1)
+            {
+                //player 골드 , 경험치 소량증가
+            }
+            else if (Quests.level == 2)
+            {
+                //player 골드 , 경험치 중량증가
+            }
+            else if (Quests.level == 3)
+            {
+                //player 골드 , 경험치 대량증가
+            }
 
 
         }
