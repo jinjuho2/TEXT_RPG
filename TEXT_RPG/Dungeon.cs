@@ -154,11 +154,17 @@ namespace TEXT_RPG
                 
                 elitemobWarp();
             }
-            else
+            else if (DungeonEnum == 14 )
             {
                 Console.Clear();
                 
                 eventWarp();
+            }
+            else
+            {
+                Console.Clear() ;
+
+                RestFloor();
             }
 
         }
@@ -170,8 +176,9 @@ namespace TEXT_RPG
             Console.WriteLine("");
             Console.WriteLine("Victory");
             Console.WriteLine("던전에서 몬스터를 n마리 잡으셨습니다.");
-            Console.WriteLine($"LV{player.Level} {player.Name}");
-            Console.WriteLine("(플레이어 해당 층 입장체력 ) -> (플레이어 해당 층 클리어 체력 )");// 어캐하지
+            Console.WriteLine($"LV{Player.Instance.Level} {Player.Instance.Name}");
+            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({Player.Instance.CurrentHP})");// 해당 층 입장체력 어캐하지
+
             Console.WriteLine("");
 
             DungeonSet();
@@ -236,7 +243,7 @@ namespace TEXT_RPG
         {
             Console.WriteLine("이벤트 층 입니다.");
         }
-        public void restWarp()
+        public void restWarp()//완
         {
             Console.WriteLine("휴식의 층 입니다.");
         }
@@ -262,6 +269,19 @@ namespace TEXT_RPG
         public void townWarp()// 마을은 로비 복사?해서 조금씩 고치면 될거같은데
         {
             Console.WriteLine("마을입니다");
+        }
+        public void RestFloor()
+        {
+            if (Player.Instance.CurrentHP >= Player.Instance.MaxHP / 2)//플레이어의 현재체력이 50%보다 낮다면 
+            {
+                Player.Instance.CurrentHP += Player.Instance.MaxHP / 2;
+                Console.WriteLine("충분한 휴식을 취해 체력이 회복되었습니다.");
+            }
+            else//플레이어의 체력이 50% 이상이면? 현재체력 + (최대체력-현재체력) = 풀피
+            {
+                Player.Instance.CurrentHP += (Player.Instance.MaxHP -= Player.Instance.CurrentHP);
+                Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+            }
         }
 
 
