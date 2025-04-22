@@ -11,7 +11,7 @@ namespace TEXT_RPG
     {
         Dungeon d;
         QuestManager qm;
-        Inven iv;
+        Inven iv = new Inven();
         Shop shop = new Shop();
         public static GameManager instance;
         public static GameManager Instance()
@@ -61,7 +61,6 @@ namespace TEXT_RPG
                         d.DungeonRun(); // 던전 매니저 기능 실행
                         break;
                     case 3:
-                        
                        iv.ShowInventory(); //인벤 확인
                       break;
                     case 4:

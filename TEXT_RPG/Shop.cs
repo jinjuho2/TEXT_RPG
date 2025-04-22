@@ -138,7 +138,7 @@ namespace TEXT_RPG
             while (true)
             {
                 Console.Clear();
-                var ownedItems = ItemManager.Instance().items.Where(x => x.IsHave).ToList();
+                var ownedItems = ItemManager.Instance().items.Where(item => item.IsHave).ToList();
 
                 if (ownedItems.Count == 0)
                 {
