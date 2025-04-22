@@ -28,6 +28,11 @@ namespace TEXT_RPG
      
 
         }
+        protected override void Dead()
+        {
+            base.Dead(); 
+            GameManager.Instance().monsterKill++;
+        }
      
     }
 }

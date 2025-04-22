@@ -10,7 +10,6 @@ namespace TEXT_RPG
     {
         public int ID { get; set; } //유닛 별 ID 
         public string Name { get; set; } // 플레이어 이름
-        public Job Job { get; set; } // 플레이어 직업
         public int Level { get; set; } // 플레이어 레벨
         public int Exp { get; set; } // 현재 경험치
         public float Attack { get; set; } // 기본 공격력
@@ -22,34 +21,18 @@ namespace TEXT_RPG
         public int Gold { get; set; } // 소지 골드
         public int Speed { get; set; } // 속도... 선턴 잡습니다...
         public bool IsWeak { get; set; } // 약점 찌름 당함...
+        public float Evasion { get; set; } // 회피율
+        public float Critical { get; set; } // 치명타율
 
-        public TYPE WeakType { get; set; }
-     
-        
+
+        public TYPE WeakType { get; set; } = TYPE.Normal;
+
+        public List<Skill> skills = new(); // 보유 스킬 리스트
         public bool IsAlive => CurrentHP > 0;
 
         public List<Item> items;
-        List<Skill> skills;
+     
   
-        public virtual AttackData AttackM()
-        {
-            Random random = new Random();
-          
-            int calAtk = random.Next((int)Attack*90/100,(int)Attack*110/100);
-            AttackData ad;
-            if (random.Next(0, 100) < 15)
-            {
-                calAtk = (int)(calAtk * 1.6f);
-               
-                 ad = new AttackData(calAtk, TYPE.Normal, true);
-            }
-            else
-            {
-                     ad = new AttackData(calAtk, TYPE.Normal, false);
-            }
-            return ad;
-        }
-       
         public virtual bool TakeDamage(int atkD)
         {
 
@@ -71,11 +54,11 @@ namespace TEXT_RPG
           }
             else Console.WriteLine($"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}");
         }
-        private GameManager gameManager;
+      
         
-        private void Dead() {
-            Console.WriteLine($"{Name} 기절");
-            gameManager.monsterKill++;
+         protected virtual void Dead() {
+            Console.WriteLine($"{Name} 사망");
+           
         }
 
     }

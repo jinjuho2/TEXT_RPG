@@ -11,14 +11,14 @@ namespace TEXT_RPG
         private List<Item> shopItems = new List<Item>(); // 상점에서 판매하는 아이템 목록
 
 
-        public void ShowMenu()
+        public void ShowMenu(Player player)
         {
             Console.Clear();
             Console.WriteLine("상점");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             Console.WriteLine();
             Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{Player.Instance.Gold} G");
+            Console.WriteLine($"{player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < shopItems.Count; i++)
@@ -60,8 +60,8 @@ namespace TEXT_RPG
 
             switch (input)
             {
-                case 1: BuyItem(); break;
-                case 2: SellItem(); break;
+                case 1: BuyItem(player); break;
+                case 2: SellItem(player); break;
                 case 0: GameManager.Instance().Run(); break;
             }
 
@@ -69,7 +69,7 @@ namespace TEXT_RPG
             Thread.Sleep(1000);
         }
 
-        private void BuyItem() // 구매
+        private void BuyItem(Player player) // 구매
         {
             while (true)
             {
@@ -106,20 +106,20 @@ namespace TEXT_RPG
                 Console.WriteLine("0. 뒤로 가기");
                 Console.Write("구매할 아이템을 입력하세요.: ");
                 if (!int.TryParse(Console.ReadLine(), out int input)) continue;
-                if (input == 0) { ShowMenu(); return; }
+                if (input == 0) { ShowMenu(player); return; }
                 if (input < 1 || input > shopItems.Count) continue;
 
                 Item selectedItem = shopItems[input - 1];
 
-                if (!selectedItem.IsHave && Player.Instance.Gold >= selectedItem.Price)
+                if (!selectedItem.IsHave && player.Gold >= selectedItem.Price)
                 {
                     selectedItem.IsHave = true;
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
-                    Player.Instance.Gold -= selectedItem.Price;
+                    player.Gold -= selectedItem.Price;
                     Thread.Sleep(1000);
                 }
 
-                else if (!selectedItem.IsHave && Player.Instance.Gold < selectedItem.Price)
+                else if (!selectedItem.IsHave && player.Gold < selectedItem.Price)
                 {
                     Console.WriteLine($"골드가 부족합니다.");
                     Thread.Sleep(1000);
@@ -133,7 +133,7 @@ namespace TEXT_RPG
             }
         }
 
-        private void SellItem() // 판매
+        private void SellItem(Player player) // 판매
         {
             while (true)
             {
@@ -143,7 +143,7 @@ namespace TEXT_RPG
                 if (ownedItems.Count == 0)
                 {
                     Console.WriteLine("소지한 아이템이 없습니다.");
-                    ShowMenu();
+                    ShowMenu(player);
                     break;
                 }
 
@@ -159,7 +159,7 @@ namespace TEXT_RPG
 
                 if (!int.TryParse(Console.ReadLine(), out int input)) continue;
 
-                if (input == 0) { ShowMenu(); return; }
+                if (input == 0) { ShowMenu(player); return; }
 
                 if (input < 0 || input > ownedItems.Count) continue;
                 
@@ -173,7 +173,7 @@ namespace TEXT_RPG
                 else
                 {
                     selectedItem.IsHave = false;
-                    Player.Instance.Gold += (int)(selectedItem.Price * 0.8);
+                    player.Gold += (int)(selectedItem.Price * 0.8);
                     Console.WriteLine($"'{selectedItem.Name}'을(를) 판매했습니다.");
                 }
 

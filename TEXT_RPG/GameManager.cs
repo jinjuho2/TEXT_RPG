@@ -15,7 +15,8 @@ namespace TEXT_RPG
         public int monsterKill = 5;
         public int currentEquip = 3;
 
-        public static GameManager instance;
+
+        private static GameManager instance;
         public static GameManager Instance()
         {
             if (instance == null)
@@ -27,14 +28,16 @@ namespace TEXT_RPG
         private QuestManager questManager;
         private Inven inven;
         private Shop shop;
+        private Player player;
 
         public void Init() //시작전
         {
             ItemManager.InitializIeItem();
             dungeon = new Dungeon();
-            questManager = new QuestManager(this);
+            questManager = new QuestManager();
             inven = new Inven();
             shop = new Shop();
+            player = new Player();
             MakeName();
             ChooseJob();
         }
@@ -53,7 +56,7 @@ namespace TEXT_RPG
 
                 if (selectNum == 1)
                 {
-                    Player.Instance.Name = name;
+                    player.Name = name;
                     break;
                 }
                 else
@@ -64,39 +67,37 @@ namespace TEXT_RPG
         }
         public void ChooseJob()
         {
-            Job job = new Job();
-            while (true)
-            {
-                Console.WriteLine("직업을 선택해 주세요");
+           
+            
+                int confirm = 0;
+                int selectNum=0;
+                while (confirm == 1)
+                {
+                    Console.WriteLine("직업을 선택해 주세요");
                 Console.WriteLine("1. 전사");
                 Console.WriteLine("2. 궁수");
                 Console.WriteLine("3. 마법사");
                 Console.WriteLine("4. 도적");
                 Console.WriteLine("5. 해적");
 
-                int selectNum = GetValidInput(new List<int> { 1, 2, 3, 4, 5 });
+                selectNum = GetValidInput(new List<int> { 1, 2, 3, 4, 5 });
 
                 // 선택한 직업명 가져오기
                 string jobName = GetJobName(selectNum);
-                Console.WriteLine($"\n정말 [{jobName}]이 맞습니까?");
-                Console.WriteLine("1. 예");
-                Console.WriteLine("2. 아니오");
+                
+                    Console.WriteLine($"\n정말 [{jobName}]이 맞습니까?");
+                    Console.WriteLine("1. 예");
+                    Console.WriteLine("2. 아니오");
 
-                int confirm = GetValidInput(new List<int> { 1, 2 });
-                if (confirm == 1) // 예를 선택한 경우에만 직업 적용
-                {
-                    switch (selectNum)
-                    {
-                        case 1: job.StartPaladin(); break;
-                        case 2: job.StartArcher(); break;
-                        case 3: job.StartWizard(); break;
-                        case 4: job.StartSheep(); break;
-                        case 5: job.StartPiratein(); break;
-                    }
-                    Console.WriteLine($"[{jobName}] 직업이 선택되었습니다!");
-                    break;
+                    confirm = GetValidInput(new List<int> { 1, 2 });
                 }
-            }
+              
+                Dictionary<string,object> jobd=DataManager.Instance().giveJob(selectNum);
+                player.SetJob(jobd);
+                   
+                Console.WriteLine($"[{player.Job}] 직업이 선택되었습니다!");
+                 
+            
         }
 
         private string GetJobName(int selectNum)
@@ -135,7 +136,7 @@ namespace TEXT_RPG
                         questManager.QuestInit(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
-                        dungeon.DungeonRun(); // 던전 매니저 기능 실행
+                        dungeon.DungeonRun(player); // 던전 매니저 기능 실행
                         break;
                     case 3:
                         inven.ShowInventory(); //인벤 확인
@@ -144,16 +145,20 @@ namespace TEXT_RPG
                         Console.WriteLine("1.플레이어 인벤");
                         Console.WriteLine("2.플레이어 스탯");
                         Console.WriteLine("3.플레이어 스킬");
+                        while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
+                        {
+                            Console.WriteLine("입력 오류");
+                        }
                         if (input == 1)
                             inven.ShowInventory(); //플레이어 기능들 확인.... 
                         else if (input == 2)
-                            Player.Instance.ShowStat();
+                            player.ShowStat();
                         else
-                            Player.Instance.ShowSkillList();
+                            player.ShowSkillList();
                         break;
                     case 5:
                         shop.GenerateShopItems();
-                        shop.ShowMenu(); //상점 아이템 생성
+                        shop.ShowMenu(player); //상점 아이템 생성
                         break;
 
                     case 0:
