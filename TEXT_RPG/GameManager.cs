@@ -94,32 +94,6 @@ namespace TEXT_RPG
 
         }
 
-        //public QuestManager questManager;
-        //public GameManager()
-        //{
-        //    questManager = new QuestManager(this);
-        //}
-        //public void Start()
-        //{
-        //    questManager.AddQuest();
-        //    bool isRunning = false;
-        //    while (!isRunning)
-        //    {
-        //        Console.WriteLine("1. 입장");
-        //        int input = int.Parse(Console.ReadLine());
-        //        if (input == 1)
-        //        {
-        //            isRunning = true;
-        //            questManager.QuestWindow();
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("다시");
-        //        }
-        //    }
-        //}
-
-        //정해진 정답 외에 쳐내는 메서드
         public static int GetValidInput(List<int> validOptions)
         {
             while (true)

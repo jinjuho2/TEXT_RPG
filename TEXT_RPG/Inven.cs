@@ -74,6 +74,10 @@ namespace TEXT_RPG
                             display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
                             Console.WriteLine(display);
                             break;
+                        case "Ring":
+                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 방어력 : {item.Def,-5} | 레벨 : {item.Level,-5} | {item.Price,-5}");
+                            Console.WriteLine(display);
+                            break;
                         case "Armor":
                             display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5}");
                             Console.WriteLine(display);
@@ -104,6 +108,11 @@ namespace TEXT_RPG
                 {
                     selectedItem.IsEquipped = false;
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 해제했습니다");
+                    Thread.Sleep(1000);
+                }
+                else if (Player.Instance.Level < selectedItem.Level)
+                {
+                    Console.WriteLine($"레벨이 부족합니다. {selectedItem.Level}레벨 이상 필요");
                     Thread.Sleep(1000);
                 }
                 else

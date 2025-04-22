@@ -49,6 +49,10 @@ namespace TEXT_RPG
                         display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
                         Console.WriteLine(display);
                         break;
+                    case "Ring":
+                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                        Console.WriteLine(display);
+                        break;
                     case "Armor":
                         display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 래밸 : {item.Level,-5} | {status,-5}");
                         Console.WriteLine(display);
@@ -119,6 +123,10 @@ namespace TEXT_RPG
                             display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
                             Console.WriteLine(display);
                             break;
+                        case "Ring":
+                            display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
+                            Console.WriteLine(display);
+                            break;
                         case "Armor":
                             display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | {status,-5}");
                             Console.WriteLine(display);
@@ -178,6 +186,7 @@ namespace TEXT_RPG
                 if (ownedItems.Count == 0)
                 {
                     Console.WriteLine("소지한 아이템이 없습니다.");
+                    Thread.Sleep(1000);
                     ShowMenu();
                     break;
                 }
@@ -224,6 +233,7 @@ namespace TEXT_RPG
             allItems.AddRange(Weapone.Weapons);
             allItems.AddRange(Armor.Armors);
             allItems.AddRange(Potion.Potions);
+            allItems.AddRange(Acessory.Acessories);
 
             Random random = new Random();
 
