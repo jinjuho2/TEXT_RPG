@@ -12,14 +12,11 @@ namespace TEXT_RPG
     {
         public static List<Potion> Potions = new List<Potion>();
 
-        public int RecoverHp { get; set; }
-        public int RecoverMp { get; set; }
 
         public Potion(string name, string type, int recoverHp, int recoverMp, int price, bool isHave) // 이름 ,타입 ,회복량 ,가격, 소지 여부
-            : base(name, type, 0, 0, 0, 0, 0, 0, price, 0, isHave, false)
+            : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false)
         {
-            RecoverHp = recoverHp;
-            RecoverMp = recoverMp;
+
         }
 
         public static void AddDefaultPotions() // 기본 포션 추가
@@ -33,21 +30,21 @@ namespace TEXT_RPG
 
         public void Use() // 포션 사용
         {
-            if (Type == "HP" && Player.Instance.CurrentHP < Player.Instance.MaxHp && IsHave)
+            if (Type == "HP" && Player.Instance.CurrentHP < Player.Instance.MaxHP && IsHave)
             {
-                Player.Instance.CurrentHP += RecoverHp;
-                if (Player.Instance.CurrentHP    > Player.Instance.MaxHp)
-                    Player.Instance.CurrentHP = Player.Instance.MaxHp;
+                Player.Instance.CurrentHP += RecoverHP;
+                if (Player.Instance.CurrentHP > Player.Instance.MaxHP)
+                    Player.Instance.CurrentHP = Player.Instance.MaxHP;
 
-                Console.WriteLine($"{Name}을 사용하여 HP {RecoverHp} 회복했습니다.");
+                Console.WriteLine($"{Name}을 사용하여 HP {RecoverHP} 회복했습니다.");
             }
-            else if (Type == "MP" && Player.Instance.CurrentMP < Player.Instance.MaxMp && IsHave)
+            else if (Type == "MP" && Player.Instance.CurrentMP < Player.Instance.MaxMP && IsHave)
             {
-                Player.Instance.CurrentMP += RecoverMp;
-                if (Player.Instance.CurrentMP > Player.Instance.MaxMp)
-                    Player.Instance.CurrentMP = Player.Instance.MaxMp;
+                Player.Instance.CurrentMP += RecoverMP;
+                if (Player.Instance.CurrentMP > Player.Instance.MaxMP)
+                    Player.Instance.CurrentMP = Player.Instance.MaxMP;
 
-                Console.WriteLine($"{Name}을 사용하여 MP {RecoverMp} 회복했습니다.");
+                Console.WriteLine($"{Name}을 사용하여 MP {RecoverMP} 회복했습니다.");
             }
             else
             {

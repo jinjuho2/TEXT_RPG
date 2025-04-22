@@ -8,8 +8,17 @@ namespace TEXT_RPG
 {
     internal class ItemManager
     {
-        public ItemManager() { }
+        public List<Item> items = new List<Item>(); // 아이템 리스트
+
+        public ItemManager() 
+        {
+            items.AddRange(Weapone.Weapons);
+            items.AddRange(Armor.Armors);
+            items.AddRange(Potion.Potions);
+        }
+
         private static ItemManager instance;
+
         public static ItemManager Instance()
         {
             if (instance == null)
@@ -17,6 +26,14 @@ namespace TEXT_RPG
             return instance;
         }
 
-        public List<Item> items = new List<Item>(); // 아이템 리스트
+
+
+        public static void InitializIeItem()
+        {
+            Weapone.AddDefaultWeapons();
+            Armor.AddDefaultArmors();
+            Potion.AddDefaultPotions();
+        }
+
     }
 }

@@ -8,8 +8,9 @@ namespace TEXT_RPG
 {
     internal class Unit
     {
+        public int ID { get; set; } //유닛 별 ID 
         public string Name { get; set; } // 플레이어 이름
-        public Jop Job { get; set; } // 플레이어 직업
+        public Job Job { get; set; } // 플레이어 직업
         public int Level { get; set; } // 플레이어 레벨
         public int Exp { get; set; } // 현재 경험치
         public float Attack { get; set; } // 기본 공격력
@@ -29,7 +30,7 @@ namespace TEXT_RPG
 
         public List<Item> items;
         List<Skill> skills;
-
+  
         public virtual AttackData AttackM()
         {
             Random random = new Random();

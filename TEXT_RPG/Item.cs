@@ -22,10 +22,12 @@ namespace TEXT_RPG
         public int Level { get; set; }
         public bool IsHave { get; set; }
         public bool IsEquipped { get; set; }
+        public int RecoverHP { get; set; }
+        public int RecoverMP { get; set; }
 
         public Item(string name, string type ,float atk, float def, //이름 ,타입 ,공격력 ,방어력 ,
                     float critical,float dodge, int hp, int mp,     //치명타 ,회피율 ,쳐력 ,마나 ,
-                    int price, int level, bool isHave, bool isEquipped) //가격,착용레벨,소지 여부, 장착 여부
+                    int recoverHP , int recoverMP, int price, int level, bool isHave, bool isEquipped) //가격,착용레벨,소지 여부, 장착 여부
         {
             this.Name = name;
             this.Type = type;
@@ -39,6 +41,8 @@ namespace TEXT_RPG
             this.Level = level;
             this.IsHave = isHave;
             this.IsEquipped = isEquipped;
+            this.RecoverHP = recoverHP;
+            this.RecoverMP = recoverMP;
         }
 
 

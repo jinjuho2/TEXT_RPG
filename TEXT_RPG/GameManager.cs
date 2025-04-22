@@ -12,34 +12,42 @@ namespace TEXT_RPG
         Dungeon d;
         QuestManager qm;
         Inven iv;
-        public int playerLevel = 2;
-        public int monsterKill=9;
-        public int currentStage = 11;
-        public int currentEquip = 4;
+        Shop shop = new Shop();
+        public static GameManager instance;
+        public static GameManager Instance()
+        {
+            if (instance == null)
+                instance = new GameManager();
+            return instance;
+        }
         public void Init()
         {
             d = new Dungeon();
-            qm = new QuestManager(this);
+            qm = new QuestManager();
+            ItemManager.InitializIeItem();
             Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHp = 100;
+            Player.Instance.MaxHP = 100;
             Player.Instance.CurrentHP = 100;
             Player.Instance.Attack = 10;
             Player.Instance.Speed = 10;
+            Player.Instance.Gold = 5000;
             Player.Instance.WeakType=TYPE.Dark;
             iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
         }
         public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
         {
-            qm.CheckQuest();
             while (true)
             {
+                
                 Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
                 Console.WriteLine("3.인벤 테스트");
                 Console.WriteLine("4.플레이어 테스트");
+                Console.WriteLine("5.상점 테스트");
+
                 int input;
-                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 5)
+                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
                 {
                     Console.WriteLine("입력 오류");
                 }
@@ -47,7 +55,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
-                        qm.QuestInit(); // 퀘스트 매니저 기능 실행
+                        qm.QuestWindow(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
                         d.DungeonRun(); // 던전 매니저 기능 실행
@@ -70,6 +78,10 @@ namespace TEXT_RPG
                             Player.Instance.ShowStat();
                         else
                             Player.Instance.ShowSkillList();
+                        break;
+                    case 5:
+                        shop.GenerateShopItems();
+                        shop.ShowMenu(); //상점 아이템 생성
                         break;
 
                     case 0:

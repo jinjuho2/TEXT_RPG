@@ -24,14 +24,14 @@ namespace TEXT_RPG
 
 
         public string Name { get; set; } // 플레이어 이름
-        public Jop Job { get; set; } // 플레이어 직업
+        public Job Job { get; set; } // 플레이어 직업
         public int Level { get; set; } // 플레이어 레벨
         public int Exp { get; set; } // 현재 경험치
         public float Attack { get; set; } // 기본 공격력
         public float Defense { get; set; } // 기본 방어력
-        public int MaxHp { get; set; } // 최대 체력
+        public int MaxHP { get; set; } // 최대 체력
         public int CurrentHP { get; set; } // 현재 체력
-        public int MaxMp { get; set; } // 최대 마나
+        public int MaxMP { get; set; } // 최대 마나
         public int CurrentMP { get; set; } // 현재 마나
         public int Gold { get; set; } // 소지 골드
         public int Speed { get; set; } // 속도... 선턴 잡습니다...
@@ -51,7 +51,17 @@ namespace TEXT_RPG
         public List<Item> inventory = new(); // 인벤토리 아이템 리스트
         public List<Skill> skills = new(); // 보유 스킬 리스트
 
-        public void ShowStat() { }
+        public void ShowStat()
+        {
+            Console.WriteLine($"Lv.{Level}");
+            Console.WriteLine($"{Name} ( {Job.Name} )");
+            Console.WriteLine($"공격력 :{Attack}");
+            Console.WriteLine($"방어력 :{Defense}");
+            Console.WriteLine($"HP ( {CurrentHP} / {MaxHP} )");
+            Console.WriteLine($"MP ( {CurrentMP} / {MaxMP} )");
+            Console.WriteLine($"Gold : {Gold} G");
+
+        }
         public void ShowInventory() { }
         public void ShowSkillList()
         {
@@ -62,10 +72,25 @@ namespace TEXT_RPG
                 Console.WriteLine($"{i + 1}. {skill.Name} - {skill.Description} (MP: {skill.MPCost})");
             }
         }
-        public void LevelUp() { }
-        public void TakeDamage(int damage) { }
-        public void Dead()
+        public void LevelUp() //플레이어 레벨업
         {
+            Attack += 1;
+            Defense += 1;
+            MaxHP += 1;
+            MaxMP += 1;
+        }
+        public void TakeDamage(int damage) // 플레이어 피격
+        {
+            CurrentHP -= damage;
+            if (CurrentHP < 0)
+            {
+                Dead();
+            }
+        }
+        public void Dead()//플레이어 죽음
+        {
+            //마을(타이틀)로 돌아감
+            //패널티가 있다면 여기에
 
         }
         //public void UseItem(Item item)
@@ -78,12 +103,12 @@ namespace TEXT_RPG
 
             
         //}
-        public string UseSkill(Skill skill)
+        public string UseSkill(Skill skill)//스킬사용
         {
             return $"{skill.Type}+{skill.Damage}+{skill.TargetNum}";
         }
 
-        public void GetItem (Item item)
+        public void GetItem (Item item)//아이템 획득
         {
             inventory.Add(item);
         }
