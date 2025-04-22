@@ -9,17 +9,6 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
-        private static GameManager instance;
-        public static GameManager Instance
-        {  get
-            {
-                if(instance == null)
-                {
-                    instance = new GameManager();
-                } 
-                return instance;
-            }
-        }
 
         Dungeon d;
         QuestManager qm;

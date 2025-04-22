@@ -23,7 +23,7 @@ namespace TEXT_RPG
 
 
 
-        public Skill MakeSkill(string name, string description, int mPCost, float damage, TYPE type, int targetNum int critical)
+        public Skill MakeSkill(string name, string description, int mPCost, float damage, TYPE type, int targetNum ,int critical)
         {
             return new Skill
             {
