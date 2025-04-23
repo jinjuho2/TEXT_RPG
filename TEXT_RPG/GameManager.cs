@@ -12,8 +12,9 @@ namespace TEXT_RPG
     {
         public int playerLevel = 1;
         public int currentStage = 11;
-        public int monsterKill = 5;
+        
         public int currentEquip = 3;
+        public int deadId ;
 
 
         private static GameManager instance;

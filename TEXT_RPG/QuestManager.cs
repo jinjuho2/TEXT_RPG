@@ -29,7 +29,7 @@ namespace TEXT_RPG
         }
         public QuestManager()//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
         {                    //만약 게임 매니저의 값이 필요하시다면 메소드를 통해 가져오던가 게임매니저를 싱글톤으로 바꾸는 게 낫겠습니다     
-       
+            
             Quests = new List<Quest>();
             Achieves = new List<Quest>();
         }
@@ -194,6 +194,7 @@ namespace TEXT_RPG
                             Reward(Quests[index]);
                             Quests[index].IsComplete = true;
                             Quests.RemoveAt(index);
+                            Console.WriteLine("삭제됨");
                             Thread.Sleep(1000);
                             break;
                         case 2:
@@ -296,13 +297,15 @@ namespace TEXT_RPG
                 //Quests.Add(new Quest { Title = "스톤골렘을 잡아라!", Etc = "스톤골렘을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
                 //Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.StageClear });
                 Quests.Add(DataManager.Instance().MakeQuest(1));
+                Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
+                Thread.Sleep(1000);
                 addQuest_1 = true;
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
             {
-                Quests.Add(new Quest { Title = "좀비 버섯을 잡아라!", Etc = "좀비 버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "미노타우르스를 잡아라!", Etc = "미노타우르스를 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "중급 여행가", Etc = "타워 20층을 완료하세요", IsClear = false, level = 1, Type = QuestType.StageClear });
+                //Quests.Add(new Quest { Title = "좀비 버섯을 잡아라!", Etc = "좀비 버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
+                //Quests.Add(new Quest { Title = "미노타우르스를 잡아라!", Etc = "미노타우르스를 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
+                //Quests.Add(new Quest { Title = "중급 여행가", Etc = "타워 20층을 완료하세요", IsClear = false, level = 1, Type = QuestType.StageClear });
                 addQuest_2 = true;
             }
         }
@@ -359,7 +362,7 @@ namespace TEXT_RPG
                     switch (quest.Type)
                     {
                         case QuestType.Hunting:
-                            Console.WriteLine($"{questNum}{quest.Title}{quest.IsComplete}");
+                            Console.WriteLine($"{questNum}{quest.Title}");
                             if (quest.IsActive == true) Console.WriteLine($"진행상황 : {quest.CurrentCount}마리 / {quest.TargetCount}마리");
                             Console.WriteLine("\n");
                             break;
@@ -392,7 +395,24 @@ namespace TEXT_RPG
                 }
             }
         }
-        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크
+        public void DeadCheck(int id)
+        {
+            Console.WriteLine($"DeadCheck 실행{Quests.Count}");
+            foreach (Quest quest in Quests)
+            {
+                Console.WriteLine($"Debug: id = {id}, TargetID = {quest.TargetID}, Equal = {quest.TargetID == id}");
+                if (quest.TargetID == id)
+                {
+                    quest.CurrentCount++;
+                    Console.WriteLine($"{quest.Title} 진행도 상승");
+                    Thread.Sleep(1000);
+                }
+            }
+
+        }
+
+        
+        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크 , 몬스터 id
         {
             foreach (Quest quest in Quests)
             {
@@ -402,8 +422,7 @@ namespace TEXT_RPG
                 switch (quest.Type)
                 {
                     case QuestType.Hunting:
-                        quest.CurrentCount = GameManager.Instance().monsterKill;
-                        if (GameManager.Instance().monsterKill >= quest.TargetCount)
+                        if (quest.CurrentCount >= quest.TargetCount)
                         {
                             ClearQuest(quest);
                         }

@@ -25,7 +25,7 @@ namespace TEXT_RPG
 
         public bool IsReward { get; set; }
 
-        public Quest(string _Title, string _Etc,int  _TargetCount,int _targetId,QuestType _type )
+        public Quest(string _Title, string _Etc,int  _TargetCount,int _targetId,QuestType _type)
         {
             Title = _Title;
             Etc = _Etc;
@@ -35,7 +35,7 @@ namespace TEXT_RPG
             IsClear = false;
             IsActive = false;
             Type = _type;
-
+            IsComplete = false;
         }
         public Quest() { }
 

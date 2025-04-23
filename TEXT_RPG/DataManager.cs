@@ -51,8 +51,9 @@ namespace TEXT_RPG
             j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
             j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
             items = JsonConvert.DeserializeObject<List<Item>>(j);
-      
-           
+            j  = File.ReadAllText(QuestPath);
+            quest = JsonConvert.DeserializeObject<List<Quest>>(j);
+
         }
    
 
