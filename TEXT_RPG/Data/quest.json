@@ -1,0 +1,12 @@
+[
+  {
+    "ID": 1,
+    "Name": "슬라임을 잡아라!",
+    "etc": "",
+    "TargetCount": 5,
+    "TargetID": 1,
+    "Type": "Hunting",
+    "Gold": 100,
+    "Item": 10
+  }
+]

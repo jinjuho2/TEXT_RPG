@@ -29,7 +29,8 @@ namespace TEXT_RPG
 
         public void QuestInit()
         {
-            AddQuest();
+            //AddQuest();
+            DataManager.Instance().MakeQuest(1);
             AddAchieve();
             bool isRunning = true;
             while (isRunning)
@@ -41,7 +42,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 0:
-                        isRunning = false;             
+                        isRunning = false;
                         break; //로 해도 괜찮을듯합니다...
                     case 1:
                         isRunning = false;

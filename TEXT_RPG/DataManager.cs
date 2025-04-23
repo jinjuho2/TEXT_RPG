@@ -47,7 +47,9 @@ namespace TEXT_RPG
           j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-           // test();
+            j = File.ReadAllText(QuestPath);
+            // test();
+            quest = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
         }
    
 

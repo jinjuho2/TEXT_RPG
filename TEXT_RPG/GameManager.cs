@@ -116,7 +116,7 @@ namespace TEXT_RPG
         {
             while (true)
             {
-
+                questManager.CheckQuest();
                 Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
