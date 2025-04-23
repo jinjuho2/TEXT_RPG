@@ -33,7 +33,7 @@ namespace TEXT_RPG
 
         public void Init() //시작전
         {
-            ItemManager.InitializIeItem();
+            ItemManager.Instance().InitializeItems();
             dungeon = new Dungeon();
             questManager = new QuestManager();
             inven = new Inven();
@@ -41,6 +41,7 @@ namespace TEXT_RPG
             player = new Player();
             MakeName();
             ChooseJob();
+            
         }
         public void MakeName() //이름생성
         {
