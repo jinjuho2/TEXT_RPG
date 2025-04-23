@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,8 @@ namespace TEXT_RPG
         public string Name { get; set; } // 플레이어 이름
         public int Level { get; set; } // 플레이어 레벨
         public int Exp { get; set; } // 현재 경험치
-        public float Attack { get; set; } // 기본 공격력
-        public float Defense { get; set; } // 기본 방어력
+        public float ATK { get; set; } // 기본 공격력
+        public float DEF { get; set; } // 기본 방어력`
         public int MaxHp { get; set; } // 최대 체력
         public int CurrentHP { get; set; } // 현재 체력
         public int MaxMp { get; set; } // 최대 마나
@@ -31,8 +32,12 @@ namespace TEXT_RPG
         public bool IsAlive => CurrentHP > 0;
 
         public List<Item> items;
-     
-  
+        public void Init()
+        {
+            CurrentMP = MaxMp;
+            CurrentHP = MaxHp;
+        }
+
         public virtual bool TakeDamage(int atkD)
         {
 
@@ -54,11 +59,12 @@ namespace TEXT_RPG
           }
             else Console.WriteLine($"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}");
         }
-      
         
-         protected virtual void Dead() {
+
+
+        protected virtual void Dead() {
             Console.WriteLine($"{Name} 사망");
-           
+            //아마 여기            
         }
 
     }

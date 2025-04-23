@@ -8,6 +8,7 @@ namespace TEXT_RPG
 {
     internal class Quest
     {
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Etc { get; set; } //몬스터 ID도 설명 받으므로 자동으로 생성 가능할 수도 있음
         public int CurrentCount { get; set; }

@@ -30,6 +30,7 @@ namespace TEXT_RPG
 
         public static void InitializIeItem()
         {
+            Acessory.AddDefaultAcessories();
             Weapone.AddDefaultWeapons();
             Armor.AddDefaultArmors();
             Potion.AddDefaultPotions();
