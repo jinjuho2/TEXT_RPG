@@ -10,7 +10,7 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
-        public int playerLevel = 2;
+        public int playerLevel = 1;
         public int currentStage = 11;
         public int monsterKill = 5;
         public int currentEquip = 3;

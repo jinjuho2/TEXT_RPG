@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,13 @@ namespace TEXT_RPG
 
         public List<Quest> Quests { get; set; }
         public List<Quest> Achieves { get; set; }
-
+        private static QuestManager instance;
+        public static QuestManager Instance()
+        {
+            if (instance == null)
+                instance = new QuestManager();
+            return instance;
+        }
         public QuestManager()//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
         {                    //만약 게임 매니저의 값이 필요하시다면 메소드를 통해 가져오던가 게임매니저를 싱글톤으로 바꾸는 게 낫겠습니다     
        
@@ -29,11 +36,8 @@ namespace TEXT_RPG
 
         public void QuestInit()
         {
-            //AddQuest();
-            Quests.Add(DataManager.Instance().MakeQuest(1));
-
-           
-            AddAchieve();
+            AddQuest();
+            //AddAchieve();
             bool isRunning = true;
             while (isRunning)
             {
@@ -188,6 +192,7 @@ namespace TEXT_RPG
                         case 1:
                             isRunning = false;
                             Reward(Quests[index]);
+                            Quests[index].IsComplete = true;
                             Quests.RemoveAt(index);
                             Thread.Sleep(1000);
                             break;
@@ -285,11 +290,12 @@ namespace TEXT_RPG
         }
         void AddQuest()                                                                             //퀘스트 목록 추가
         {
-            if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)
+            if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)                                                 //조건만족시 한번만발동
             {
-                Quests.Add(new Quest { Title = "슬라임을 잡아라!", Etc = "슬라임을 5마리 잡으세요 \n - 주황버섯 10마리 처치", CurrentCount = 0, TargetCount = 5, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "스톤골렘을 잡아라!", Etc = "스톤골렘을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.StageClear });
+                //Quests.Add(new Quest { Title = "슬라임을 잡아라!", Etc = "슬라임을 5마리 잡으세요 \n - 주황버섯 10마리 처치", CurrentCount = 0, TargetCount = 5, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
+                //Quests.Add(new Quest { Title = "스톤골렘을 잡아라!", Etc = "스톤골렘을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
+                //Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.StageClear });
+                Quests.Add(DataManager.Instance().MakeQuest(1));
                 addQuest_1 = true;
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
@@ -319,6 +325,7 @@ namespace TEXT_RPG
             int counter = index >= 0 ? index : -1;
             foreach (Quest quest in Quests)
             {
+                if (quest.IsComplete == true) continue;
                 //if(quest.Type == QuestType.Hidden && quest.IsVisible == true)
                 //{
                 //    Console.WriteLine($"{quest.Title} : {quest.Etc} ");
@@ -352,7 +359,7 @@ namespace TEXT_RPG
                     switch (quest.Type)
                     {
                         case QuestType.Hunting:
-                            Console.WriteLine($"{questNum}{quest.Title}");
+                            Console.WriteLine($"{questNum}{quest.Title}{quest.IsComplete}");
                             if (quest.IsActive == true) Console.WriteLine($"진행상황 : {quest.CurrentCount}마리 / {quest.TargetCount}마리");
                             Console.WriteLine("\n");
                             break;

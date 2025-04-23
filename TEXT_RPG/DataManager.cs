@@ -127,6 +127,7 @@ namespace TEXT_RPG
             int TargetID = Convert.ToInt32(data["TargetID"]);
             int Gold= Convert.ToInt32(data["Gold"]);
             QuestType type = (QuestType)Enum.Parse(typeof(QuestType), (string)data["Type"]);
+            bool IsComplete = Convert.ToBoolean(data["IsComplete"]);
             return new Quest (Title, Etc, TargetCount,TargetID,type );
            
         }
@@ -211,6 +212,10 @@ namespace TEXT_RPG
         //    list.Add(MakeSkill("폭풍의 일격", "예측불가의 강력한 타격이다", 40, 3.5f, TYPE.Normal, 1, 30));
         //    return list;
         //}
-
+        //public void SaveQuestData()
+        //{
+        //    string json = JsonConvert.SerializeObject(QuestManager.Instance().Quests, Formatting.Indented);
+        //    File.WriteAllText(QuestPath, json);
+        //}
     }
 }
