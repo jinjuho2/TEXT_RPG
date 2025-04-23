@@ -14,7 +14,7 @@
     "Name": "궁수",
     "MaxHP": 50,
     "MaxMP": 20,
-    "Attack": 10,
+    "Attack": 1,
     "Defense": 10,
     "Speed": 7,
     "skill": "1,2,3,4"

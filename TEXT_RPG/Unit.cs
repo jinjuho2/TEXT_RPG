@@ -65,6 +65,7 @@ namespace TEXT_RPG
         protected virtual void Dead() {
             Console.WriteLine($"{Name} 사망");
             //아마 여기            
+            QuestManager.Instance().DeadCheck(ID);
         }
 
     }

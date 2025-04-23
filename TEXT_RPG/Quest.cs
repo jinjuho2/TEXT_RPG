@@ -14,8 +14,9 @@ namespace TEXT_RPG
         public int CurrentCount { get; set; }
         public int TargetCount { get; set; } //이건 목표 몬스터 개수이고
         public int TargetID { get; set; } //이건 목표 몬스터 아이디인데 합쳐서 딕셔너리화하는 것도 생각해봐야함 몬스터 여러마리 사냥할 경우... 
-        public bool IsClear { get; set; }
         public bool IsActive { get; set; }
+        public bool IsClear { get; set; }
+        public bool IsComplete { get; set; }
         public QuestType Type { get; set; }
 
         public int level;
@@ -24,7 +25,7 @@ namespace TEXT_RPG
 
         public bool IsReward { get; set; }
 
-        public Quest(string _Title, string _Etc,int  _TargetCount,int _targetId,QuestType _type )
+        public Quest(string _Title, string _Etc,int  _TargetCount,int _targetId,QuestType _type)
         {
             Title = _Title;
             Etc = _Etc;
@@ -34,7 +35,7 @@ namespace TEXT_RPG
             IsClear = false;
             IsActive = false;
             Type = _type;
-
+            IsComplete = false;
         }
         public Quest() { }
 
