@@ -414,6 +414,9 @@ namespace TEXT_RPG
         
         public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크 , 몬스터 id
         {
+            Console.WriteLine($"{Quests.Count}개");
+            Thread.Sleep(1000);
+
             foreach (Quest quest in Quests)
             {
                 if (!quest.IsActive || quest.IsClear)

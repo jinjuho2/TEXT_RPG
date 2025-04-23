@@ -117,7 +117,8 @@ namespace TEXT_RPG
         {
             while (true)
             {
-                questManager.CheckQuest();
+                
+                QuestManager.Instance().CheckQuest();
                 Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
@@ -134,7 +135,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
-                        questManager.QuestInit(); // 퀘스트 매니저 기능 실행
+                        QuestManager.Instance().QuestInit(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
                         dungeon.DungeonRun(player); // 던전 매니저 기능 실행
