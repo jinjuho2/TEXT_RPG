@@ -45,7 +45,14 @@ n0층 - 보스
 
 n0층마다 보스방으로 가는 로직?, n1층마다 마을로 가는 로직? 3택1방식에서 워프시켜줄 메서드, -워프 메서드는 완성했지만 다음전투같은거로 연결 은 해놨지만 몬스터 등급에 따른 차이 없음
 
-이넘에 있는 방들 구현 - 
+Enum에 있는 방들 구현 - 
+
+
+enum에 일반몹 = 일반몹에 층수비례 강해짐
+       약한몹 = 일반몹에 0.7~0.8배율?
+       엘리트몹 = 일반몹 1.5배율    당연히 보상(exp,gold)도 몬스터 난이도에 비례해서 증가, 엘리트몹을 처치하면 보상+아이템 하나?
+        
+
  */
 
 
@@ -109,79 +116,12 @@ namespace TEXT_RPG
         public void DungeonSet()//던전 리스트를 랜덤하게 바꿔주는 메서드
         {
 
-            Random rand = new Random();
+            Random random = new Random();
 
             selectedDungeons = Enumerable.Range(1, 15)                  // Linq에서 제공하는 메서드. 1~15 사이의 리스트 만들기
-                                          .OrderBy(x => rand.Next())    // .OrderBy = ()를 기준으로 무작위 정렬   x => rand.Next() = 각 항목에 대해 난수부여, 난수를 기준으로 순서를 섞기
+                                          .OrderBy(x => random.Next())    // .OrderBy = ()를 기준으로 무작위 정렬   x => rand.Next() = 각 항목에 대해 난수부여, 난수를 기준으로 순서를 섞기
                                           .Take(3)                      // 섞인 리스트에서 앞에 ()개수만 가져온다
                                           .ToList();                    //IEnumerable<int>을 List<int>로 변환 저장할 수 있게 함.
-        }
-
-        public void WarpManager(int DungeonEnum)//워프 추가 필요 // 일단 몬스터는 완료
-        {
-            Dungeonenum dungeon = (Dungeonenum)DungeonEnum;
-
-            Console.WriteLine($"{dungeon} 층으로 이동합니다.");
-
-            if (DungeonEnum == 1)
-            {
-                Console.Clear();
-                
-                chestWarp();
-                
-            }
-            else if (DungeonEnum == 2)
-            {
-                Console.Clear();
-                
-                shopWarp();
-            }
-            else if (DungeonEnum >= 3 && DungeonEnum <= 6)
-            {
-                Console.Clear();
-                
-                weakmobWarp();
-            }
-            else if (DungeonEnum >= 7 && DungeonEnum <= 11)
-            {
-                Console.Clear();
-                
-                commonmobWarp();
-            }
-            else if (DungeonEnum >= 12 && DungeonEnum <= 13)
-            {
-                Console.Clear();
-                
-                elitemobWarp();
-            }
-            else if (DungeonEnum == 14 )
-            {
-                Console.Clear();
-                
-                eventWarp();
-            }
-            else
-            {
-                Console.Clear() ;
-
-                RestFloor();
-            }
-
-        }
-
-        public void VictoryScene()
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Battle!! - Result");
-            Console.WriteLine("");
-            Console.WriteLine("Victory");
-            Console.WriteLine("던전에서 몬스터를 n마리 잡으셨습니다.");
-            Console.WriteLine($"LV{player.Level} {player.Name}");
-            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({player.CurrentHP})");// 해당 층 입장체력 어캐하지
-
-            Console.WriteLine("");
-
-            DungeonSet();
 
             Console.WriteLine($"1.{(Dungeonenum)selectedDungeons[0]}으로 진행하기");
             Console.WriteLine($"2.{(Dungeonenum)selectedDungeons[1]}으로 진행하기");
@@ -190,11 +130,6 @@ namespace TEXT_RPG
             Console.WriteLine("0 - 마을귀환주문서 사용하기");
             Console.WriteLine(">>");
 
-
-            ChooseNext();
-        }
-        public  void ChooseNext()
-        {
             int input = int.Parse(Console.ReadLine());
             switch (input)
             {
@@ -217,7 +152,91 @@ namespace TEXT_RPG
                     Console.WriteLine("입력 오류");
                     break;
             }
+
         }
+
+        public void WarpManager(int DungeonEnum)//워프 추가 필요 // 일단 몬스터는 완료
+        {
+            Dungeonenum dungeon = (Dungeonenum)DungeonEnum;
+
+            if(Floor.Instance().floornum % 10 == 0 )//보스 스테이지
+            {
+                Console.WriteLine("앞쪽에서 사악한 기운이 느껴집니다!!");
+                Console.WriteLine("보스 스테이지로 강제로 이동됩니다!!");
+
+            }
+            else if (Floor.Instance().floornum %10 == 1)//마을
+            {
+
+            }
+            else//일반 스테이지
+            {
+                if (DungeonEnum == 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    chestWarp();
+
+                }
+                else if (DungeonEnum == 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    shopWarp();
+                }
+                else if (DungeonEnum >= 3 && DungeonEnum <= 6)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    weakmobWarp();
+                }
+                else if (DungeonEnum >= 7 && DungeonEnum <= 11)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    commonmobWarp();
+                }
+                else if (DungeonEnum >= 12 && DungeonEnum <= 13)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    elitemobWarp();
+                }
+                else if (DungeonEnum == 14)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    eventWarp();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{dungeon} 층으로 이동합니다.");
+                    RestFloor();
+                }
+            }
+
+           
+
+        }
+
+        public void VictoryScene()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Battle!! - Result");
+            Console.WriteLine("");
+            Console.WriteLine("Victory");
+            Console.WriteLine("던전에서 몬스터를 n마리 잡으셨습니다.");
+            Console.WriteLine($"LV{player.Level} {player.Name}");
+            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({player.CurrentHP})");// 해당 층 입장체력 어캐하지
+
+            Console.WriteLine("");
+
+            DungeonSet();
+
+            Floor.Instance().floornum++;
+        }
+
         // 층이 보스, 마을층이 아닐때만 이렇게, 보스층 , 마을은 별도 추가
             
         public void LoseScene()
@@ -238,12 +257,16 @@ namespace TEXT_RPG
         public void chestWarp()
         {
             Console.WriteLine("상자 층 입니다");
+
+
+
+            DungeonSet();
         }
         public void eventWarp()
         {
             Console.WriteLine("이벤트 층 입니다.");
         }
-        public void restWarp()//완
+        public void restWarp()//완?
         {
             Console.WriteLine("휴식의 층 입니다.");
         }
@@ -266,7 +289,7 @@ namespace TEXT_RPG
             Console.WriteLine("엘리트 몬스터 층 입니다.");
       
         }
-        public void townWarp()// 마을은 로비 복사?해서 조금씩 고치면 될거같은데
+        public void townWarp()
         {
             Console.WriteLine("마을입니다");
         }
@@ -283,19 +306,9 @@ namespace TEXT_RPG
                 Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
             }
         }
-
-
-
-
-
-        class Floor
+        public void BossWarp()
         {
-            public int Floornum = 1;
-
-            //                                          일반적인 방법으로 1에서부터 + 1       = 마귀주를 썼을때 층수/10 나머지를 버리고 +1한 층수로 이동? 
-            //10의자리와 1의자리를 분리한 다음 1의자리 /10의 %값이 0이면 10의자리 숫자 +1?    = 마귀주를 썼을때 10의자리 숫자-1하고  이동
-            //                           보스층을 n9층으로 바꾸고 마을을 n0층으로 바꾼다면?   = 마귀주 사용시 일의자리 지워버리고 이동?    아 근데 50층에 딱 신 창 섭이 나오면 좋을거 같긴한데
-
+            Console.WriteLine("보스 등장!");
         }
 
 
@@ -304,20 +317,16 @@ namespace TEXT_RPG
 
 
 
-
-
-
-
-
-
-        
-         
-
     }
 }
 
 
 
+
+
+//                                          일반적인 방법으로 1에서부터 + 1       = 마귀주를 썼을때 층수/10 나머지를 버리고 +1한 층수로 이동? 
+//10의자리와 1의자리를 분리한 다음 1의자리 /10의 %값이 0이면 10의자리 숫자 +1?    = 마귀주를 썼을때 10의자리 숫자-1하고  이동
+//                           보스층을 n9층으로 바꾸고 마을을 n0층으로 바꾼다면?   = 마귀주 사용시 일의자리 지워버리고 이동?    아 근데 50층에 딱 신 창 섭이 나오면 좋을거 같긴한데
 
 //    public void Warp()
 //    {

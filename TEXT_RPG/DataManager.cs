@@ -13,14 +13,16 @@ using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
-    enum Job{ 마법사,전사,도적,궁수,해적
-        }
+    enum Job
+    {
+        마법사, 전사, 도적, 궁수, 해적
+    }
 
     internal class DataManager
     {
         string monPath = @"Data\monster.json";
         string skillPath = @"Data\skill.json";
-        string  jobPath = @"Data\job.json";
+        string jobPath = @"Data\job.json";
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
         List<Dictionary<string, object>> jobs;
@@ -41,20 +43,20 @@ namespace TEXT_RPG
         {
             string j = File.ReadAllText(monPath);
             monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
-           j = File.ReadAllText(jobPath);
+            j = File.ReadAllText(jobPath);
 
             jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-          j = File.ReadAllText(skillPath);
+            j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Skill>>(j);
-              j = File.ReadAllText(itemPath);
+            j = File.ReadAllText(itemPath);
             j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
             j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
             items = JsonConvert.DeserializeObject<List<Item>>(j);
-      
-           
+
+
         }
-   
+
 
 
 
@@ -77,7 +79,7 @@ namespace TEXT_RPG
 
 
             return sdata;
-        
+
         }
         public Item MakeItem(int i)
         {
@@ -99,7 +101,7 @@ namespace TEXT_RPG
             }
             if (data.MainType == "악세서리")
             {
-                return new Acessory(data);   
+                return new Acessory(data);
             }
             if (data.MainType == "포션")
             {
@@ -118,7 +120,7 @@ namespace TEXT_RPG
             }
 
             return data;
-           
+
         }
 
         public Monster makeMonster(int i)
