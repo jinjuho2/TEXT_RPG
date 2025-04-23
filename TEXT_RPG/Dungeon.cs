@@ -53,6 +53,8 @@ enum에 일반몹 = 일반몹에 층수비례 강해짐
        엘리트몹 = 일반몹 1.5배율    당연히 보상(exp,gold)도 몬스터 난이도에 비례해서 증가, 엘리트몹을 처치하면 보상+아이템 하나?
         
 
+
+
  */
 
 
@@ -60,6 +62,16 @@ namespace TEXT_RPG
 {
     internal class Dungeon
     {
+        //private static Dungeon instance;
+        //public static Dungeon Instance()
+        //{
+        //    if (instance == null)
+        //        instance = new Dungeon();
+        //    return instance;
+        //}
+
+        //private Dungeon() { }
+
 
         public string DungeonSelect { get; set; }
         Player player;
@@ -76,7 +88,7 @@ namespace TEXT_RPG
             while (!isEnd)
             {                          //이 안에 던전의 문구를 넣으시면 됩니다.
                 bool isWin = bm.Battle(player); //배틀매니저의 실행입니다. 여기에 특정값(ex: 몬스터들,방 특성)들을 넣어주시면 됩니다.
-                                          //또한 배틀씬을 보고 싶지 않은 경우 bm.Battle을 보고 싶은 값으로 변경해주세요 (ex: 승리시 true 패배시 false)
+                                                //또한 배틀씬을 보고 싶지 않은 경우 bm.Battle을 보고 싶은 값으로 변경해주세요 (ex: 승리시 true 패배시 false)
                 if (isWin) //승리시 true 패배시 false. 만약 도주나 다른 값을 넣고 싶으면 말씀해주세요 enum등으로 변경하면 됩니다.
                 {
                     isEnd = true;
@@ -86,10 +98,12 @@ namespace TEXT_RPG
                 else
                 {
                     isEnd = true;
+                    LoseScene();
                 }
             }
 
         }
+
         public enum Dungeonenum//상자방의 확률 조정용
         {
             상자방 = 1,
@@ -122,50 +136,22 @@ namespace TEXT_RPG
                                           .OrderBy(x => random.Next())    // .OrderBy = ()를 기준으로 무작위 정렬   x => rand.Next() = 각 항목에 대해 난수부여, 난수를 기준으로 순서를 섞기
                                           .Take(3)                      // 섞인 리스트에서 앞에 ()개수만 가져온다
                                           .ToList();                    //IEnumerable<int>을 List<int>로 변환 저장할 수 있게 함.
-
-            Console.WriteLine($"1.{(Dungeonenum)selectedDungeons[0]}으로 진행하기");
-            Console.WriteLine($"2.{(Dungeonenum)selectedDungeons[1]}으로 진행하기");
-            Console.WriteLine($"3.{(Dungeonenum)selectedDungeons[2]}으로 진행하기");
-            Console.WriteLine("");
-            Console.WriteLine("0 - 마을귀환주문서 사용하기");
-            Console.WriteLine(">>");
-
-            int input = int.Parse(Console.ReadLine());
-            switch (input)
-            {
-                case 1:
-                    WarpManager(selectedDungeons[0]);
-                    break;
-                case 2:
-                    WarpManager(selectedDungeons[1]);
-                    break;
-                case 3:
-                    WarpManager(selectedDungeons[2]);
-                    break;
-                case 0:
-                    Console.WriteLine("마을귀환주문서를 사용하였습니다.");
-                    Console.WriteLine("마을로 돌아갑니다.");
-                    Thread.Sleep(1000);
-                    //마을로 돌아가는 메서드
-                    break;
-                default:
-                    Console.WriteLine("입력 오류");
-                    break;
-            }
-
         }
 
         public void WarpManager(int DungeonEnum)//워프 추가 필요 // 일단 몬스터는 완료
         {
             Dungeonenum dungeon = (Dungeonenum)DungeonEnum;
 
-            if(Floor.Instance().floornum % 10 == 0 )//보스 스테이지
+            if (Floor.Instance().nowfloor % 10 == 0)//보스 스테이지
             {
+                Thread.Sleep(1000);
                 Console.WriteLine("앞쪽에서 사악한 기운이 느껴집니다!!");
+                Thread.Sleep(1500);
                 Console.WriteLine("보스 스테이지로 강제로 이동됩니다!!");
 
+
             }
-            else if (Floor.Instance().floornum %10 == 1)//마을
+            else if (Floor.Instance().nowfloor % 10 == 1)//마을
             {
 
             }
@@ -213,10 +199,49 @@ namespace TEXT_RPG
                     Console.Clear();
                     Console.WriteLine($"{dungeon} 층으로 이동합니다.");
                     RestFloor();
+                    Thread.Sleep(500);
+                    Warp();
                 }
             }
+        }
 
-           
+        public void Warp()
+        {
+            DungeonSet();
+
+            Console.WriteLine($"1.{(Dungeonenum)selectedDungeons[0]}으로 진행하기");
+            Console.WriteLine($"2.{(Dungeonenum)selectedDungeons[1]}으로 진행하기");
+            Console.WriteLine($"3.{(Dungeonenum)selectedDungeons[2]}으로 진행하기");
+            Console.WriteLine("");
+            Console.WriteLine("0 - 마을귀환주문서 사용하기");
+            Console.WriteLine(">>");
+
+            Floor.Instance().nowfloor++;
+            Floor.Instance().highfloor01();
+
+            int input = int.Parse(Console.ReadLine());
+            switch (input)
+            {
+                case 1:
+                    WarpManager(selectedDungeons[0]);
+                    break;
+                case 2:
+                    WarpManager(selectedDungeons[1]);
+                    break;
+                case 3:
+                    WarpManager(selectedDungeons[2]);
+                    break;
+                case 0:
+                    Console.WriteLine("마을귀환주문서를 사용하였습니다.");
+                    Console.WriteLine("마을로 돌아갑니다.");
+                    Thread.Sleep(1000);
+                    //마을로 돌아가는 메서드
+                    break;
+                default:
+                    Console.WriteLine("입력 오류");
+                    break;
+            }
+
 
         }
 
@@ -228,17 +253,17 @@ namespace TEXT_RPG
             Console.WriteLine("Victory");
             Console.WriteLine("던전에서 몬스터를 n마리 잡으셨습니다.");
             Console.WriteLine($"LV{player.Level} {player.Name}");
-            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> ({player.CurrentHP})");// 해당 층 입장체력 어캐하지
+            Console.WriteLine($"(플레이어 해당 층 입장체력 ) -> (HP : {player.CurrentHP})");// 해당 층 입장체력 어캐하지
 
             Console.WriteLine("");
-
-            DungeonSet();
-
-            Floor.Instance().floornum++;
+            Warp();
         }
+        public void ChooseNext()
+        {
 
+        }
         // 층이 보스, 마을층이 아닐때만 이렇게, 보스층 , 마을은 별도 추가
-            
+
         public void LoseScene()
         {
             Console.WriteLine("Battle!! - Result");
@@ -257,10 +282,6 @@ namespace TEXT_RPG
         public void chestWarp()
         {
             Console.WriteLine("상자 층 입니다");
-
-
-
-            DungeonSet();
         }
         public void eventWarp()
         {
@@ -269,6 +290,8 @@ namespace TEXT_RPG
         public void restWarp()//완?
         {
             Console.WriteLine("휴식의 층 입니다.");
+
+            RestFloor();
         }
         public void shopWarp()
         {
@@ -277,20 +300,31 @@ namespace TEXT_RPG
         public void weakmobWarp()
         {
             Console.WriteLine("약한 몬스터 층 입니다.");
-          
+            Console.WriteLine($"현재 {Floor.Instance().nowfloor}층 입니다.");
+            Console.WriteLine($"최고층수는 {Floor.Instance().highfloor}층 입니다.");
+            DungeonRun(player);
+
         }
         public void commonmobWarp()
         {
             Console.WriteLine("몬스터 층 입니다.");
+            Console.WriteLine($"현재 {Floor.Instance().nowfloor}층 입니다.");
+            Console.WriteLine($"최고층수는 {Floor.Instance().highfloor}층 입니다.");
+            DungeonRun(player);
 
         }
         public void elitemobWarp()
         {
             Console.WriteLine("엘리트 몬스터 층 입니다.");
-      
+            Console.WriteLine($"현재 {Floor.Instance().nowfloor}층 입니다.");
+            Console.WriteLine($"최고층수는 {Floor.Instance().highfloor}층 입니다.");
+            DungeonRun(player);
+
+
         }
-        public void townWarp()
+        public void townWarp()// 마을은 로비 복사?해서 조금씩 고치면 될거같은데
         {
+            Console.WriteLine($"현재 {Floor.Instance().nowfloor}층 입니다.");
             Console.WriteLine("마을입니다");
         }
         public void RestFloor()
@@ -305,17 +339,21 @@ namespace TEXT_RPG
                 player.CurrentHP += (player.MaxHP -= player.CurrentHP);
                 Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
             }
+
         }
+
         public void BossWarp()
         {
             Console.WriteLine("보스 등장!");
         }
 
-
-
-
-
-
+        public void BackTown()
+        {
+            Console.WriteLine("마을로 귀환합니다.");
+            
+            Floor.Instance().nowfloor = Floor.Instance().nowfloor - (Floor.Instance().nowfloor % 10) + 1;
+            townWarp();
+        }
 
     }
 }

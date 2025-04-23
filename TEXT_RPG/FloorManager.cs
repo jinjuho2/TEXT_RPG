@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using static TEXT_RPG.Dungeon;
 
@@ -9,17 +11,109 @@ namespace TEXT_RPG
 {
     internal class Floor
     {
-
-        public int floornum = 1;
-
-
         private static Floor instance;
+
+        private Floor() { }
         public static Floor Instance()
         {
             if (instance == null)
                 instance = new Floor();
             return instance;
         }
+
+        public int highfloor;//최고층수
+        public int nowfloor;//현재층수
+                            //나우플로어 ++
+                            //if나우플로어>=하이플로어 = 하이 = 나우
+
+        public void highfloor01()
+        {
+            if (highfloor <= nowfloor)
+            {
+                highfloor = nowfloor;
+            }
+        }
+
+        
+class Town : Floor
+        {
+            string townname;
+
+            public void EnterTown()
+            {
+                Console.WriteLine($"현재 {nowfloor}층, {townname} 입니다.");
+                Console.WriteLine("");
+                Console.WriteLine("무엇을 하시겠습니까?");
+                Console.WriteLine("1.상태보기.");
+                Console.WriteLine("2.상점가기");
+                Console.WriteLine("3.퀘스트창 확인하기");
+                Console.WriteLine("4.회복하기");
+                Console.WriteLine("");
+                Console.WriteLine("0.다음층으로 가기");
+
+                int input = int.Parse(Console.ReadLine());
+                switch (input)
+                {
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+                        //Dungeon.Instance().RestFloor();
+
+
+                        break;
+                    case 0:
+                        //Dungeon.Instance().Warp();
+                        break;
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+    }
+}
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         //public void FloorManager()
@@ -85,9 +179,9 @@ namespace TEXT_RPG
 
         //    }
         //}
-    }
+//    }
 
-}
+//}
 
 //public void WarpManager(int DungeonEnum)//던전의 워프매니저 백업용
 //{
