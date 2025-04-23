@@ -11,17 +11,27 @@ namespace TEXT_RPG
         public static List<Armor> Armors = new List<Armor>();
 
         public Armor(string name, string type, float def, float dodge, int hp, int mp,  // 이름 ,타입 ,방어력 ,회피율 ,쳐력 ,마나 ,
-                     int price, int level, bool isHave, bool isEquipped)                //가격,착용레벨,소지 여부, 장착 여부
-            : base(name, type, 0, def, 0, dodge, hp, mp,0,0 ,price, level, isHave, isEquipped)
+                     int price, int level, bool isHave, bool isEquipped,string mainType)                //가격,착용레벨,소지 여부, 장착 여부
+            : base(name, type, 0, def, 0, dodge, hp, mp,0,0 ,price, level, isHave, isEquipped, mainType)
         {
         }
 
         public static void AddDefaultArmors() // 기본 방어구 추가
         {
-            Armors.Add(new Armor("가죽 갑옷", "갑옷", 5, 0.1f, 0, 0, 100, 1, false, false));
-            Armors.Add(new Armor("철 갑옷", "갑옷", 10, 5f, 20, 20, 200, 3, false, false));
-            Armors.Add(new Armor("은 갑옷", "갑옷", 20, 10f, 50, 50, 300, 7, false, false));
-            Armors.Add(new Armor("금 갑옷", "갑옷", 30, 20f, 100, 100, 400, 12, false, false));
+            Armors.Add(new Armor("가죽 갑옷", "Armor", 5, 1f, 0, 0, 100, 1, false, false, "갑옷"));
+            Armors.Add(new Armor("철 갑옷", "Armor", 10, 5f, 20, 20, 1000, 15, false, false,"갑옷"));
+            Armors.Add(new Armor("은 갑옷", "Armor", 15, 10f, 50, 50, 3000, 30, false, false,"갑옷"));
+            Armors.Add(new Armor("금 갑옷", "Armor", 20, 15, 100, 100, 6000, 45, false, false,"갑옷"));
+            Armors.Add(new Armor("가죽 신발", "Armor", 5, 1, 0, 0, 100, 1, false, false,"신발"));
+            Armors.Add(new Armor("철 신발", "Armor", 10, 5, 20, 20, 1000, 15, false, false,"신발"));
+            Armors.Add(new Armor("은 신발", "Armor", 15, 10, 50, 50, 3000, 30, false, false,"신발"));
+            Armors.Add(new Armor("금 신발", "Armor", 20, 15, 100, 100, 6000, 45, false, false,"신발"));
+            Armors.Add(new Armor("가죽 투구", "Armor", 5, 1, 0, 0, 100,1, false, false, "투구"));
+            Armors.Add(new Armor("철 투구", "Armor", 10, 5, 20, 20, 1000, 15, false, false, "투구"));
+            Armors.Add(new Armor("은 투구", "Armor", 15, 10, 50, 50, 3000, 30, false, false, "투구"));
+            Armors.Add(new Armor("금 투구", "Armor", 20, 15, 100, 100, 6000, 45, false, false, "투구"));
+          
+
         }
     }
 }
