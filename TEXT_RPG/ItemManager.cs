@@ -9,8 +9,6 @@ namespace TEXT_RPG
     internal class ItemManager
     {
         public List<Item> items = new List<Item>(); // 아이템 리스트
-        int id;
-        
        
         private static ItemManager instance;
 
@@ -24,7 +22,11 @@ namespace TEXT_RPG
 
         public void InitializeItems()
         {
-            DataManager.Instance().MakeItem(id);
+            int itemCount = DataManager.Instance().GetItemCount();
+            for (int i = 0; i < items.Count; i++)
+            {
+                items.Add(DataManager.Instance().MakeItem(i));
+            }
         }
 
     }

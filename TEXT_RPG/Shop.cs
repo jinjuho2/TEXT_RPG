@@ -20,34 +20,8 @@ namespace TEXT_RPG
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{player.Gold} G");
             Console.WriteLine();
-            Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < shopItems.Count; i++)
-            {
-                var item = shopItems[i];
-                bool result = item.IsHave;
-                string status = result ? "구매 완료" : "가격 : " + item.Price.ToString();
-                string display = "";
-                switch (item.Type)
-                {
-                    case "무기":
-                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | {status,-5}");
-                        Console.WriteLine(display);
-                        break;
-                    case "갑옷":
-                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 회피율: {item.Level,-5} | {status,-5}");
-                        Console.WriteLine(display);
-                        break;
-                    case "HP":
-                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | 가격 : {item.Price,-5}");
-                        Console.WriteLine(display);
-                        break;
-                    case "MP":
-                        display = ($"{i + 1}. {item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
-                        Console.WriteLine(display);
-                        break;
-                }
-
-            }
+            GenerateShopItems(); // 상점 아이템 생성
+            ShowShopItems();
             Console.WriteLine();
             Console.WriteLine("1. 아이템 구매");
             Console.WriteLine("2. 아이템 판매");
@@ -184,15 +158,22 @@ namespace TEXT_RPG
 
         public void GenerateShopItems() // 상점 아이템 생성
         {
-            List<Item> allItems = new List<Item>();
+            List<Item> allItems = ItemManager.Instance().items;
 
-            allItems.AddRange(Weapone.Weapons);
-            allItems.AddRange(Armor.Armors);
-            allItems.AddRange(Potion.Potions);
-
+            Console.WriteLine(allItems.Count);
             Random random = new Random();
 
             shopItems = allItems.OrderBy(x => random.Next()).Take(5).ToList();
+        }
+
+        public void ShowShopItems()
+        {
+            Console.WriteLine("===== 상점 아이템 목록 =====");
+
+            foreach (var item in items)
+            {
+                Console.WriteLine($"[{item.ID}] {item.Name} | 가격: {item.Price}");
+            }
         }
     }
 }

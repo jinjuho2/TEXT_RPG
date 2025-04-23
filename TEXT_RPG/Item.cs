@@ -26,7 +26,8 @@ namespace TEXT_RPG
         public int? RecoverMP { get; set; }
         public string MainType { get; set; } // "weapon", "armor", "accessory" - 메인 무기 타입
 
-       
+        public Item() { } // 기본 생성자
+
         public Item(int id , string name, string type ,float atk, float def, //이름 ,타입 ,공격력 ,방어력 ,
                     float critical,float dodge, int hp, int mp,     //치명타 ,회피율 ,쳐력 ,마나 ,
                     int recoverHP , int recoverMP, int price, int level,
