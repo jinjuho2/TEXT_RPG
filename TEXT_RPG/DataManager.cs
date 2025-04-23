@@ -47,7 +47,10 @@ namespace TEXT_RPG
           j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-           // test();
+
+            items = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
+            j = File.ReadAllText(itemPath);
+            // test();
         }
    
 
@@ -107,7 +110,8 @@ namespace TEXT_RPG
             int recoverMP = Convert.ToInt32(data["recoverMP"]);
             int price = Convert.ToInt32(data["price"]);
             int level = Convert.ToInt32(data["level"]);
-            return new Weapone("나무 지팡이", "무기", 5, 0, 100, 1, false, false);
+            int mainType = Convert.ToInt32(data["mainType"]);
+            return new Weapone("나무 지팡이", "Staff", 5, 0, 100, 1, false, false, "무기");
         }
         public Quest MakeQuest(int i)
         {
