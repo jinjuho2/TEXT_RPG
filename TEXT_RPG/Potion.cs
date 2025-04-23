@@ -12,7 +12,11 @@ namespace TEXT_RPG
     {
         public static List<Potion> Potions = new List<Potion>();
 
+        public Potion(Item item) // 이름 ,타입 ,회복량 ,가격, 소지 여부
+            : base(item.Name, item.Type, 0, 0, 0, 0, 0, 0, item.RecoverHP??0, item.RecoverMP??0, item.Price??0, 0, item.IsHave, false, item.MainType)
+        {
 
+        }
         public Potion(string name, string type, int recoverHp, int recoverMp, int price, bool isHave,string mainType) // 이름 ,타입 ,회복량 ,가격, 소지 여부
             : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false, mainType)
         {
@@ -32,7 +36,7 @@ namespace TEXT_RPG
         {
             if (Type == "HP" && player.CurrentHP < player.MaxHP && IsHave)
             {
-                player.CurrentHP += RecoverHP;
+                player.CurrentHP += RecoverHP?? 0;
                 if (player.CurrentHP > player.MaxHP)
                     player.CurrentHP = player.MaxHP;
 
@@ -40,7 +44,7 @@ namespace TEXT_RPG
             }
             else if (Type == "MP" && player.CurrentMP < player.MaxMP && IsHave)
             {
-                player.CurrentMP += RecoverMP;
+                player.CurrentMP += RecoverMP??0;
                 if (player.CurrentMP > player.MaxMP)
                     player.CurrentMP = player.MaxMP;
 

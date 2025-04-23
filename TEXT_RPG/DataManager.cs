@@ -24,10 +24,10 @@ namespace TEXT_RPG
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
         List<Dictionary<string, object>> jobs;
-        List<Dictionary<string, object>> skills;
-        List<Dictionary<string, object>> monsters;
-        List<Dictionary<string, object>> items;
-        List<Dictionary<string, object>> quest;
+        List<Skill> skills;
+        List<Monster> monsters;
+        List<Item> items;
+        List<Quest> quest;
         //List<string> jobs =new List<string>() { "마법사, 10, 20, 10, 10, 4, skill.StartWizardSkill())", "전사, 10, 20, 10, 10, 5, skill.StartPaladinSkill()",
         //"도적, 10, 20, 10, 10, 8, skill.StartSheepinSkill()","궁수, 10, 20, 10, 10, 7, skill.StartArcherinSkill()","해적, 10, 20, 10, 10, 7, skill.StartPirateinSkill()"};
         private static DataManager instance;
@@ -40,17 +40,19 @@ namespace TEXT_RPG
         public void Init()
         {
             string j = File.ReadAllText(monPath);
-            monsters = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
+            monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
            j = File.ReadAllText(jobPath);
 
             jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
           j = File.ReadAllText(skillPath);
 
-            skills = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-
-            items = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-            j = File.ReadAllText(itemPath);
-            // test();
+            skills = JsonConvert.DeserializeObject<List<Skill>>(j);
+              j = File.ReadAllText(itemPath);
+            j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
+            j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
+            items = JsonConvert.DeserializeObject<List<Item>>(j);
+      
+           
         }
    
 
@@ -62,96 +64,73 @@ namespace TEXT_RPG
             Console.WriteLine(jobs.Count);
             return jobs[i];
         }
-       
+
         public Skill MakeSkill(int i)
         {
-            Dictionary<string, object> sdata=null;
-            foreach (Dictionary<string, object> s in skills)
+            Skill sdata = null;
+            foreach (Skill s in skills)
             {
-                if (Convert.ToInt32(s["ID"])== i)
+                if ((s.ID == i))
                     sdata = s;
             }
-          
-            string name = (string)sdata["Name"];
-            int Id = Convert.ToInt32(sdata["ID"]);
-            TYPE type= (TYPE)Enum.Parse(typeof(TYPE), (string)sdata["Type"]);
-            string description = (string)(sdata["Description"]);
-            int targetNum = Convert.ToInt32(sdata["TargetNum"]);
-            float damage = Convert.ToSingle(sdata["Damage"]);
-            int mPCost = Convert.ToInt32(sdata["MPCost"]);
-            int critical = Convert.ToInt32(sdata["Critical"]);
-           
-            return new Skill(Id,name, description, mPCost, damage, type, targetNum, critical);
-            
 
+
+
+            return sdata;
+        
         }
         public Item MakeItem(int i)
         {
-            Dictionary<string, object> data = null;
-            foreach (Dictionary<string, object> s in items)
+            Item data = null;
+            foreach (Item s in items)
             {
-                if (Convert.ToInt32(s["ID"]) == i)
+                if (s.ID == i)
                     data = s;
             }
-            
-            string name = (string)data["Name"];
-            string type = (string)data["Type"];
-            if (type == "무기")
+            Console.WriteLine(data.Name);
+            if (data.MainType == "무기")
             {
-                //이런식으로 분기
+                Console.WriteLine("확인");
+                return new Weapone(data);
             }
-            float atk =Convert.ToSingle(data["atk"]);
-            float def = Convert.ToSingle(data["def"]);
-            float critical = Convert.ToSingle(data["cri"]);
-            float dodge = Convert.ToSingle(data["dodge"]);
-            int hp =Convert.ToInt32(data["hp"]);
-            int mp = Convert.ToInt32(data["mp"]);
-            int recoverHP = Convert.ToInt32(data["recoverHP"]);
-            int recoverMP = Convert.ToInt32(data["recoverMP"]);
-            int price = Convert.ToInt32(data["price"]);
-            int level = Convert.ToInt32(data["level"]);
-            int mainType = Convert.ToInt32(data["mainType"]);
-            return new Weapone("나무 지팡이", "Staff", 5, 0, 100, 1, false, false, "무기");
+            if (data.MainType == "갑옷")
+            {
+                return new Armor(data);
+            }
+            if (data.MainType == "악세서리")
+            {
+                return new Acessory(data);   
+            }
+            if (data.MainType == "포션")
+            {
+                return new Potion(data);
+            }
+
+            return null;
         }
         public Quest MakeQuest(int i)
         {
-            Dictionary<string, object> data = null;
-            foreach (Dictionary<string, object> s in quest)
+            Quest data = null;
+            foreach (Quest s in quest)
             {
-                if (Convert.ToInt32(s["ID"]) == i)
+                if (s.ID == i)
                     data = s;
             }
 
-
-            string Title = (string)data["Name"];
-            string Etc = (string)data["etc"];
-            int TargetCount = Convert.ToInt32(data["TargetCount"]);
-            int TargetID = Convert.ToInt32(data["TargetID"]);
-            QuestType type = (QuestType)Enum.Parse(typeof(QuestType), (string)data["Type"]);
-            return new Quest (Title, Etc, TargetCount,TargetID,type );
+            return data;
            
         }
 
         public Monster makeMonster(int i)
         {
-            Dictionary<string, object> data = null;
-            foreach (Dictionary<string, object> s in monsters)
+            Monster data = null;
+            foreach (Monster s in monsters)
             {
-                if (Convert.ToInt32(s["ID"]) == i)
+                if (s.ID == i)
                     data = s;
             }
-            string name = (string)data["Name"];
-            int Id = Convert.ToInt32(data["ID"]);
-            int lv = Convert.ToInt32(data["LV"]);
-            int speed = Convert.ToInt32(data["Speed"]);
-            int hp= Convert.ToInt32(data["hp"]);
-            TYPE weak = (TYPE)Enum.Parse(typeof(TYPE), (string)data["Type"]);
-            float atk = Convert.ToSingle(data["atk"]);
-            float def = Convert.ToSingle(data["def"]);
-            int exp = Convert.ToInt32(data["exp"]);
-            int gold = Convert.ToInt32(data["gold"]);
-         
-            return new Monster(Id, name,lv,weak, atk, def, speed, hp, exp, gold);
+            data.Init();
+            return data;
 
 
         }

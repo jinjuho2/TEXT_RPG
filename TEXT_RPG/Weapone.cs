@@ -15,6 +15,10 @@ namespace TEXT_RPG
             : base(name, type, atk, 0, critical, 0, 0, 0,0,0, price, level, isHave, isEquipped ,mainType)
         {
         }
+        public Weapone(Item item)  //가격,착용레벨,소지 여부, 장착 여부
+           : base(item.Name, item.Type, item.Atk??0, 0, item.Critical??0, 0, 0, 0, 0, 0, item.Price ?? 0, item.Level ?? 0, item.IsHave, item.IsEquipped, item.MainType)
+        {
+        }
 
         public static void AddDefaultWeapons() // 기본 무기 추가
         {

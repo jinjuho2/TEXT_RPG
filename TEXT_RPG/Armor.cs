@@ -15,6 +15,11 @@ namespace TEXT_RPG
             : base(name, type, 0, def, 0, dodge, hp, mp,0,0 ,price, level, isHave, isEquipped, mainType)
         {
         }
+        public Armor(Item item)                //가격,착용레벨,소지 여부, 장착 여부
+           : base(item.Name, item.Type, 0, item.Def??0, 0, item.Dodge??0,item.HP??0, item.MP??0, 0, 0, item.Price ?? 0, item.Level ?? 0, item.IsHave, item.IsEquipped, item.MainType)
+        {
+        }
+        
 
         public static void AddDefaultArmors() // 기본 방어구 추가
         {

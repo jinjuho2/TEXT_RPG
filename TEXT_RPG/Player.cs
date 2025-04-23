@@ -16,8 +16,8 @@ namespace TEXT_RPG
         public Job Job { get; set; } // 플레이어 직업
 
 
-        public float TotalAttack => Attack + CalculateEquippedBonuses().Attack; //최종 공격력
-        public float TotalDefense => Defense + CalculateEquippedBonuses().Defense; //최종 방어력
+        public float TotalAttack => ATK + CalculateEquippedBonuses().Attack; //최종 공격력
+        public float TotalDefense => DEF + CalculateEquippedBonuses().Defense; //최종 방어력
 
         public int TotalMaxHP => MaxHP + CalculateEquippedBonuses().MaxHP; //최종 최대 체력
         public int MaxHP { get; set; } // 기본 최대 체력
@@ -39,8 +39,8 @@ namespace TEXT_RPG
             CurrentHP = MaxHP;
             MaxMP = Convert.ToInt32(data["MaxMP"]);
             CurrentMP = MaxMP;
-            Attack = Convert.ToSingle(data["Attack"]);
-            Defense = Convert.ToSingle(data["Defense"]);
+            ATK = Convert.ToSingle(data["Attack"]);
+            DEF = Convert.ToSingle(data["Defense"]);
             Speed = Convert.ToInt32(data["Speed"]);
             WeakType = TYPE.Dark;
             string skiD = (string)data["skill"];
@@ -72,20 +72,20 @@ namespace TEXT_RPG
                 switch (item.Type)
                 {
                     case "weapon":
-                        bonus.Attack += item.Atk;
-                        bonus.Critical += item.Critical;
+                        bonus.Attack += item.Atk ?? 0f;
+                        bonus.Critical += item.Critical ?? 0f;
                         break;
                     case "armor":
-                        bonus.Defense += item.Def;
-                        bonus.Evasion += item.Dodge;
-                        bonus.MaxHP += item.HP;
-                        bonus.MaxMP += item.MP;
+                        bonus.Defense += item.Def ?? 0f;
+                        bonus.Evasion += item.Dodge ?? 0f;
+                        bonus.MaxHP += item.HP ?? 0;
+                        bonus.MaxMP += item.MP ?? 0;
                         break;
                     default:
-                        bonus.Evasion += item.Dodge;
-                        bonus.Critical += item.Critical;
-                        bonus.MaxHP += item.HP;
-                        bonus.MaxMP += item.MP;
+                        bonus.Evasion += item.Dodge ?? 0f;
+                        bonus.Critical += item.Critical ?? 0f;
+                        bonus.MaxHP += item.HP ?? 0;
+                        bonus.MaxMP += item.MP ?? 0;
                         break;
                 }
             }
@@ -106,8 +106,8 @@ namespace TEXT_RPG
         public void LevelUp() //플레이어 레벨업
         {
             Level++;
-            Attack += 1;
-            Defense += 1;
+            ATK += 1;
+            DEF += 1;
             MaxHP += 1;
             MaxMP += 1;
             CurrentHP = TotalMaxHP;

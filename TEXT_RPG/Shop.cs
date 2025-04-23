@@ -115,7 +115,7 @@ namespace TEXT_RPG
                 {
                     selectedItem.IsHave = true;
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
-                    player.Gold -= selectedItem.Price;
+                    player.Gold -= selectedItem.Price??0;
                     Thread.Sleep(1000);
                 }
 
