@@ -13,14 +13,16 @@ using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
-    enum Job{ 마법사,전사,도적,궁수,해적
-        }
+    enum Job
+    {
+        마법사, 전사, 도적, 궁수, 해적
+    }
 
     internal class DataManager
     {
         string monPath = @"Data\monster.json";
         string skillPath = @"Data\skill.json";
-        string  jobPath = @"Data\job.json";
+        string jobPath = @"Data\job.json";
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
         List<Dictionary<string, object>> jobs;
@@ -55,7 +57,7 @@ namespace TEXT_RPG
             quest = JsonConvert.DeserializeObject<List<Quest>>(j);
 
         }
-   
+
 
 
 
@@ -78,7 +80,7 @@ namespace TEXT_RPG
 
 
             return sdata;
-        
+
         }
         public Item MakeItem(int i)
         {
@@ -98,7 +100,7 @@ namespace TEXT_RPG
             }
             if (data.MainType == "악세서리")
             {
-                return new Acessory(data);   
+                return new Acessory(data);
             }
             if (data.MainType == "포션")
             {
@@ -117,7 +119,7 @@ namespace TEXT_RPG
             }
 
             return data;
-           
+
         }
 
         public Monster makeMonster(int i)
