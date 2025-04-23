@@ -395,16 +395,15 @@ namespace TEXT_RPG
                 }
             }
         }
-        public void DeadCheck(int id)
+        public void DeadCheck(int id)                                                                       //몬스터가 죽었을때 호출
         {
-            Console.WriteLine($"DeadCheck 실행{Quests.Count}");
+
             foreach (Quest quest in Quests)
             {
-                Console.WriteLine($"Debug: id = {id}, TargetID = {quest.TargetID}, Equal = {quest.TargetID == id}");
-                if (quest.TargetID == id)
+                if (quest.TargetID == id && quest.IsActive == true)                                        //퀘스트의 타겟id와 같고 그 퀘스트가 진행중(수락상태)일때
                 {
                     quest.CurrentCount++;
-                    Console.WriteLine($"{quest.Title} 진행도 상승");
+                    Console.WriteLine($"[Quest] {quest.Title} 진행도 상승 {quest.CurrentCount} / {quest.TargetCount}");
                     Thread.Sleep(1000);
                 }
             }
@@ -412,11 +411,8 @@ namespace TEXT_RPG
         }
 
         
-        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크 , 몬스터 id
+        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크
         {
-            Console.WriteLine($"{Quests.Count}개");
-            Thread.Sleep(1000);
-
             foreach (Quest quest in Quests)
             {
                 if (!quest.IsActive || quest.IsClear)
