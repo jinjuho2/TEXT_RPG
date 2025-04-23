@@ -41,18 +41,19 @@ namespace TEXT_RPG
         {
             string j = File.ReadAllText(monPath);
             monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
-           j = File.ReadAllText(jobPath);
+                    j = File.ReadAllText(jobPath);
 
             jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-          j = File.ReadAllText(skillPath);
+               j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Skill>>(j);
-              j = File.ReadAllText(itemPath);
-            j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
-            j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
+                 j = File.ReadAllText(itemPath);
+                 j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
+                 j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
             items = JsonConvert.DeserializeObject<List<Item>>(j);
-      
-           
+            
+
+
         }
    
 
@@ -87,10 +88,8 @@ namespace TEXT_RPG
                 if (s.ID == i)
                     data = s;
             }
-            Console.WriteLine(data.Name);
             if (data.MainType == "무기")
             {
-                Console.WriteLine("확인");
                 return new Weapone(data);
             }
             if (data.MainType == "갑옷")
