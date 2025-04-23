@@ -10,8 +10,7 @@ namespace TEXT_RPG
 {
     internal class Potion : Item
     {
-        public static List<Potion> Potions = new List<Potion>();
-
+       
         public Potion(Item item) // 이름 ,타입 ,회복량 ,가격, 소지 여부
             : base(item.ID, item.Name, item.Type, 0, 0, 0, 0, 0, 0, item.RecoverHP??0, item.RecoverMP??0, item.Price??0, 0, item.IsHave, false, item.MainType)
         {

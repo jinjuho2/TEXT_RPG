@@ -22,8 +22,9 @@ namespace TEXT_RPG
 
         public void InitializeItems()
         {
-            int itemCount = DataManager.Instance().GetItemCount();
-            for (int i = 0; i < items.Count; i++)
+            int itemsCount = DataManager.Instance().GetItemCount();
+
+            for (int i = 1; i < itemsCount + 1; i++)
             {
                 items.Add(DataManager.Instance().MakeItem(i));
             }

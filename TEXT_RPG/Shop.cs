@@ -20,7 +20,6 @@ namespace TEXT_RPG
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{player.Gold} G");
             Console.WriteLine();
-            GenerateShopItems(); // 상점 아이템 생성
             ShowShopItems();
             Console.WriteLine();
             Console.WriteLine("1. 아이템 구매");
@@ -160,7 +159,7 @@ namespace TEXT_RPG
         {
             List<Item> allItems = ItemManager.Instance().items;
 
-            Console.WriteLine(allItems.Count);
+            
             Random random = new Random();
 
             shopItems = allItems.OrderBy(x => random.Next()).Take(5).ToList();
@@ -170,9 +169,9 @@ namespace TEXT_RPG
         {
             Console.WriteLine("===== 상점 아이템 목록 =====");
 
-            foreach (var item in items)
+            foreach (var item in shopItems)
             {
-                Console.WriteLine($"[{item.ID}] {item.Name} | 가격: {item.Price}");
+                Console.WriteLine($"{item.Name} | 가격: {item.Price}");
             }
         }
     }
