@@ -137,6 +137,11 @@ namespace TEXT_RPG
 
 
         }
+        public int GetItemCount()
+        {
+            return items.Count;
+        }
+
 
 
 
