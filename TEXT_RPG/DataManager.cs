@@ -125,6 +125,7 @@ namespace TEXT_RPG
             string Etc = (string)data["etc"];
             int TargetCount = Convert.ToInt32(data["TargetCount"]);
             int TargetID = Convert.ToInt32(data["TargetID"]);
+            int Gold= Convert.ToInt32(data["Gold"]);
             QuestType type = (QuestType)Enum.Parse(typeof(QuestType), (string)data["Type"]);
             return new Quest (Title, Etc, TargetCount,TargetID,type );
            

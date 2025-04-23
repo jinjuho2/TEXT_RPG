@@ -30,7 +30,9 @@ namespace TEXT_RPG
         public void QuestInit()
         {
             //AddQuest();
-            DataManager.Instance().MakeQuest(1);
+            Quests.Add(DataManager.Instance().MakeQuest(1));
+
+           
             AddAchieve();
             bool isRunning = true;
             while (isRunning)
@@ -67,6 +69,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 Console.WriteLine("-퀘스트창-\n");
+
                 ShowQuest(0);
                 Console.WriteLine("원하시는 퀘스트를 선택해주세요 \n0.나가기");
                 string? input = Console.ReadLine();
