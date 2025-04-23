@@ -1,0 +1,52 @@
+[
+  {
+    "ID": 1,
+    "Name": "전사",
+    "MaxHP": 50,
+    "MaxMP": 20,
+    "Attack": 10,
+    "Defense": 10,
+    "Speed": 5,
+    "skill": "1,2,3,4"
+  },
+  {
+    "ID": 2,
+    "Name": "궁수",
+    "MaxHP": 50,
+    "MaxMP": 20,
+    "Attack": 10,
+    "Defense": 10,
+    "Speed": 7,
+    "skill": "1,2,3,4"
+  },
+  {
+    "ID": 3,
+    "Name": "마법사",
+    "MaxHP": 50,
+    "MaxMP": 20,
+    "Attack": 10,
+    "Defense": 10,
+    "Speed": 4,
+    "skill": "1,2,3,4"
+  },
+  {
+    "ID": 4,
+    "Name": "도적",
+    "MaxHP": 50,
+    "MaxMP": 20,
+    "Attack": 10,
+    "Defense": 10,
+    "Speed": 8,
+    "skill": "1,2,3,4"
+  },
+  {
+    "ID": 5,
+    "Name": "해적",
+    "MaxHP": 50,
+    "MaxMP": 20,
+    "Attack": 10,
+    "Defense": 10,
+    "Speed": 7,
+    "skill": "1,2,3,4"
+  }
+]

@@ -11,20 +11,20 @@ namespace TEXT_RPG
 {
     internal class BattleManager
     {
-        List<string> monsterInfo = new List<string> { "1,슬라임,1,Normal,10,5,3,30,30,10", "2,빅슬라임,1,Dark,10,5,3,30,30,10" };
+        //List<string> monsterInfo = new List<string> { "1,슬라임,1,Normal,10,5,3,30,30,10", "2,빅슬라임,1,Dark,10,5,3,30,30,10" };
 
 
         List<Monster> nowMonsters;
- 
+        Player player;
         int turn = 0;
         bool playerTurn=false;
         int monsterCount;
         int OriginHP;
         int pTurn;
         int mTurn;
-        public bool Battle()
+        public bool Battle(Player player)
         {
-            Init();
+            Init(player);
 
             for (int i = 0; i < nowMonsters.Count; i++)
             {
@@ -32,12 +32,12 @@ namespace TEXT_RPG
             }
             Console.WriteLine();
 
-            Player.Instance.ShowStat();
+            player.ShowStat();
             Console.WriteLine("전투 개시");
 
           
 
-            while (Player.Instance.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
+            while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
             {
                 if (playerTurn)
                 {
@@ -50,8 +50,9 @@ namespace TEXT_RPG
                     
                     monsterTurn();
                 }
+                Console.WriteLine(nowMonsters.Count(m => (m.IsAlive)));
             }
-            if (Player.Instance.IsAlive) {
+            if (player.IsAlive) {
                 return true;
             }
             return false;
@@ -68,30 +69,22 @@ namespace TEXT_RPG
             Console.WriteLine("WIN");
             Console.WriteLine($"몬스터 {nowMonsters.Count} 해결");
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{Player.Instance.Level} {Player.Instance.Name}");
-            Console.WriteLine($"HP {Player.Instance.CurrentHP}/{Player.Instance.MaxHP}");
+            Console.WriteLine($"Lv.{player.Level} {player.Name}");
+            Console.WriteLine($"HP {player.CurrentHP}/{player.MaxHP}");
             Console.WriteLine($"{gold}원 획득");
             Console.WriteLine("획득");
         }
-        bool setMonster(int i)
-        {
-            i--;
-            if (i < 0 || i >=monsterInfo.Count)
-                return false;
-            string[] x = monsterInfo[i].Split(',');
-            nowMonsters.Add(new Monster(int.Parse(x[0]), x[1],int.Parse( x[2]), (TYPE)Enum.Parse(typeof(TYPE), x[3]), float.Parse(x[4]), 
-                float.Parse(x[5]), int.Parse(x[6]), int.Parse(x[7]), int.Parse(x[8]), int.Parse(x[9])));
-            return true;
-        }
-        private void Init()
+      
+        private void Init(Player _player)
         {
              nowMonsters= new List<Monster>();
-            
-            setMonster(1);
-            setMonster(2);
-
+            player = _player;
+            nowMonsters.Add(DataManager.Instance().makeMonster(1));
+            nowMonsters[nowMonsters.Count-1].skills.Add(DataManager.Instance().MakeSkill(1));
+            nowMonsters.Add(DataManager.Instance().makeMonster(2));
+            nowMonsters[nowMonsters.Count - 1].skills.Add(DataManager.Instance().MakeSkill(1));
             monsterCount = 0;
-            int Pspeed = Player.Instance.Speed;
+            int Pspeed = player.Speed;
             int Espeed = 0;
             foreach (Monster m in nowMonsters)
             {
@@ -112,14 +105,14 @@ namespace TEXT_RPG
             {
                 pTurn--;
                 Console.WriteLine("Battle");
-                Player.Instance.IsWeak = false;
+                player.IsWeak = false;
                 int input;
                 for (int i = 0; i < nowMonsters.Count; i++)
                 {
                     nowMonsters[i].ShowSimple();
                 }
                 Console.WriteLine();
-                Player.Instance.ShowStat();
+                player.ShowStat();
 
 
                 Console.WriteLine("1. 공격");
@@ -152,14 +145,16 @@ namespace TEXT_RPG
             }
             Console.WriteLine();
 
-            Player.Instance.ShowStat();
+            player.ShowStat();
             Console.WriteLine("대상을 선택해주세요.");
             while (!int.TryParse(Console.ReadLine(), out input) || input < 1 || input > nowMonsters.Count
                 || !nowMonsters[input - 1].IsAlive)
             {
                 Console.WriteLine("입력 오류");
             }
-            Attack(true, nowMonsters[input-1]);
+            Skill a = player.UseSkill();
+
+            Attack(player, nowMonsters[input-1],a);
             playerTurn = false;
             Console.WriteLine("0. 다음");
             while (!int.TryParse(Console.ReadLine(), out input))
@@ -169,78 +164,45 @@ namespace TEXT_RPG
            
             return input;
         }
-        void Attack(bool x,Unit b) //true: 플레이어가 공격 false: 적이 공격...  
+        void Attack(Unit a,Unit b,Skill s) //true: 플레이어가 공격 false: 적이 공격...  
         {
-            if (x) {
+           
                 Random random = new Random();
-                if (random.Next(0, 100) < 10)
+                if (random.Next(0, 100) < a.Evasion)
                 {
-                    Console.WriteLine($"{Player.Instance.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
+                    Console.WriteLine($"{a.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
                     return;
 
                 }
-                Console.Write($"{Player.Instance.Name} 이(가)  {b.Name}을(를) 공격");
+                Console.Write($"{a.Name} 이(가)  {b.Name}을(를) 공격");
 
-                AttackData ad = Player.Instance.AttackM();
-                if (ad.IsCr)
-                    Console.WriteLine("-치명타!");
+           
+                if (random.Next(0,100)>s.Critical)
+                    Console.Write("-치명타!");
 
                 Console.WriteLine();
-                float calAtk = ad.Damage;
-                if (ad.Type == b.WeakType)
+                float calAtk = s.Damage;
+                if (s.Type == b.WeakType)
                 {
                     Console.WriteLine("약점!");
                     calAtk *= 1.6f;
                     Console.WriteLine($"{b.Name}은(는) {(int)calAtk} 데미지를 입었다");
-                    if (!b.IsWeak)
-                    {
-                        b.IsWeak = true;
-                        if (b is Monster)
-                            pTurn++;
-                        if (b is Unit)
-                            mTurn++;
-                        Console.WriteLine("한번 더");
-                    }
+                if (!b.IsWeak)
+                {
+                    b.IsWeak = true;
+                    if (b is Monster)
+                        pTurn++;
+                    if (b is Player)
+                        mTurn++;
+                    Console.WriteLine("한번 더");
+                }
 
                 }
                 else
-                    Console.WriteLine($"{b.Name}은(는) {(int)calAtk} 데미지를 입었다");
+                Console.WriteLine($"{b.Name}은(는) {(int)calAtk} 데미지를 입었다");
                 b.TakeDamage((int)calAtk);
-            }
-            else
-            {
-                Random random = new Random();
-                if (random.Next(0, 100) < 10)
-                {
-                    Console.WriteLine($"{b.Name}이(가) {Player.Instance.Name}을(를) 공격했지만 회피!");
-                    return;
 
-                }
-                Console.Write($"{b.Name} 이(가)  {Player.Instance.Name}을(를) 공격");
 
-                AttackData ad = b.AttackM();
-                if (ad.IsCr)
-                    Console.WriteLine("-치명타!");
-
-                Console.WriteLine();
-                float calAtk = ad.Damage;
-                if (ad.Type == Player.Instance.WeakType)
-                {
-                    Console.WriteLine("약점!");
-                    calAtk *= 1.6f;
-                    Console.WriteLine($"{Player.Instance.Name}은(는) {(int)calAtk} 데미지를 입었다");
-                    if (!Player.Instance.IsWeak)
-                    {
-                        Player.Instance.IsWeak = true;
-                            mTurn++;
-                        Console.WriteLine("한번 더");
-                    }
-
-                }
-                else
-                    Console.WriteLine($"{Player.Instance.Name}은(는) {(int)calAtk} 데미지를 입었다");
-                Player.Instance.TakeDamage((int)calAtk);
-            }
         }
         void OnMonsterDefeated(Monster monster)
         {
@@ -263,9 +225,9 @@ namespace TEXT_RPG
                     i = 0;
                 if (!nowMonsters[i].IsAlive)
                     continue;
-                
-                 Attack(false,nowMonsters[i]);
-                if(!Player.Instance.IsAlive)
+
+                Attack(nowMonsters[i], player, nowMonsters[i].skills[0]);
+                if(!player.IsAlive)
                     break;
                 nowMonsters[i].IsWeak = false;
 

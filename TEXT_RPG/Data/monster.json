@@ -1,0 +1,26 @@
+[
+  {
+    "ID": 1,
+    "Name": "슬라임",
+    "LV": 1,
+    "hp": 20,
+    "Type": "Normal",
+    "atk": 5,
+    "def": 3,
+    "Speed": 3,
+    "exp": 10,
+    "gold": 5
+  },
+  {
+    "ID": 2,
+    "Name": "주황 버섯",
+    "LV": 1,
+    "hp": 30,
+    "Type": "Dark",
+    "atk": 3,
+    "def": 2,
+    "Speed": 2,
+    "exp": 10,
+    "gold": 8
+  }
+]

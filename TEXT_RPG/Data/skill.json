@@ -1,0 +1,42 @@
+[
+  {
+    "ID": 1,
+    "Name": "매직 미사일",
+    "Description": "기본 마법 공격이다",
+    "MPCost": 0,
+    "Damage": 12,
+    "Type": "Normal",
+    "TargetNum": 1,
+    "Critical": 5
+  },
+  {
+    "ID": 2,
+    "Name": "파이어 볼트",
+    "Description": "불 속성 초고열 단일 공격이다",
+    "MPCost": 25,
+    "Damage": 30,
+    "Type": "Fire",
+    "TargetNum": 1,
+    "Critical": 10
+  },
+  {
+    "ID": 3,
+    "Name": "라이트닝 체인",
+    "Description": "번개가 최대 3명의 적을 관통한다",
+    "MPCost": 30,
+    "Damage": 18,
+    "Type": "Light",
+    "TargetNum": 3,
+    "Critical": 8
+  },
+  {
+    "ID": 4,
+    "Name": "블리자드",
+    "Description": "얼음 파편을 광범위로 발사한다",
+    "MPCost": 35,
+    "Damage": 15,
+    "Type": "Water",
+    "TargetNum": 5,
+    "Critical": 10
+  }
+]
