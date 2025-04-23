@@ -82,7 +82,6 @@ namespace TEXT_RPG
             {
                 case 1: BuyItem(); break;
                 case 2: SellItem(); break;
-                case 0: GameManager.Instance().Run(); break;
             }
 
 
@@ -181,7 +180,7 @@ namespace TEXT_RPG
             while (true)
             {
                 Console.Clear();
-                var ownedItems = ItemManager.Instance().items.Where(item => item.IsHave).ToList();
+                var ownedItems = ItemManager.Instance().items.Where(x => x.IsHave).ToList();
 
                 if (ownedItems.Count == 0)
                 {

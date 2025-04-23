@@ -4,15 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
     internal class GameManager
     {
+        public int playerLevel = 2;
+        public int currentStage = 11;
+        public int monsterKill = 5;
+        public int currentEquip = 3;                 //이상 4개 변수는 퀘스트매니저에서 쓰는 임시변수
 
         Dungeon d;
         QuestManager qm;
-        Inven iv = new Inven();
+        Inven iv;
         Shop shop = new Shop();
         public static GameManager instance;
         public static GameManager Instance()
@@ -24,19 +29,15 @@ namespace TEXT_RPG
         public void Init()
         {
             d = new Dungeon();
-            qm = new QuestManager();
-            ItemManager.InitializIeItem(); // 아이템 초기화
-            Player.Instance.Name = "임시 주인공";
-            Player.Instance.MaxHP = 100;
-            Player.Instance.CurrentHP = 100;
-            Player.Instance.Attack = 10;
-            Player.Instance.Speed = 10;
-            Player.Instance.Gold = 5000;
-            Player.Instance.WeakType=TYPE.Dark;
-            iv=new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
+            qm = new QuestManager(this);
+            
+            iv = new Inven(); //여기서 인벤에 아이템 추가하고 확인 가능.
+            MakeName();
+            
         }
-        public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
+        public void MakeName() //이름생성
         {
+                Console.WriteLine("이름을 입력해주세요");
             while (true)
             {
                 
@@ -94,11 +95,18 @@ namespace TEXT_RPG
 
         }
 
+       
+
+        
+
+       
+
+        //정해진 정답 외에 쳐내는 메서드
         public static int GetValidInput(List<int> validOptions)
         {
             while (true)
             {
-                Console.Write("\n원하시는 행동을 입력해주세요.\n>> ");
+                Console.Write("\n원하시는 행동을 입력해주세요.\n>>");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out int selectedOption))
@@ -108,8 +116,11 @@ namespace TEXT_RPG
                         return selectedOption;
                     }
                 }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
+                }
 
-                Console.WriteLine("잘못된 입력입니다. 다시 입력해주세요.");
             }
         }
     }

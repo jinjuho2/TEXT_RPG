@@ -71,8 +71,11 @@ namespace TEXT_RPG
           }
             else Console.WriteLine($"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}");
         }
+        private GameManager gameManager;
+        
         private void Dead() {
             Console.WriteLine($"{Name} 기절");
+            gameManager.monsterKill++;
         }
 
     }
