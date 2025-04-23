@@ -22,14 +22,14 @@ namespace TEXT_RPG
             Armors.Add(new Armor("철 갑옷", "Armor", 10, 5f, 20, 20, 1000, 15, false, false,"갑옷"));
             Armors.Add(new Armor("은 갑옷", "Armor", 15, 10f, 50, 50, 3000, 30, false, false,"갑옷"));
             Armors.Add(new Armor("금 갑옷", "Armor", 20, 15, 100, 100, 6000, 45, false, false,"갑옷"));
-            Armors.Add(new Armor("가죽 신발", "Armor", 5, 1, 0, 0, 100, 1, false, false,"신발"));
-            Armors.Add(new Armor("철 신발", "Armor", 10, 5, 20, 20, 1000, 15, false, false,"신발"));
-            Armors.Add(new Armor("은 신발", "Armor", 15, 10, 50, 50, 3000, 30, false, false,"신발"));
-            Armors.Add(new Armor("금 신발", "Armor", 20, 15, 100, 100, 6000, 45, false, false,"신발"));
-            Armors.Add(new Armor("가죽 투구", "Armor", 5, 1, 0, 0, 100,1, false, false, "투구"));
-            Armors.Add(new Armor("철 투구", "Armor", 10, 5, 20, 20, 1000, 15, false, false, "투구"));
-            Armors.Add(new Armor("은 투구", "Armor", 15, 10, 50, 50, 3000, 30, false, false, "투구"));
-            Armors.Add(new Armor("금 투구", "Armor", 20, 15, 100, 100, 6000, 45, false, false, "투구"));
+            Armors.Add(new Armor("가죽 신발", "Shoes", 5, 1, 0, 0, 100, 1, false, false, "갑옷"));
+            Armors.Add(new Armor("철 신발", "Shoes", 10, 5, 20, 20, 1000, 15, false, false, "갑옷"));
+            Armors.Add(new Armor("은 신발", "Shoes", 15, 10, 50, 50, 3000, 30, false, false, "갑옷"));
+            Armors.Add(new Armor("금 신발", "Shoes", 20, 15, 100, 100, 6000, 45, false, false, "갑옷"));
+            Armors.Add(new Armor("가죽 투구", "Helmet", 5, 1, 0, 0, 100,1, false, false, "갑옷"));
+            Armors.Add(new Armor("철 투구", "Helmet", 10, 5, 20, 20, 1000, 15, false, false, "갑옷"));
+            Armors.Add(new Armor("은 투구", "Helmet", 15, 10, 50, 50, 3000, 30, false, false, "갑옷"));
+            Armors.Add(new Armor("금 투구", "Helmet", 20, 15, 100, 100, 6000, 45, false, false, "갑옷"));
           
 
         }

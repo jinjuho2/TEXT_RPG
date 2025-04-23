@@ -70,7 +70,7 @@ namespace TEXT_RPG
                         case "HP":
                             display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} ");
                             Console.WriteLine(display);
-                            break;
+                            break;                                                                                              
                         case "MP":
                             display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} ");
                             Console.WriteLine(display);
