@@ -43,15 +43,15 @@ namespace TEXT_RPG
         {
             string j = File.ReadAllText(monPath);
             monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
-                    j = File.ReadAllText(jobPath);
+           j = File.ReadAllText(jobPath);
 
             jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
-               j = File.ReadAllText(skillPath);
+          j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Skill>>(j);
-                 j = File.ReadAllText(itemPath);
-                 j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
-                 j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
+              j = File.ReadAllText(itemPath);
+            j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
+            j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
             items = JsonConvert.DeserializeObject<List<Item>>(j);
             j  = File.ReadAllText(QuestPath);
             quest = JsonConvert.DeserializeObject<List<Quest>>(j);
@@ -109,13 +109,24 @@ namespace TEXT_RPG
 
             return null;
         }
-        public Quest MakeQuest(int i)
+        //public Quest MakeQuest(int level)
+        //{
+        //    Quest data = null;
+        //    foreach (Quest s in quest)
+        //    {
+        //        if (s.Level == level)
+        //            data = s;
+        //    }
+        //    return data;
+
+        //}
+        public List<Quest> FindQuest(int level)
         {
-            Quest data = null;
+            List<Quest> data = new List<Quest>();
             foreach (Quest s in quest)
             {
-                if (s.ID == i)
-                    data = s;
+                if (s.Level == level)
+                    data.Add(s);
             }
 
             return data;
@@ -135,11 +146,11 @@ namespace TEXT_RPG
 
 
         }
-
         public int GetItemCount()
         {
             return items.Count;
         }
+
 
 
 
