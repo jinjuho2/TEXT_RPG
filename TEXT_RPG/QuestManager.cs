@@ -258,9 +258,22 @@ namespace TEXT_RPG
             while (isRunning)
             {
                 Console.Clear();
-                if(Achieves[index].IsClear == false) Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
-                Console.ResetColor();
+                if (Achieves[index].IsClear == false && Achieves[index].IsVisible == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                    Console.ResetColor();
+                }
+                else if(Achieves[index].IsVisible == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"??? \n\n??? ??? / ??? \n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                }
                 if (Achieves[index].IsClear == true && Achieves[index].IsReward == false) Console.WriteLine("1. 보상받기 \n");                              //업적달성시 보상받기 텍스트보임
                 Console.WriteLine("0. 돌아가기 \n");
                 int input = int.Parse(Console.ReadLine());
@@ -277,7 +290,7 @@ namespace TEXT_RPG
                             Achieves[index].IsReward = true;
                             Console.WriteLine("보상을 받았습니다.");
                         }
-                        else
+                        else 
                         {
                             Console.WriteLine("올바른 입력이 아닙니다.");
                         }
@@ -381,17 +394,28 @@ namespace TEXT_RPG
             int counter = index >= 0 ? index : -1;
             foreach (Quest achieve in Achieves)
             {
+                string questNum = counter >= 0 ? $"{counter + 1}." : "";
                 if (achieve.IsVisible == true)                                                  
                 {
-                    string questNum = counter >= 0 ? $"{counter + 1}." : "";
-                    if (achieve.IsClear == false)
+                    
+                    if (achieve.IsClear == false)                                  //클리어 안했을시
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
+                        Console.ResetColor();
                     }
-                    Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
-                    Console.ResetColor();
-                    counter++;
+                    else
+                    {
+                        Console.WriteLine($"{questNum}. {achieve.Title} - 완료 ");
+                    }
                 }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{questNum}. ???");
+                    Console.ResetColor();
+                }
+                counter++;
             }
         }
         public void DeadCheck(int id)                                                                       //몬스터가 죽었을때 호출
@@ -479,7 +503,7 @@ namespace TEXT_RPG
                     //player 골드 , 경험치 대량증가
                 }
             }
-            else if(Quests.Type == QuestType.Hidden)
+            else if(Quests.Type == QuestType.Hidden && Quests.IsClear == false)
             {
                 
                 Quests.IsClear = true;
