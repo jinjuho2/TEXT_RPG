@@ -1,53 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Spectre.Console;
 
 namespace TEXT_RPG
 {
     internal class DungeonManager
     {
-        private List<int> selectedDungeons = new List<int>();
-        private Player player;
-        private Dungeon dungeon;
-        public enum DungeonType
-        {
-            상자방 = 1,
-            상점,
-            약한몬스터,
-            약한몬스터1,
-            약한몬스터2,
-            약한몬스터3,
-            일반몬스터,
-            일반몬스터1,
-            일반몬스터2,
-            일반몬스터3,
-            일반몬스터4,
-            엘리트몬스터,
-            엘리트몬스터1,
-            이벤트,
-            휴식
-        }
-        public void StartDungeon(Player _player)
-        {
-            player = _player;
-            Warp();
-        }
-        private void SetRandomDungeons()
-        {
-            Random random = new Random();
-            selectedDungeons = Enumerable.Range(1, 15)
-                                         .OrderBy(x => random.Next())
-                                         .Take(3)
-                                         .ToList();
-        }
-        
-        public void Warp()
-        {
+        public int Floor = 0;
 
-            dungeon = new Dungeon();
+        Dungeon dungeon;
+        Player player;
+
+        public void StartDungoen(Player player)
+        {
+            Console.WriteLine("던전에 입장하였습니다.");
+            bool isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(Floor));
+            if (isWin)
+            {
+
+                Floor++;
+                
 
             SetRandomDungeons();
 
@@ -57,8 +35,8 @@ namespace TEXT_RPG
             Console.WriteLine("0 - 마을귀환주문서 사용");
             Console.Write(">> ");
 
-            //Floor.Instance().nowFloor++;
-            //Floor.Instance().CheckHighFloor();
+            Floor.Instance().nowFloor++;
+            Floor.Instance().CheckHighFloor();
 
             string inputStr = Console.ReadLine();
             if (int.TryParse(inputStr, out int input))
@@ -86,135 +64,81 @@ namespace TEXT_RPG
             }
             else
             {
-                Console.WriteLine("숫자를 입력해 주세요");
+                
             }
         }
 
-        private void HandleDungeon(int dungeonCode)
+        public bool DungeonRun(int floor)//던전을 한번 실행한다
         {
-            DungeonType type = (DungeonType)dungeonCode;
-            Floor.Instance().nowFloor++;
-            Floor.Instance().CheckHighFloor();
-            Console.Clear();
-            Console.WriteLine($"{type} 층으로 이동합니다.");
-            Console.WriteLine($"현재 {Floor.Instance().nowFloor}입니다");
-            switch (type)
+            dungeon = new Dungeon();
+            Random rnd = new Random();
+            int dungeonNum = rnd.Next(1, 100);
+            bool isWin;
+
+            if (dungeonNum >= 0 && dungeonNum < 45)//전투방
             {
-                case DungeonType.상자방:
-                    Console.WriteLine("상자 층 입니다.");
-                    break;
-                case DungeonType.상점:
-                    Console.WriteLine("상점 층 입니다.");
-                    break;
-                case DungeonType.이벤트:
-                    Console.WriteLine("이벤트 층 입니다.");
-                    break;
-                case DungeonType.휴식:
-                    RestFloor();
-                    Warp();
-                    break;
-                case DungeonType.약한몬스터:
-                case DungeonType.약한몬스터1:
-                case DungeonType.약한몬스터2:
-                case DungeonType.약한몬스터3:
-                case DungeonType.일반몬스터:
-                case DungeonType.일반몬스터1:
-                case DungeonType.일반몬스터2:
-                case DungeonType.일반몬스터3:
-                case DungeonType.일반몬스터4:
-                case DungeonType.엘리트몬스터:
-                case DungeonType.엘리트몬스터1:
-                    Console.WriteLine($"{type} 몬스터 층 입니다.");
-                    dungeon.DungeonRun(player, this);
-                    break;
-                default:
-                    Console.WriteLine("미지의 층입니다.");
-                    break;
+                isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(floor));
+
             }
-        }
-
-        public void RestFloor()
-        {
-            if (player.CurrentHP >= player.MaxHP / 2)
+            else if(dungeonNum>=45 && dungeonNum < 75)//이벤트방?
             {
-                player.CurrentHP += player.MaxHP / 2;
+                dungeon.GOEventF(player);
+                return true;
             }
-            else
+            else if(dungeonNum >= 75 && dungeonNum <90 )//휴식방
             {
-                player.CurrentHP += (player.MaxHP - player.CurrentHP);
+                dungeon.GoRestF(player);
+                return true;
             }
-            Console.WriteLine("휴식을 취했습니다.");
-        }
-
-        public void TownWarp()
-        {
-            Console.WriteLine("마을입니다.");
-            Floor.Instance().nowFloor = 0;
-            // TODO: 마을 UI 처리
-        }
-    }
-    internal class Floor
-    {
-        private static Floor instance;
-
-        private Floor() { }
-        public static Floor Instance()
-        {
-            if (instance == null)
-                instance = new Floor();
-            return instance;
-        }
-
-        public int highFloor;//최고층수
-        public int nowFloor;//현재층수
-                            //나우플로어 ++
-                            //if나우플로어>=하이플로어 = 하이 = 나우
-
-        public void CheckHighFloor()
-        {
-            if (highFloor <= nowFloor)
+            else //보상방
             {
-                highFloor = nowFloor;
+                dungeon.GORewardF(player);
+                return true;
             }
+            return isWin;
         }
-        class Town : Floor
-            {
-                string townname;
+        public void ChoiceDungeon()//선택지를 3개주어지게 하는 메서드
+        {
 
-                public void EnterTown()
+            Random rnd = new Random();
+            int dungeonNum = rnd.Next(1, 100);
+            string[] arr = new string [3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                string message;
+                if (dungeonNum >= 0 && dungeonNum < 45)//전투방
                 {
-                    Console.WriteLine($"현재 {nowFloor}층, {townname} 입니다.");
-                    Console.WriteLine("");
-                    Console.WriteLine("무엇을 하시겠습니까?");
-                    Console.WriteLine("1.상태보기.");
-                    Console.WriteLine("2.상점가기");
-                    Console.WriteLine("3.퀘스트창 확인하기");
-                    Console.WriteLine("4.회복하기");
-                    Console.WriteLine("");
-                    Console.WriteLine("0.다음층으로 가기");
-
-                    int input = int.Parse(Console.ReadLine());
-                    switch (input)
-                    {
-                        case 1:
-
-                            break;
-                        case 2:
-
-                            break;
-                        case 3:
-
-                            break;
-                        case 4:
-                        //RestFloor();
-                        break;
-                        case 0:
-                            //Warp();
-                            break;
-                    }
+                    Console.WriteLine("전투방 입니다.");
+                    message = "전투방";
+                    
                 }
+                else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
+                {
+                    Console.WriteLine("이벤트방 입니다.");
+                    message = "이벤트방";
+                }
+                else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
+                {
+                    Console.WriteLine("휴식방 입니다.");
+                    message = "휴식방";
+                }
+                else //보상방
+                {
+                    Console.WriteLine("보상방입니다");
+                    message = "보상방";
+                }
+               arr[i] = message;
+            }
+            foreach (string str in arr)
+            {
+                Console.WriteLine(str);
             }
         }
-    }
 
+
+
+
+    }
+}
 

@@ -9,232 +9,187 @@ using static TEXT_RPG.DungeonManager;
 
 namespace TEXT_RPG
 {
+    class Dungeon
+    {
+        public int MonsterCount { get; set; }
 
+        Monster monster;
+        BattleManager battleManager = new BattleManager();
 
-
-        internal class Dungeon
+        public List<Monster> GetMonsterList(int nowFloor)//층수에 맞는 몬스터 리스트 생성
         {
-            Player player;
-            BattleManager bm;
-
-            public void DungeonRun(Player _player, DungeonManager manager)
+            List<Monster> list = new List<Monster>();
+            list.Add(DataManager.Instance().makeMonster(1));
+            Random random = new Random();
+            int monsterCounts = random.Next(1, 4);
+            int monsterID;
+            if( nowFloor >=1 &&  nowFloor < 10 )
             {
-                player = _player;
-                bm = new BattleManager();
-                bool isEnd = false;
-
-                isEnd = false;
-                while (!isEnd)
-                {                          //이 안에 던전의 문구를 넣으시면 됩니다.
-                    bool isWin = bm.Battle(player); //배틀매니저의 실행입니다. 여기에 특정값(ex: 몬스터들,방 특성)들을 넣어주시면 됩니다.
-                                                    //또한 배틀씬을 보고 싶지 않은 경우 bm.Battle을 보고 싶은 값으로 변경해주세요 (ex: 승리시 true 패배시 false)
-                    if (isWin) //승리시 true 패배시 false. 만약 도주나 다른 값을 넣고 싶으면 말씀해주세요 enum등으로 변경하면 됩니다.
-                    {
-                        isEnd = true;
-                        VictoryScene(manager);
-                        //승리시... 기타등등
-                    }
-                    else
-                    {
-                        isEnd = true;
-                        LoseScene();
-                    }
+                for (int i = 0; i < monsterCounts; i++)
+                {
+                    monsterID = random.Next( 1, 3 );
+                    list.Add(DataManager.Instance().makeMonster(monsterID));
                 }
-
             }
-
-            private void VictoryScene(DungeonManager manager)
+            else if (nowFloor >= 11 && nowFloor <= 20)
             {
-                Console.WriteLine("Victory!");
-                Console.WriteLine($"{player.Name} | HP: {player.CurrentHP}");
-                manager.Warp();
+                for (int i = 0; i < monsterCounts; i++)
+                {
+                    monsterID = random.Next(4, 6);
+                    list.Add(DataManager.Instance().makeMonster(monsterID));
+                }
             }
-
-            private void LoseScene()
+            else if (nowFloor >= 21 && nowFloor <= 30)
             {
-                Console.WriteLine("You Lose!");
-                Console.WriteLine("사망하셨습니다.");
-                Console.WriteLine("0. 처음으로 돌아가기");
+                for (int i = 0; i < monsterCounts; i++)
+                {
+                    monsterID = random.Next(7, 9);
+                    list.Add(DataManager.Instance().makeMonster(monsterID));
+                }
+            }
+            else if (nowFloor >= 31 && nowFloor <= 40)
+            {
+                for (int i = 0; i < monsterCounts; i++)
+                {
+                    monsterID = random.Next(10, 12);
+                    list.Add(DataManager.Instance().makeMonster(monsterID));
+                }
+            }
+            else if (nowFloor >= 41 && nowFloor <= 50)
+            {
+                for (int i = 0; i < monsterCounts; i++)
+                {
+                    monsterID = random.Next(13, 15);
+                    list.Add(DataManager.Instance().makeMonster(monsterID));
+                }
+            }
+           return list;
+        }
+        public Monster GetBossMonsterList(int nowFloor)
+        { 
+            int monsterID;
+            if (nowFloor == 10)
+            {
+                monsterID = 16;
+                monster = DataManager.Instance().makeMonster(monsterID);
+            }
+            else if (nowFloor == 20)
+            {
+                monsterID = 17;
+                monster = DataManager.Instance().makeMonster(monsterID);
+            }
+            else if (nowFloor == 30)
+            {
+                monsterID = 18;
+                monster = DataManager.Instance().makeMonster(monsterID);
+            }
+            else if (nowFloor ==40)
+            {
+                monsterID = 19;
+                monster = DataManager.Instance().makeMonster(monsterID);
+            }
+            else if (nowFloor == 50)
+            {
+                monsterID = 20;
+                monster = DataManager.Instance().makeMonster(monsterID);
+            }
+            return monster;
+        }
+        public void GOEventF(Player player)//이벤트방
+        {
+            Console.WriteLine("이벤트 던전 입장");
+            DungeonEvent dungeonEvent = new DungeonEvent();
+            Random random = new Random();
+            int Num = random.Next(0,5);
+            switch(Num)
+            {
+                case 0:
+                    dungeonEvent.TrainingF();
+                    break;
+                case 1:
+                    dungeonEvent.AlterF();
+                    break;
+                case 2:
+                    dungeonEvent.MysteryMerchant();
+                    break;
+                case 3:
+                    dungeonEvent.StatBoost();
+                    break;
+                case 4:
+                    dungeonEvent.NothingF();
+                    break;
             }
         }
+        public void GoRestF(Player player)//휴식층. 쉼터 아님 주의
+        {
+            Console.WriteLine("휴식층 입장");
+            Random random = new Random();
+            int fHeal = random.Next(20, 50);
 
+            if (player.TotalMaxHP > player.CurrentHP + (player.TotalMaxHP / 100 * fHeal))// 최대체력이 회복될 체력보다 클때
+            {
+                player.CurrentHP = player.CurrentHP + (player.TotalMaxHP / 100 * fHeal);
+                Console.WriteLine($"충분한 휴식을 취해 체력이 {fHeal}%만큼 회복되었습니다.");
+            }
+            else
+            {
+                player.CurrentHP = player.TotalMaxHP;
+                Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+
+                player.CurrentHP = player.TotalMaxHP;
+            }
+        }
+        public bool GOBossF(Player player, List<Monster> list)//보스방
+        {
+            Console.WriteLine("보스방 입장");
+            bool Win = battleManager.Battle(player);
+            if (Win)
+            {
+                Console.WriteLine("보상줌");
+                VictoryScene(player);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("패배");
+                LoseScene(player);
+                return false;
+            }
+        }
+        public void GORewardF(Player player)//보상방
+        {
+            Console.WriteLine("보상방 입장");
+            ItemManager itemManager = new ItemManager();
+            Random random = new Random();
+            int itemNum = random.Next(0,itemManager.items.Count);
+            Item gift = itemManager.items[itemNum];
+
+            player.GetItem(gift);
+        }
+        public bool GoBattletF(Player player, List<Monster> list)
+        {
+            Console.WriteLine("던전 입장");
+            bool Win = battleManager.Battle(player, list);
+            if (Win)
+            {   
+                Console.WriteLine("보상줌");
+                VictoryScene(player);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("패배");
+                LoseScene(player);
+                return false;
+            }
+
+        }
+        public void GoSaveF(Player player)//쉼터 = n1층 n은 1~4
+        {
+            Console.WriteLine("쉼터입니다");
+            player.CurrentHP = player.TotalMaxHP;
+            Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+
+        }
     }
-
-    //interface IDungeonFloor
-    //{
-    //    void Enter(Player player, DungeonManager manager);
-    //}
-    //class BattleFloor : IDungeonFloor
-    //{
-    //    public void Enter(Player player, DungeonManager manager)
-    //    {
-    //        Console.WriteLine("전투 층입니다!");
-    //        BattleManager bm = new BattleManager();
-    //        bool isWin = bm.Battle(player);
-
-//        if (isWin)
-//        {
-//            Console.WriteLine("Victory!");
-//            Console.WriteLine($"{player.Name} | HP: {player.CurrentHP}");
-//            manager.Warp();
-//        }
-//        else
-//        {
-//            Console.WriteLine("You Lose...");
-//            Console.WriteLine("게임 오버");
-//            // 필요 시 메인화면으로 돌아가는 로직 추가
-//        }
-//    }
-//}
-
-//    class EventFloor : IDungeonFloor
-//    {
-//        public void Enter(Player player, DungeonManager manager)
-//        {
-//            Console.WriteLine("이벤트 층에 도착했습니다!");
-//            Console.WriteLine("낡은 상자가 있습니다. 열겠습니까?");
-//            Console.WriteLine("1. 연다   2. 그냥 간다");
-
-//            int choice = int.Parse(Console.ReadLine());
-
-//            if (choice == 1)
-//            {
-//                Random rand = new Random();
-//                if (rand.Next(2) == 0)
-//                {
-//                    Console.WriteLine("상자 안에서 골드를 발견했습니다! +100G");
-//                    player.Gold += 100;
-//                }
-//                else
-//                {
-//                    Console.WriteLine("함정이 터졌습니다! HP -20");
-//                    player.CurrentHP -= 20;
-//                }
-//            }
-//            else
-//            {
-//                Console.WriteLine("무사히 지나갑니다.");
-//            }
-
-//            manager.Warp();
-//        }
-//    }
-
-//    // 보상층
-//    class RewardFloor : IDungeonFloor
-//    {
-//        public void Enter(Player player, DungeonManager manager)
-//        {
-//            Console.WriteLine("보상 층입니다!");
-
-
-//            manager.Warp();
-//        }
-//    }
-
-//    // 쉼터층
-//    class RestFloor : IDungeonFloor
-//    {
-//        public void Enter(Player player, DungeonManager manager)
-//        {
-//            Console.WriteLine("쉼터에 도착했습니다. 체력을 회복합니다!");
-//            player.CurrentHP = player.MaxHP;
-
-//            manager.Warp();
-//        }
-//    }
-
-//    // 보스층 (옵션)
-//    class BossFloor : IDungeonFloor
-//    {
-//        public void Enter(Player player, DungeonManager manager)
-//        {
-//            Console.WriteLine("보스가 등장했습니다!!");
-//            BattleManager bm = new BattleManager();
-//            bool isWin = bm.Battle(player, isBoss: true);
-
-//            if (isWin)
-//            {
-//                Console.WriteLine("보스를 처치했습니다!");
-//                manager.Warp();
-//            }
-//            else
-//            {
-//                Console.WriteLine("보스에게 패배했습니다...");
-//            }
-//        }
-//    }
-
-//    // 마을층 (옵션)
-//    class TownFloor : IDungeonFloor
-//    {
-//        public void Enter(Player player, DungeonManager manager)
-//        {
-//            Console.WriteLine("당신은 마을에 도착했습니다.");
-//            Console.WriteLine("1. 회복하기\n2. 상점 가기\n3. 다음 층으로 진행");
-
-//            int input = int.Parse(Console.ReadLine());
-//            switch (input)
-//            {
-//                case 1:
-//                    player.CurrentHP = player.MaxHP;
-//                    Console.WriteLine("회복되었습니다!");
-//                    break;
-//                case 2:
-//                    Console.WriteLine("상점은 아직 구현 중입니다.");
-//                    break;
-//                case 3:
-//                    manager.Warp();
-//                    break;
-//            }
-//        }
-//    }
-//}
-
-
-
-
-
-
-//    private void VictoryScene(DungeonManager manager)
-//        {
-//            Console.WriteLine("Victory!");
-//            Console.WriteLine($"{player.Name} | HP: {player.CurrentHP}");
-//            manager.Warp();
-//        }
-
-//        private void LoseScene()
-//        {
-//            Console.WriteLine("You Lose!");
-//            Console.WriteLine("사망하셨습니다.");
-//            Console.WriteLine("0. 처음으로 돌아가기");
-//        }
-//    }
-
-
-//}
-//public void DungeonRun(Player _player, DungeonManager manager)
-//{
-//    player = _player;
-//    bm = new BattleManager();
-//    bool isEnd = false;
-
-//    isEnd = false;
-//    while (!isEnd)
-//    {                          //이 안에 던전의 문구를 넣으시면 됩니다.
-//        bool isWin = bm.Battle(player); //배틀매니저의 실행입니다. 여기에 특정값(ex: 몬스터들,방 특성)들을 넣어주시면 됩니다.
-//                                        //또한 배틀씬을 보고 싶지 않은 경우 bm.Battle을 보고 싶은 값으로 변경해주세요 (ex: 승리시 true 패배시 false)
-//        if (isWin) //승리시 true 패배시 false. 만약 도주나 다른 값을 넣고 싶으면 말씀해주세요 enum등으로 변경하면 됩니다.
-//        {
-//            isEnd = true;
-//            VictoryScene(manager);
-//            //승리시... 기타등등
-//        }
-//        else
-//        {
-//            isEnd = true;
-//            LoseScene();
-//        }
-//    }
-
-//}
+}
