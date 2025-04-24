@@ -43,16 +43,13 @@ namespace TEXT_RPG
 
         public void InitBattleScene(List<Monster> mons,string room,Player player,string a)
         {
-           // AnsiConsole.Clear();
+            AnsiConsole.Clear();
             var layout = CreateBattleLayout(EnemyPanel(mons),RoomPanel(room),INFOPanel(player),OrderPanel(),DiagLog(a));
             AnsiConsole.Write(layout);
             //Console.ReadKey(true);
 
         }
-        public void test()
-        {
-            AnsiConsole.Write("fdsfd");
-        }
+        
         public void UpdateBattleScene()
         {
            
@@ -64,9 +61,9 @@ namespace TEXT_RPG
 
             layout.SplitRows(
                 new Layout("RoomInfo").Size(3),
-                new Layout("Middle").SplitColumns(
-                        new Layout("RightRight").Size(3),
-                    new Layout("MonInfo")),
+                new Layout("Middle").SplitColumns(                      
+                    new Layout("MonInfo").Ratio(3), 
+                    new Layout("RightRight").Ratio(1)),
                 new Layout("Bottom")
                     .SplitColumns(
                         new Layout("OrderInfo"),
@@ -78,7 +75,7 @@ namespace TEXT_RPG
                 Order);
 
             layout["DataInfo"].Update(
-               info);
+             info);
 
             layout["RightRight"].Update(
                 dialog);
@@ -92,7 +89,7 @@ namespace TEXT_RPG
         {
             return new Panel(new Text(a).Centered())
                      .Expand()
-                     .BorderColor(Color.Yellow)
+                     .BorderColor(Color.Red)
                      .Padding(0, 0);
         }
         static Panel EnemyPanel(List<Monster> mons)
@@ -119,7 +116,7 @@ namespace TEXT_RPG
         {
 
 
-            return new Panel($"{player.Name}({player.Job.ToString()}) HP: {player.CurrentHP}/{player.MaxHP} 마나: {player.CurrentMP}/{player.MaxMP} ")
+            return new Panel($"\n{player.Name}({player.Job.ToString()}) HP: {player.CurrentHP}/{player.MaxHP} 마나: {player.CurrentMP}/{player.MaxMP} ")
                      .Expand()
                      .Padding(0, 0);
         }
@@ -127,7 +124,7 @@ namespace TEXT_RPG
         {
 
 
-            return new Panel(" 1. 공격\n 2. 아이템")
+            return new Panel("\n 1. 공격\n\n 2. 아이템")
                      .Expand()
                      .Padding(0, 0);
         }

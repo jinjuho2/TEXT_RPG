@@ -35,9 +35,9 @@ namespace TEXT_RPG
             Console.WriteLine("전투 개시");
             //Console.Clear();
             AnsiConsole.Write("fdsfd");
-            SceneManager.Instance().test();
+            
 
-            //SceneManager.Instance().InitBattleScene(nowMonsters, "1번 방", player, "시작");
+            SceneManager.Instance().InitBattleScene(nowMonsters, "1번 방", player, "시작");
             Console.WriteLine("전투 개시");
 
             while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
