@@ -1,5 +1,5 @@
 [
-  {
+ {
     "ID": 1,
     "Name": "나무 스태프",
     "Type": "Staff",
@@ -11,7 +11,7 @@
     "MP": "",
     "Price": 100,
     "Level": 1,
-    "IsHave": "",
+   "IsHave": "",
     "IsEquipped": "",
     "RecoverHP": "",
     "RecoverMP": "",

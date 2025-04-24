@@ -26,6 +26,7 @@ namespace TEXT_RPG
         }
 
         private Dungeon dungeon;
+        private DungeonManager dungeonManager; // 추가
         private QuestManager questManager;
         private Inven inven;
         private Shop shop;
@@ -35,6 +36,7 @@ namespace TEXT_RPG
         {
             ItemManager.Instance().InitializeItems();
             dungeon = new Dungeon();
+            dungeonManager = new DungeonManager();//추가
             questManager = new QuestManager();
             inven = new Inven();
             shop = new Shop();
@@ -139,7 +141,8 @@ namespace TEXT_RPG
                         QuestManager.Instance().QuestInit(); // 퀘스트 매니저 기능 실행
                         break;
                     case 2:
-                        dungeon.DungeonRun(player); // 던전 매니저 기능 실행
+                        //dungeon.DungeonRun(player, dungeonManager); // 던전 매니저 기능 실행
+                        dungeonManager.StartDungeon(player); //교체?
                         break;
                     case 3:
                         inven.ShowInventory(player); //인벤 확인
