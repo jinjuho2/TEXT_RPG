@@ -16,7 +16,8 @@ namespace TEXT_RPG
                 instance = new SceneManager();
             return instance;
         }
-   
+        Layout battlelayout;
+        
         
         private Layout InvenLayout()
         {
@@ -44,22 +45,64 @@ namespace TEXT_RPG
         public void InitBattleScene(List<Monster> mons,string room,Player player,string a)
         {
             AnsiConsole.Clear();
-            var layout = CreateBattleLayout(EnemyPanel(mons),RoomPanel(room),INFOPanel(player),OrderPanel(),DiagLog(a));
-            AnsiConsole.Write(layout);
+            CreateBattleLayout(EnemyPanel(mons),RoomPanel(room),INFOPanel(player),DiagLog(a));
+            AnsiConsole.Write(battlelayout);
             //Console.ReadKey(true);
 
         }
         
-        public void UpdateBattleScene()
+        public void UpdateBattleScene(Player player)
         {
-           
+            
+        }
+        public int UpdatePlayerScene(List<string> menu)
+        {
+            int index = 1;
+            ConsoleKeyInfo key;
+            bool isEnd = false;
+            while (!isEnd)
+            {
+                string a="\n";
+                for(int i=0;i<menu.Count; i++)
+                {
+                    if (i + 1 == index)
+                        a += ("[bold]-> "+i+": " + menu[i] + "[/]\n\n");
+                    else
+                        a += (i + ": " + menu[i]+"\n\n");
+                }
+                battlelayout["OrderInfo"].Update(
+                new Panel(a)
+                   .Expand()
+                   .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(battlelayout);
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        index++;
+                    break;
+
+                    case ConsoleKey.DownArrow:
+                        index--;
+                    break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                } 
+                if(index<1)
+                    index=menu.Count;
+                if(index>menu.Count)
+                    index=1;
+            }
+            return index;
         }
 
-        private  Layout CreateBattleLayout(Panel Mon, Panel room, Panel info, Panel Order,Panel dialog)
+        private  void CreateBattleLayout(Panel Mon, Panel room, Panel info, Panel dialog)
         {
-            var layout = new Layout();
+            battlelayout = new Layout();
 
-            layout.SplitRows(
+            battlelayout.SplitRows(
                 new Layout("RoomInfo").Size(3),
                 new Layout("Middle").SplitColumns(                      
                     new Layout("MonInfo").Ratio(3), 
@@ -69,21 +112,23 @@ namespace TEXT_RPG
                         new Layout("OrderInfo"),
                         new Layout("DataInfo").Ratio(2))
                 );
-            layout["RoomInfo"].Update(
+            battlelayout["RoomInfo"].Update(
                 room);
-            layout["OrderInfo"].Update(
-                Order);
+            battlelayout["OrderInfo"].Update(
+                new Panel("")
+                     .Expand()
+                     .Padding(0, 0));
 
-            layout["DataInfo"].Update(
+            battlelayout["DataInfo"].Update(
              info);
 
-            layout["RightRight"].Update(
+            battlelayout["RightRight"].Update(
                 dialog);
 
-            layout["MonInfo"].Update(
+            battlelayout["MonInfo"].Update(
             Mon);
 
-            return layout;
+         
         }
         static Panel DiagLog(string a)
         {
@@ -120,13 +165,6 @@ namespace TEXT_RPG
                      .Expand()
                      .Padding(0, 0);
         }
-        static Panel OrderPanel()
-        {
-
-
-            return new Panel("\n 1. 공격\n\n 2. 아이템")
-                     .Expand()
-                     .Padding(0, 0);
-        }
+      
     }
 }
