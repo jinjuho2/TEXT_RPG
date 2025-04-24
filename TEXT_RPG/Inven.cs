@@ -1,5 +1,5 @@
-﻿﻿using System;
-﻿using Spectre.Console;
+﻿using System;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +63,7 @@ namespace TEXT_RPG
                     {
 
                         case "무기":
-                            display = ($"{result}{i+1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | 가격 : {item.Price}");
+                            display = ($"{result}{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | 가격 : {item.Price}");
                             Console.WriteLine(display);
                             break;
                         case "갑옷":
@@ -96,7 +96,7 @@ namespace TEXT_RPG
                 
                 if (selectedItem.IsEquipped)
                 {
-                    
+
                     selectedItem.IsEquipped = false;
                     
                     
@@ -125,7 +125,16 @@ namespace TEXT_RPG
                 {
                     foreach (var item in ownedItems)
                     {
-                        if (selectedItem.MainType == item.MainType && item.IsEquipped)
+                        if (selectedItem.MainType == "갑옷")
+                        {
+                            if (item.Type == selectedItem.Type && item.IsEquipped)
+                            {
+                                item.IsEquipped = false;
+                                Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
+                            }
+                            
+                        }
+                        else if (selectedItem.MainType == item.MainType && item.IsEquipped && selectedItem.MainType != "갑옷")
                         {
                             item.IsEquipped = false;
                             if (nullableLevel.HasValue)
