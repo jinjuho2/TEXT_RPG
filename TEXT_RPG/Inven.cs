@@ -122,13 +122,12 @@ namespace TEXT_RPG
                                 UpdateEquipCount(item.Level, -1);
                                 Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
                             }
-                            
+
                         }
                         else if (selectedItem.MainType == item.MainType && item.IsEquipped && selectedItem.MainType != "갑옷")
                         {
                             item.IsEquipped = false;
                             UpdateEquipCount(item.Level, -1);
-                        }
                             Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
                         }
                     }
@@ -141,6 +140,7 @@ namespace TEXT_RPG
 
 
             }
+        }
         
         void UpdateEquipCount(int? level, int delta)
         {
