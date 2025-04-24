@@ -13,6 +13,8 @@ namespace TEXT_RPG
 
         public void ShowMenu(Player player)
         {
+            player.Gold += 10000;
+            player.Level = 45;
             Console.Clear();
             Console.WriteLine("상점");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
