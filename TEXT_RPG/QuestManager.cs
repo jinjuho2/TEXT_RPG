@@ -300,8 +300,9 @@ namespace TEXT_RPG
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
             {
+                int currentQuestsCount = Quests.Count;
                 Quests.AddRange(DataManager.Instance().FindQuest(2));
-                Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
+                Console.WriteLine($"퀘스트 {Quests.Count - currentQuestsCount}개 추가");
                 Thread.Sleep(1000);
                 addQuest_2 = true;
             }
@@ -322,7 +323,7 @@ namespace TEXT_RPG
 
         public void ShowQuest(int index = -1)                                          //퀘스트 목록 보이기,index 매개변수 0으로 호출시 퀘스트넘버 보임
         {
-            int level = GameManager.Instance().currentStage / 10;
+            int level = GameManager.Instance().playerLevel;
             int counter = index >= 0 ? index : -1;
             foreach (Quest quest in Quests)
             {

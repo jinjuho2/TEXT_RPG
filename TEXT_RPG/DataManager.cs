@@ -90,10 +90,8 @@ namespace TEXT_RPG
                 if (s.ID == i)
                     data = s;
             }
-            Console.WriteLine(data.Name);
             if (data.MainType == "무기")
             {
-                Console.WriteLine("확인");
                 return new Weapone(data);
             }
             if (data.MainType == "갑옷")

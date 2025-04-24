@@ -1,202 +1,42 @@
 [
-    {
-        "ID": 1,
-        "Name": "매직 미사일",
-        "Description": "기본 마법 공격이다",
-        "MPCost": 0,
-        "Damage": 1.0,
-        "Type": "Normal",
-        "TargetNum": 1,
-        "Critical": 5
-    },
-    {
-        "ID": 2,
-        "Name": "파이어 볼트",
-        "Description": "불 속성의 강력한 단일 공격을 한다",
-        "MPCost": 15,
-        "Damage": 2.2,
-        "Type": "Fire",
-        "TargetNum": 1,
-        "Critical": 10
-    },
-    {
-        "ID": 3,
-        "Name": "라이트닝 체인",
-        "Description": "번개가 여러 적을 관통한다",
-        "MPCost": 20,
-        "Damage": 1.5,
-        "Type": "Light",
-        "TargetNum": 3,
-        "Critical": 8
-    },
-    {
-        "ID": 4,
-        "Name": "아이스 니들",
-        "Description": "얼음을 날려 공격한다",
-        "MPCost": 10,
-        "Damage": 1.4,
-        "Type": "Water",
-        "TargetNum": 1,
-        "Critical": 6
-    },
-    {
-        "ID": 5,
-        "Name": "발동 격참",
-        "Description": "기본 물리 공격을 한다",
-        "MPCost": 0,
-        "Damage": 1.2,
-        "Type": "Normal",
-        "TargetNum": 1,
-        "Critical": 15
-    },
-    {
-        "ID": 6,
-        "Name": "휠윈드",
-        "Description": "회전하며 범위 공격을 한다",
-        "MPCost": 10,
-        "Damage": 1.5,
-        "Type": "Normal",
-        "TargetNum": 3,
-        "Critical": 10
-    },
-    {
-        "ID": 7,
-        "Name": "디바인 스매시",
-        "Description": "빛 속성의 강타를 가한다",
-        "MPCost": 15,
-        "Damage": 2.5,
-        "Type": "Light",
-        "TargetNum": 1,
-        "Critical": 20
-    },
-    {
-        "ID": 8,
-        "Name": "어스 브레이커",
-        "Description": "땅을 내리쳐 공격한다",
-        "MPCost": 20,
-        "Damage": 2.0,
-        "Type": "Grass",
-        "TargetNum": 2,
-        "Critical": 8
-    },
-    {
-        "ID": 9,
-        "Name": "쌍검 연타",
-        "Description": "쌍검으로 빠르게 두 번 공격한다",
-        "MPCost": 0,
-        "Damage": 0.7,
-        "Type": "Normal",
-        "TargetNum": 1,
-        "Critical": 30
-    },
-    {
-        "ID": 10,
-        "Name": "암습",
-        "Description": "은신 상태에서 강하게 찌른다",
-        "MPCost": 15,
-        "Damage": 3.0,
-        "Type": "Dark",
-        "TargetNum": 1,
-        "Critical": 40
-    },
-    {
-        "ID": 11,
-        "Name": "독살",
-        "Description": "단검으로 날카롭게 찌른다",
-        "MPCost": 10,
-        "Damage": 1.2,
-        "Type": "Grass",
-        "TargetNum": 1,
-        "Critical": 25
-    },
-    {
-        "ID": 12,
-        "Name": "스모크 봄",
-        "Description": "연막을 터뜨리며 공격한다",
-        "MPCost": 10,
-        "Damage": 1.0,
-        "Type": "Dark",
-        "TargetNum": 2,
-        "Critical": 12
-    },
-    {
-        "ID": 13,
-        "Name": "정밀 사격",
-        "Description": "정확하게 조준하여 공격한다",
-        "MPCost": 0,
-        "Damage": 1.1,
-        "Type": "Normal",
-        "TargetNum": 1,
-        "Critical": 20
-    },
-    {
-        "ID": 14,
-        "Name": "애로우 레인",
-        "Description": "많은 화살을 쏘아 퍼붓는다",
-        "MPCost": 15,
-        "Damage": 1.3,
-        "Type": "Normal",
-        "TargetNum": 4,
-        "Critical": 15
-    },
-    {
-        "ID": 15,
-        "Name": "피어싱 애로우",
-        "Description": "화살이 적을 관통한다",
-        "MPCost": 20,
-        "Damage": 1.7,
-        "Type": "Normal",
-        "TargetNum": 2,
-        "Critical": 10
-    },
-    {
-        "ID": 16,
-        "Name": "바람 화살",
-        "Description": "바람을 실은 화살을 날린다",
-        "MPCost": 10,
-        "Damage": 1.4,
-        "Type": "Grass",
-        "TargetNum": 1,
-        "Critical": 12
-    },
-    {
-        "ID": 17,
-        "Name": "훅 샷",
-        "Description": "갈고리를 던져 공격한다",
-        "MPCost": 0,
-        "Damage": 1.3,
-        "Type": "Normal",
-        "TargetNum": 1,
-        "Critical": 10
-    },
-    {
-        "ID": 18,
-        "Name": "캐논 발사",
-        "Description": "불안정하지만 강력한 대포를 발사한다",
-        "MPCost": 20,
-        "Damage": 3.0,
-        "Type": "Fire",
-        "TargetNum": 2,
-        "Critical": 5
-    },
-    {
-        "ID": 19,
-        "Name": "럼 버스트",
-        "Description": "럼을 뿌리며 공격한다",
-        "MPCost": 15,
-        "Damage": 0.8,
-        "Type": "Water",
-        "TargetNum": 1,
-        "Critical": 0
-    },
-    {
-        "ID": 20,
-        "Name": "탄막 사격",
-        "Description": "총알을 쏘아 퍼붓는다",
-        "MPCost": 10,
-        "Damage": 1.6,
-        "Type": "Normal",
-        "TargetNum": 3,
-        "Critical": 10
-    }
+  {
+    "ID": 1,
+    "Name": "매직 미사일",
+    "Description": "기본 마법 공격이다",
+    "MPCost": 0,
+    "Damage": 12,
+    "Type": "Normal",
+    "TargetNum": 1,
+    "Critical": 5
+  },
+  {
+    "ID": 2,
+    "Name": "파이어 볼트",
+    "Description": "불 속성 초고열 단일 공격이다",
+    "MPCost": 25,
+    "Damage": 30,
+    "Type": "Fire",
+    "TargetNum": 1,
+    "Critical": 10
+  },
+  {
+    "ID": 3,
+    "Name": "라이트닝 체인",
+    "Description": "번개가 최대 3명의 적을 관통한다",
+    "MPCost": 30,
+    "Damage": 18,
+    "Type": "Light",
+    "TargetNum": 3,
+    "Critical": 8
+  },
+  {
+    "ID": 4,
+    "Name": "블리자드",
+    "Description": "얼음 파편을 광범위로 발사한다",
+    "MPCost": 35,
+    "Damage": 15,
+    "Type": "Water",
+    "TargetNum": 5,
+    "Critical": 10
+  }
 ]
