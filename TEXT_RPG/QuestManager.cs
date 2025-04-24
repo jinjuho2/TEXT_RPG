@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -409,7 +410,7 @@ namespace TEXT_RPG
         }
 
         
-        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크
+        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크, 마을에서 호출
         {
             foreach (Quest quest in Quests)
             {
@@ -439,17 +440,21 @@ namespace TEXT_RPG
                 switch (achieve.Type)
                 {
                     case QuestType.Hidden:
-                        achieve.CurrentCount = GameManager.Instance().currentEquip;
-                        if (achieve.CurrentCount >= achieve.TargetCount)                            //퀘스트(업적)달성시
+                        if (GameManager.Instance().equipCountByLevel.ContainsKey(achieve.TargetID))
                         {
-                            ClearQuest(achieve);
+                            achieve.CurrentCount = GameManager.Instance().equipCountByLevel[achieve.TargetID];
+                            if (achieve.CurrentCount >= achieve.TargetCount)                            //퀘스트(업적)달성시
+                            {
+                                ClearQuest(achieve);
+                            }
+                            else if (achieve.CurrentCount > achieve.TargetCount / 2 && achieve.IsVisible == false)                    //업적이 진행도가 50%이상이고 보이지않는상태일시
+                            {
+                                achieve.IsVisible = true;
+                                Console.WriteLine($"{achieve.Title} 업적 활성화");
+                                Thread.Sleep(1000);
+                            }
                         }
-                        else if (achieve.CurrentCount > achieve.TargetCount / 2 && achieve.IsVisible == false)                    //업적이 진행도가 50%이상이고 보이지않는상태일시
-                        {
-                            achieve.IsVisible = true;
-                            Console.WriteLine($"{achieve.Title} 업적 활성화");
-                            Thread.Sleep(1000);
-                        }
+                
                         break;
                 }
             }

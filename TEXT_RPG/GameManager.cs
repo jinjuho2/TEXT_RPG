@@ -12,8 +12,8 @@ namespace TEXT_RPG
     {
         public int playerLevel = 1;
         public int currentStage = 11;
-        
-        public int currentEquip = 3;
+
+        public int currentEquip = 0;
         public int deadId ;
 
 
@@ -31,7 +31,7 @@ namespace TEXT_RPG
         private Inven inven;
         private Shop shop;
         private Player player;
-
+        public Dictionary<int, int> equipCountByLevel = new Dictionary<int, int>();
         public void Init() //시작전
         {
             ItemManager.Instance().InitializeItems();

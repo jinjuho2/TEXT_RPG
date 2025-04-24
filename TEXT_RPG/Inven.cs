@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Security;
+using System.Reflection.Emit;
 namespace TEXT_RPG
 {
     internal class Inven : ItemManager
@@ -90,10 +92,26 @@ namespace TEXT_RPG
 
                 Item selectedItem = ownedItems[input - 1];
 
+                int? nullableLevel = selectedItem.Level;
+                
                 if (selectedItem.IsEquipped)
                 {
                     
                     selectedItem.IsEquipped = false;
+                    
+                    
+                    if (nullableLevel.HasValue)
+                    {
+                        int level = nullableLevel.Value;
+                        if (GameManager.Instance().equipCountByLevel.ContainsKey(level))
+                        {
+                            GameManager.Instance().equipCountByLevel[level]--;
+                        }
+                        else
+                        {
+                            GameManager.Instance().equipCountByLevel[level] = 0;
+                        }
+                    }
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 해제했습니다");
                     Thread.Sleep(1000);
                 }
@@ -110,10 +128,34 @@ namespace TEXT_RPG
                         if (selectedItem.MainType == item.MainType && item.IsEquipped)
                         {
                             item.IsEquipped = false;
+                            if (nullableLevel.HasValue)
+                            {
+                                int level = nullableLevel.Value;
+                                if (GameManager.Instance().equipCountByLevel.ContainsKey(level))
+                                {
+                                    GameManager.Instance().equipCountByLevel[level]--;
+                                }
+                                else
+                                {
+                                    GameManager.Instance().equipCountByLevel[level] = 0;
+                                }
+                            }
                             Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
                         }
                     }
                     selectedItem.IsEquipped = true;
+                    if (nullableLevel.HasValue)
+                    {
+                        int level = nullableLevel.Value;
+                        if (GameManager.Instance().equipCountByLevel.ContainsKey(level))
+                        {
+                            GameManager.Instance().equipCountByLevel[level]++;
+                        }
+                        else
+                        {
+                            GameManager.Instance().equipCountByLevel[level] = 1;
+                        }
+                    }
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 장착했습니다");
                     Thread.Sleep(1000);
                 }

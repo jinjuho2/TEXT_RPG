@@ -60,9 +60,9 @@ namespace TEXT_RPG
             }
         }
         public void ShowStat() //플레이어 스텟 보여주기
-        {   //여기서 부터 
+        {   //여기서 부터
             BonusStat bonus = CalculateEquippedBonuses();
-
+            
             Console.WriteLine($"Lv.{Level}");
             Console.WriteLine($"{Name} ( {Job.ToString()} )");
             Console.WriteLine($"공격력 : {TotalAttack} (+{bonus.Attack})");
@@ -76,8 +76,9 @@ namespace TEXT_RPG
         }
         public BonusStat CalculateEquippedBonuses()//플레이어 장착 아이템 능력치 총합 계산
         {
+            equippedItems = ItemManager.Instance().items.Where(x => x.IsEquipped).ToList();
             BonusStat bonus = new();
-            //
+            
             foreach (var item in equippedItems)
             {
                 switch (item.MainType)
