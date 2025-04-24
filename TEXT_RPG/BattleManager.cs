@@ -30,12 +30,15 @@ namespace TEXT_RPG
             {
                 nowMonsters[i].ShowSimple();
             }
-            Console.WriteLine();
-
-            player.ShowStat();
+            //Console.WriteLine();
+            //player.ShowStat();
             Console.WriteLine("전투 개시");
+            //Console.Clear();
+            AnsiConsole.Write("fdsfd");
+            SceneManager.Instance().test();
 
-          
+            //SceneManager.Instance().InitBattleScene(nowMonsters, "1번 방", player, "시작");
+            Console.WriteLine("전투 개시");
 
             while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
             {
