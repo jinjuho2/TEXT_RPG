@@ -293,15 +293,14 @@ namespace TEXT_RPG
         {
             if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)                                                 //조건만족시 한번만발동
             {
-                Quests.Add(DataManager.Instance().MakeQuest(1));
-                Quests.Add(DataManager.Instance().MakeQuest(2));
+                Quests.AddRange(DataManager.Instance().FindQuest(1));
                 Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
                 Thread.Sleep(1000);
                 addQuest_1 = true;
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
             {
-                Quests.Add(DataManager.Instance().MakeQuest(2));
+                Quests.AddRange(DataManager.Instance().FindQuest(2));
                 Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
                 Thread.Sleep(1000);
                 addQuest_2 = true;

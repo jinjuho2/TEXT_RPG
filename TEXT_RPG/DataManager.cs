@@ -111,13 +111,24 @@ namespace TEXT_RPG
 
             return null;
         }
-        public Quest MakeQuest(int id)
+        //public Quest MakeQuest(int level)
+        //{
+        //    Quest data = null;
+        //    foreach (Quest s in quest)
+        //    {
+        //        if (s.Level == level)
+        //            data = s;
+        //    }
+        //    return data;
+
+        //}
+        public List<Quest> FindQuest(int level)
         {
-            Quest data = null;
+            List<Quest> data = new List<Quest>();
             foreach (Quest s in quest)
             {
-                if (s.ID == id)
-                    data = s;
+                if (s.Level == level)
+                    data.Add(s);
             }
 
             return data;
