@@ -14,7 +14,17 @@ namespace TEXT_RPG
         //공격 처리를 위하여 Unit에게 상속 받게 함.
 
         public Job Job { get; set; } // 플레이어 직업
-
+        //private static Player instance;
+        //public static Player Instance()
+        //{
+        //    if (instance == null)
+        //        instance = new Player();
+        //    return instance;
+        //}
+        public Player()
+        {
+            equippedItems = ItemManager.Instance().items.Where(x => x.IsEquipped).ToList();
+        }
 
         public float TotalAttack => ATK + CalculateEquippedBonuses().Attack; //최종 공격력
         public float TotalDefense => DEF + CalculateEquippedBonuses().Defense; //최종 방어력
@@ -29,8 +39,8 @@ namespace TEXT_RPG
 
         public bool IsAlive => CurrentHP > 0; //살아있나 확인...
 
-        public List<Item> equippedItems = new();//착용한 아이템 리스트
-        public List<Item> inventory = new(); // 인벤토리 아이템 리스트
+        public List<Item> equippedItems = ItemManager.Instance().items.Where(x => x.IsEquipped).ToList();//착용한 아이템 리스트
+        public List<Item> inventory = ItemManager.Instance().items.Where(x => x.IsHave).ToList(); // 인벤토리 아이템 리스트
       
         public void SetJob(Dictionary<string, object> data)
         {
@@ -50,7 +60,7 @@ namespace TEXT_RPG
             }
         }
         public void ShowStat() //플레이어 스텟 보여주기
-        {
+        {   //여기서 부터 
             BonusStat bonus = CalculateEquippedBonuses();
 
             Console.WriteLine($"Lv.{Level}");
@@ -62,26 +72,27 @@ namespace TEXT_RPG
             Console.WriteLine($"회피율 : {Evasion} (+{bonus.Evasion})");
             Console.WriteLine($"치명타율 : {Critical} (+{bonus.Critical})");
             Console.WriteLine($"Gold : {Gold} G");
+            Thread.Sleep( 1000 );
         }
         public BonusStat CalculateEquippedBonuses()//플레이어 장착 아이템 능력치 총합 계산
         {
             BonusStat bonus = new();
-
+            //
             foreach (var item in equippedItems)
             {
-                switch (item.Type)
+                switch (item.MainType)
                 {
-                    case "weapon":
+                    case "무기":
                         bonus.Attack += item.Atk ?? 0f;
                         bonus.Critical += item.Critical ?? 0f;
                         break;
-                    case "armor":
+                    case "갑옷":
                         bonus.Defense += item.Def ?? 0f;
                         bonus.Evasion += item.Dodge ?? 0f;
                         bonus.MaxHP += item.HP ?? 0;
                         bonus.MaxMP += item.MP ?? 0;
                         break;
-                    default:
+                    case "악세서리":
                         bonus.Evasion += item.Dodge ?? 0f;
                         bonus.Critical += item.Critical ?? 0f;
                         bonus.MaxHP += item.HP ?? 0;

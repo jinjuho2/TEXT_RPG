@@ -159,6 +159,7 @@ namespace TEXT_RPG
                         if (input == 1)
                             inven.ShowInventory(player); //플레이어 기능들 확인.... 
                         else if (input == 2)
+
                             player.ShowStat();
                         else
                             player.ShowSkillList();
