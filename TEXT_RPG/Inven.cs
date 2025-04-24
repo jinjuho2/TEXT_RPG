@@ -10,7 +10,7 @@ namespace TEXT_RPG
     {
 
 
-        public void ShowInventory()
+        public void ShowInventory(Player player)
         {
             var ownedItems = ItemManager.Instance().items.Where(item => item.IsHave).ToList();
 
@@ -31,20 +31,20 @@ namespace TEXT_RPG
 
             switch (input)
             {
-                case 1: ShowEquipment(); break;
+                case 1: ShowEquipment(player); break;
                 case 0: GameManager.Instance().Run(); break;
             }
 
             if (int.TryParse(Console.ReadLine(), out input))
                 if (input == 1)
-                    ShowEquipment();
+                    ShowEquipment(player);
 
                 else
                     Console.WriteLine("다시 입력해주세요.");
 
         }
 
-        public void ShowEquipment()
+        public void ShowEquipment(Player player)
         {
             while (true)
             {
@@ -55,24 +55,25 @@ namespace TEXT_RPG
                 for (int i = 0; i < ownedItems.Count; i++)
                 {
                     var item = ownedItems[i];
-                    string result = item.IsEquipped ? "[E]" : "";
+                    string result = item.IsEquipped ? "[E]" : " ";
                     string display = "";
-                    switch (item.Type)
+                    switch (item.MainType)
                     {
+
                         case "무기":
-                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} ");
+                            display = ($"{result}{i+1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 치명타율 : {item.Critical,-5} | 레벨 : {item.Level,-5} | 가격 : {item.Price}");
                             Console.WriteLine(display);
                             break;
                         case "갑옷":
-                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5}");
+                            display = ($"{result}{i + 1}. {item.Name,-15} | {item.Type,-5} | 방어력 : {item.Def,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | 가격 : {item.Price}");
                             Console.WriteLine(display);
                             break;
-                        case "HP":
-                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} ");
+                        case "포션":
+                            display = ($"{item.Name,-15} | {item.Type,-5} | HP 회복량 : {item.RecoverHP,-5} | MP 회복량 : {item.RecoverMP,-5} | 가격 : {item.Price,-5}");
                             Console.WriteLine(display);
-                            break;                                                                                              
-                        case "MP":
-                            display = ($"{i + 1}. {result}{item.Name,-15} | {item.Type,-5} | MP 회복량 : {item.RecoverMP,-5} ");
+                            break;
+                        case "악세서리":
+                            display = ($"{result}{i + 1}. {item.Name,-15} | {item.Type,-5} | 공격력 : {item.Atk,-5} | 방어력 : {item.Def,-5} | 치명타율 : {item.Critical,-5} | 회피율 : {item.Dodge,-5} | 레벨 : {item.Level,-5} | 가격 : {item.Price} ");
                             Console.WriteLine(display);
                             break;
                     }
@@ -84,26 +85,29 @@ namespace TEXT_RPG
                 Console.Write(">> ");
 
                 if (!int.TryParse(Console.ReadLine(), out int input)) continue;
-                if (input == 0) { ShowInventory(); return; }
+                if (input == 0) { ShowInventory(player); return; }
                 if (input < 1 || input > ownedItems.Count) continue;
 
                 Item selectedItem = ownedItems[input - 1];
 
                 if (selectedItem.IsEquipped)
                 {
-                    ShowInventory();
-                    break;
+                    
                     selectedItem.IsEquipped = false;
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 해제했습니다");
                     Thread.Sleep(1000);
                 }
 
+                else if (selectedItem.Level > player.Level)
+                {
+                    Console.WriteLine($"레벨이 부족하여 '{selectedItem.Name}' 을(를) 장착할 수 없습니다");
+                    Thread.Sleep(1000);
+                }
                 else
-                    Console.WriteLine("다시 입력해주세요.");
                 {
                     foreach (var item in ownedItems)
                     {
-                        if (selectedItem.Type == item.Type && item.IsEquipped)
+                        if (selectedItem.MainType == item.MainType && item.IsEquipped)
                         {
                             item.IsEquipped = false;
                             Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");

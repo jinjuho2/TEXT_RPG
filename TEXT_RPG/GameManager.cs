@@ -142,7 +142,7 @@ namespace TEXT_RPG
                         dungeon.DungeonRun(player); // 던전 매니저 기능 실행
                         break;
                     case 3:
-                        inven.ShowInventory(); //인벤 확인
+                        inven.ShowInventory(player); //인벤 확인
                         break;
                     case 4:
                         Console.WriteLine("1.플레이어 인벤");
@@ -153,7 +153,7 @@ namespace TEXT_RPG
                             Console.WriteLine("입력 오류");
                         }
                         if (input == 1)
-                            inven.ShowInventory(); //플레이어 기능들 확인.... 
+                            inven.ShowInventory(player); //플레이어 기능들 확인.... 
                         else if (input == 2)
                             player.ShowStat();
                         else
