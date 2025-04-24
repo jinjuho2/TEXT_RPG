@@ -9,7 +9,7 @@ namespace TEXT_RPG
 {
     internal class Shop : ItemManager
     {
-        private List<Item> shopItems = new List<Item>(); // 상점에서 판매하는 아이템 목록
+        public List<Item> shopItems = new List<Item>(); // 상점에서 판매하는 아이템 목록
 
         public void ShowMenu(Player player)
         {
@@ -96,6 +96,7 @@ namespace TEXT_RPG
                     if (check == 1)
                     {
                         selectedItem.IsHave = true;
+                        player.inventory.Add(selectedItem);
                         Console.WriteLine($"'{selectedItem.Name}' 을(를) 구매했습니다");
                         player.Gold -= selectedItem.Price ?? 0;
                         Thread.Sleep(1000);
@@ -175,6 +176,7 @@ namespace TEXT_RPG
                     if (check == 1)
                     {
                         selectedItem.IsHave = false;
+                        player.inventory.Remove(selectedItem);
                         Console.WriteLine($"'{selectedItem.Name}' 을(를) 판매했습니다");
                         player.Gold += (int)((selectedItem.Price ?? 0) * 0.8f);
                         Thread.Sleep(1000);

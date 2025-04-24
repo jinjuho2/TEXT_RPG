@@ -146,13 +146,13 @@ namespace TEXT_RPG
             if (Win)
             {
                 Console.WriteLine("보상줌");
-                VictoryScene(player);
+                //VictoryScene(player);
                 return true;
             }
             else
             {
                 Console.WriteLine("패배");
-                LoseScene(player);
+                //LoseScene(player);
                 return false;
             }
         }
@@ -169,19 +169,20 @@ namespace TEXT_RPG
         public bool GoBattletF(Player player, List<Monster> list)
         {
             Console.WriteLine("던전 입장");
-            bool Win = battleManager.Battle(player, list);
-            if (Win)
-            {   
-                Console.WriteLine("보상줌");
-                VictoryScene(player);
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("패배");
-                LoseScene(player);
-                return false;
-            }
+            //bool Win = battleManager.Battle(player, list);
+            //if (Win)
+            //{   
+            //    Console.WriteLine("보상줌");
+            //    VictoryScene(player);
+            //    return true;
+            //}
+            //else
+            //{
+            //    Console.WriteLine("패배");
+            //    LoseScene(player);
+            //    return false;
+            //}
+            return false;
 
         }
         public void GoSaveF(Player player)//쉼터 = n1층 n은 1~4

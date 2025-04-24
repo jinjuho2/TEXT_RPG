@@ -8,7 +8,7 @@ using System.Net.Security;
 using System.Reflection.Emit;
 namespace TEXT_RPG
 {
-    internal class Inven : ItemManager
+    internal class Inven 
     {
 
 

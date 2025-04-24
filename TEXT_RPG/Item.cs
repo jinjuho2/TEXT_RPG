@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Item 
+    internal class Item :IShow
     {
 
         public int ID { get; set; }
@@ -51,7 +51,17 @@ namespace TEXT_RPG
             this.MainType = mainType;
         }
 
+        public virtual string show()
+        {
+            string x;
+            
+            return Name;
+        }
+        public virtual string showS()
+        {
 
+            return Name;
+        }
 
     }
 }

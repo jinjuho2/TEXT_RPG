@@ -450,7 +450,7 @@ namespace TEXT_RPG
                         }
                         break;
                     case QuestType.Stage:
-                        quest.CurrentCount = Floor.Instance().highFloor;
+                        //quest.CurrentCount = Floor.Instance().highFloor;
                         if (GameManager.Instance().currentStage >= quest.TargetCount)
                         {
                             ClearQuest(quest);

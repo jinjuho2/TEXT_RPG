@@ -33,7 +33,12 @@ namespace TEXT_RPG
             Critical = _critical;
         }
 
-
+        public string show()
+        {
+            string s = "";
+            s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            return s;
+        }
 
 
 

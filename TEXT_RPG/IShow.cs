@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Lobby
+    internal interface IShow
     {
+        string show();
     }
 }

@@ -13,10 +13,7 @@ using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
-    enum Job
-    {
-        마법사, 전사, 도적, 궁수, 해적
-    }
+  
 
     internal class DataManager
     {
@@ -25,7 +22,7 @@ namespace TEXT_RPG
         string jobPath = @"Data\job.json";
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
-        List<Dictionary<string, object>> jobs;
+        public List<Job> jobs;
         List<Skill> skills;
         List<Monster> monsters;
         List<Item> items;
@@ -43,9 +40,7 @@ namespace TEXT_RPG
         {
             string j = File.ReadAllText(monPath);
             monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
-           j = File.ReadAllText(jobPath);
-
-            jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
+           
           j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Skill>>(j);
@@ -55,18 +50,27 @@ namespace TEXT_RPG
             items = JsonConvert.DeserializeObject<List<Item>>(j);
             j  = File.ReadAllText(QuestPath);
             quest = JsonConvert.DeserializeObject<List<Quest>>(j);
+            j = File.ReadAllText(jobPath);
+
+            jobs = JsonConvert.DeserializeObject<List<Job>>(j);
 
         }
 
-
-
-
-        public Dictionary<string, object> giveJob(int i)
+        public Job MakeJob(int i)
         {
-            Console.WriteLine(i);
-            Console.WriteLine(jobs.Count);
-            return jobs[i];
+            Job data = null;
+            foreach (Job s in jobs)
+            {
+                if (s.ID == i)
+                    data = s;
+            }
+            data.Init();
+            return data;
+
+
         }
+
+
 
         public Skill MakeSkill(int i)
         {
