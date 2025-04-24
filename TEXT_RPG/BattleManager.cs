@@ -30,13 +30,15 @@ namespace TEXT_RPG
             {
                 nowMonsters[i].ShowSimple();
             }
-            Console.WriteLine();
-
-            player.ShowStat();
-            Console.WriteLine("전투 개시");
-
+            //Console.WriteLine();
+            //player.ShowStat();
           
+            //Console.Clear();
+      
+            
 
+            SceneManager.Instance().InitBattleScene(nowMonsters, "1번 방", player, "전투 시작");
+    
             while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
             {
                 if (playerTurn)
@@ -100,30 +102,23 @@ namespace TEXT_RPG
             }
         void PlayerTurn()
         {
-            Console.WriteLine($"플레이어턴");
+            //Console.WriteLine($"플레이어턴");
+            SceneManager.Instance().InitBattleScene(nowMonsters, "1번 방", player, "당신의 차례");
+            Thread.Sleep(100);
             while (pTurn > 0&&nowMonsters.Any(m=>m.IsAlive))
             {
                 pTurn--;
-                Console.WriteLine("Battle");
+              
                 player.IsWeak = false;
-                int input;
-                for (int i = 0; i < nowMonsters.Count; i++)
-                {
-                    nowMonsters[i].ShowSimple();
-                }
-                Console.WriteLine();
-                player.ShowStat();
+              
+                //player.ShowStat();
+                List<string> menu = new List<string>();
+                menu.Add("공격");
+                menu.Add("아이템");
+                int input = SceneManager.Instance().UpdatePlayerScene(menu);
+             
 
 
-                Console.WriteLine("1. 공격");
-
-                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 1)
-                {
-                    Console.WriteLine("입력 오류");
-                }
-
-
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
                 switch (input)
                 {
                     case 0:
