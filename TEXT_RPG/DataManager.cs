@@ -111,12 +111,12 @@ namespace TEXT_RPG
 
             return null;
         }
-        public Quest MakeQuest(int i)
+        public Quest MakeQuest(int id)
         {
             Quest data = null;
             foreach (Quest s in quest)
             {
-                if (s.ID == i)
+                if (s.ID == id)
                     data = s;
             }
 
