@@ -57,8 +57,8 @@ namespace TEXT_RPG
             Console.WriteLine("0 - 마을귀환주문서 사용");
             Console.Write(">> ");
 
-            Floor.Instance().nowFloor++;
-            Floor.Instance().CheckHighFloor();
+            //Floor.Instance().nowFloor++;
+            //Floor.Instance().CheckHighFloor();
 
             string inputStr = Console.ReadLine();
             if (int.TryParse(inputStr, out int input))
@@ -93,10 +93,11 @@ namespace TEXT_RPG
         private void HandleDungeon(int dungeonCode)
         {
             DungeonType type = (DungeonType)dungeonCode;
-
+            Floor.Instance().nowFloor++;
+            Floor.Instance().CheckHighFloor();
             Console.Clear();
             Console.WriteLine($"{type} 층으로 이동합니다.");
-
+            Console.WriteLine($"현재 {Floor.Instance().nowFloor}입니다");
             switch (type)
             {
                 case DungeonType.상자방:
@@ -148,6 +149,7 @@ namespace TEXT_RPG
         public void TownWarp()
         {
             Console.WriteLine("마을입니다.");
+            Floor.Instance().nowFloor = 0;
             // TODO: 마을 UI 처리
         }
     }

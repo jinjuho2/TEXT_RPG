@@ -37,7 +37,7 @@ namespace TEXT_RPG
         public void QuestInit()
         {
             AddQuest();
-            //AddAchieve();
+            AddAchieve();
             bool isRunning = true;
             while (isRunning)
             {
@@ -148,9 +148,9 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = true;
                                 Console.WriteLine("퀘스트가 수락되었습니다!");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
-                                
                                 QuestWindow();
                                 isRunning = false;
                                 break;
@@ -171,6 +171,7 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = false;
                                 Console.WriteLine("퀘스트를 포기했습니다..");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
                                 isRunning = false;
@@ -289,7 +290,7 @@ namespace TEXT_RPG
             }
 
         }
-        void AddQuest()                                                                             //퀘스트 목록 추가
+        public void AddQuest()                                                                             //퀘스트 목록 추가
         {
             if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)                                                 //조건만족시 한번만발동
             {
@@ -308,14 +309,12 @@ namespace TEXT_RPG
             }
 
         }
-        void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
+        public void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
         {
             if (addAchieve == false)
             {
-                Achieves.Add(new Quest { Title = "메린이", Etc = "초급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메청년", Etc = "중급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메노인", Etc = "고급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-
+                Achieves.AddRange(DataManager.Instance().FindQuest(0));
+                
                 addAchieve = true;
             }
         }
@@ -426,7 +425,7 @@ namespace TEXT_RPG
                         }
                         break;
                     case QuestType.Stage:
-                        quest.CurrentCount = GameManager.Instance().currentStage;
+                        quest.CurrentCount = Floor.Instance().highFloor;
                         if (GameManager.Instance().currentStage >= quest.TargetCount)
                         {
                             ClearQuest(quest);
@@ -441,11 +440,11 @@ namespace TEXT_RPG
                 {
                     case QuestType.Hidden:
                         achieve.CurrentCount = GameManager.Instance().currentEquip;
-                        if (achieve.CurrentCount >= achieve.TargetCount)
+                        if (achieve.CurrentCount >= achieve.TargetCount)                            //퀘스트(업적)달성시
                         {
                             ClearQuest(achieve);
                         }
-                        else if (achieve.CurrentCount > achieve.TargetCount / 2)
+                        else if (achieve.CurrentCount > achieve.TargetCount / 2 && achieve.IsVisible == false)                    //업적이 진행도가 50%이상이고 보이지않는상태일시
                         {
                             achieve.IsVisible = true;
                             Console.WriteLine($"{achieve.Title} 업적 활성화");

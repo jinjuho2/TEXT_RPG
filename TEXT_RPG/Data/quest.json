@@ -64,5 +64,27 @@
     "Gold": 400,
     "Exp": 60,
     "Level": 2
+  },
+  {
+    "ID": 0,
+    "Title": "메린이",
+    "Etc": "초급(가명) 장비 풀세트 착용",
+    "TargetCount": 5,
+    "TargetID": "",
+    "Type": "Hidden",
+    "Gold": 500,
+    "Exp": 100,
+    "Level": 0
+  },
+  {
+    "ID": 0,
+    "Title": "메청년",
+    "Etc": "중급(가명) 장비 풀세트 착용",
+    "TargetCount": 5,
+    "TargetID": "",
+    "Type": "Hidden",
+    "Gold": 1000,
+    "Exp": 200,
+    "Level": 0
   }
 ]
