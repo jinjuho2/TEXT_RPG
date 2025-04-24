@@ -13,13 +13,13 @@ namespace TEXT_RPG
         public string Etc { get; set; } //몬스터 ID도 설명 받으므로 자동으로 생성 가능할 수도 있음
         public int CurrentCount { get; set; }
         public int TargetCount { get; set; } //이건 목표 몬스터 개수이고
-        public int? TargetID { get; set; } //이건 목표 몬스터 아이디인데 합쳐서 딕셔너리화하는 것도 생각해봐야함 몬스터 여러마리 사냥할 경우... 
+        public int TargetID { get; set; } //이건 목표 몬스터 아이디인데 합쳐서 딕셔너리화하는 것도 생각해봐야함 몬스터 여러마리 사냥할 경우... 
         public bool IsActive { get; set; }
         public bool IsClear { get; set; }
         public bool IsComplete { get; set; }
         public QuestType Type { get; set; }
 
-        public int Level { get; set; }
+        public int? Level { get; set; }
         public int Gold { get; set; }
         public int Exp { get; set; }
 

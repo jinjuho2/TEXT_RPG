@@ -12,8 +12,8 @@ namespace TEXT_RPG
     {
         public int playerLevel = 1;
         public int currentStage = 11;
-        
-        public int currentEquip = 3;
+
+        public int currentEquip = 0;
         public int deadId ;
 
 
@@ -31,7 +31,7 @@ namespace TEXT_RPG
         private Inven inven;
         private Shop shop;
         private Player player;
-
+        public Dictionary<int, int> equipCountByLevel = new Dictionary<int, int>();
         public void Init() //시작전
         {
             ItemManager.Instance().InitializeItems();
@@ -120,7 +120,8 @@ namespace TEXT_RPG
         {
             while (true)
             {
-                
+                QuestManager.Instance().AddQuest();
+                QuestManager.Instance().AddAchieve();
                 QuestManager.Instance().CheckQuest();
                 Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
@@ -158,6 +159,7 @@ namespace TEXT_RPG
                         if (input == 1)
                             inven.ShowInventory(player); //플레이어 기능들 확인.... 
                         else if (input == 2)
+
                             player.ShowStat();
                         else
                             player.ShowSkillList();

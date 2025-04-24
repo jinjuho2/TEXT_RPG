@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Security;
+using System.Reflection.Emit;
 namespace TEXT_RPG
 {
     internal class Inven : ItemManager
@@ -90,10 +92,15 @@ namespace TEXT_RPG
 
                 Item selectedItem = ownedItems[input - 1];
 
+                int? nullableLevel = selectedItem.Level;
+
                 if (selectedItem.IsEquipped)
                 {
 
                     selectedItem.IsEquipped = false;
+
+
+                    UpdateEquipCount(selectedItem.Level, 1);
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 해제했습니다");
                     Thread.Sleep(1000);
                 }
@@ -112,17 +119,20 @@ namespace TEXT_RPG
                             if (item.Type == selectedItem.Type && item.IsEquipped)
                             {
                                 item.IsEquipped = false;
+                                UpdateEquipCount(item.Level, -1);
                                 Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
                             }
-                            
+
                         }
                         else if (selectedItem.MainType == item.MainType && item.IsEquipped && selectedItem.MainType != "갑옷")
                         {
                             item.IsEquipped = false;
+                            UpdateEquipCount(item.Level, -1);
                             Console.WriteLine($"'{item.Name}' 을(를) 해제했습니다");
                         }
                     }
                     selectedItem.IsEquipped = true;
+                    UpdateEquipCount(selectedItem.Level, 1);
                     Console.WriteLine($"'{selectedItem.Name}' 을(를) 장착했습니다");
                     Thread.Sleep(1000);
                 }
@@ -130,6 +140,18 @@ namespace TEXT_RPG
 
 
             }
+        }
+        
+        void UpdateEquipCount(int? level, int delta)
+        {
+            if (!level.HasValue) return;
+
+            int lv = level.Value;
+
+            if (GameManager.Instance().equipCountByLevel.ContainsKey(lv))
+                GameManager.Instance().equipCountByLevel[lv] += delta;
+            else
+                GameManager.Instance().equipCountByLevel[lv] = Math.Max(0, delta);
         }
     }
 }

@@ -26,7 +26,7 @@
     "Title": "초보 여행가",
     "Etc": "타워 10층을 완료하세요",
     "TargetCount": 10,
-    "TargetID": "",
+    "TargetID": 0,
     "Type": "Stage",
     "Gold": 200,
     "Exp": 30,
@@ -56,13 +56,35 @@
   },
   {
     "ID": 6,
-    "Title": "초보 여행가",
+    "Title": "중급 여행가",
     "Etc": "타워 10층을 완료하세요",
     "TargetCount": 20,
-    "TargetID": "",
+    "TargetID": 0,
     "Type": "Stage",
     "Gold": 400,
     "Exp": 60,
     "Level": 2
+  },
+  {
+    "ID": 100,
+    "Title": "메린이",
+    "Etc": "초급(가명) 장비 풀세트 착용",
+    "TargetCount": 5,
+    "TargetID": 1,
+    "Type": "Hidden",
+    "Gold": 500,
+    "Exp": 100,
+    "Level": 0
+  },
+  {
+    "ID": 101,
+    "Title": "메청년",
+    "Etc": "중급(가명) 장비 풀세트 착용",
+    "TargetCount": 5,
+    "TargetID": 15,
+    "Type": "Hidden",
+    "Gold": 1000,
+    "Exp": 200,
+    "Level": 0
   }
 ]

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -37,7 +38,7 @@ namespace TEXT_RPG
         public void QuestInit()
         {
             AddQuest();
-            //AddAchieve();
+            AddAchieve();
             bool isRunning = true;
             while (isRunning)
             {
@@ -148,9 +149,9 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = true;
                                 Console.WriteLine("퀘스트가 수락되었습니다!");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
-                                
                                 QuestWindow();
                                 isRunning = false;
                                 break;
@@ -171,6 +172,7 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = false;
                                 Console.WriteLine("퀘스트를 포기했습니다..");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
                                 isRunning = false;
@@ -256,9 +258,22 @@ namespace TEXT_RPG
             while (isRunning)
             {
                 Console.Clear();
-                if(Achieves[index].IsClear == false) Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
-                Console.ResetColor();
+                if (Achieves[index].IsClear == false && Achieves[index].IsVisible == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                    Console.ResetColor();
+                }
+                else if(Achieves[index].IsVisible == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"??? \n\n??? ??? / ??? \n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                }
                 if (Achieves[index].IsClear == true && Achieves[index].IsReward == false) Console.WriteLine("1. 보상받기 \n");                              //업적달성시 보상받기 텍스트보임
                 Console.WriteLine("0. 돌아가기 \n");
                 int input = int.Parse(Console.ReadLine());
@@ -275,7 +290,7 @@ namespace TEXT_RPG
                             Achieves[index].IsReward = true;
                             Console.WriteLine("보상을 받았습니다.");
                         }
-                        else
+                        else 
                         {
                             Console.WriteLine("올바른 입력이 아닙니다.");
                         }
@@ -289,7 +304,7 @@ namespace TEXT_RPG
             }
 
         }
-        void AddQuest()                                                                             //퀘스트 목록 추가
+        public void AddQuest()                                                                             //퀘스트 목록 추가
         {
             if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)                                                 //조건만족시 한번만발동
             {
@@ -308,14 +323,12 @@ namespace TEXT_RPG
             }
 
         }
-        void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
+        public void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
         {
             if (addAchieve == false)
             {
-                Achieves.Add(new Quest { Title = "메린이", Etc = "초급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메청년", Etc = "중급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메노인", Etc = "고급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-
+                Achieves.AddRange(DataManager.Instance().FindQuest(0));
+                
                 addAchieve = true;
             }
         }
@@ -381,17 +394,28 @@ namespace TEXT_RPG
             int counter = index >= 0 ? index : -1;
             foreach (Quest achieve in Achieves)
             {
+                string questNum = counter >= 0 ? $"{counter + 1}." : "";
                 if (achieve.IsVisible == true)                                                  
                 {
-                    string questNum = counter >= 0 ? $"{counter + 1}." : "";
-                    if (achieve.IsClear == false)
+                    
+                    if (achieve.IsClear == false)                                  //클리어 안했을시
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
+                        Console.ResetColor();
                     }
-                    Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
-                    Console.ResetColor();
-                    counter++;
+                    else
+                    {
+                        Console.WriteLine($"{questNum}. {achieve.Title} - 완료 ");
+                    }
                 }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{questNum}. ???");
+                    Console.ResetColor();
+                }
+                counter++;
             }
         }
         public void DeadCheck(int id)                                                                       //몬스터가 죽었을때 호출
@@ -410,7 +434,7 @@ namespace TEXT_RPG
         }
 
         
-        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크
+        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크, 마을에서 호출
         {
             foreach (Quest quest in Quests)
             {
@@ -426,7 +450,7 @@ namespace TEXT_RPG
                         }
                         break;
                     case QuestType.Stage:
-                        quest.CurrentCount = GameManager.Instance().currentStage;
+                        quest.CurrentCount = Floor.Instance().highFloor;
                         if (GameManager.Instance().currentStage >= quest.TargetCount)
                         {
                             ClearQuest(quest);
@@ -440,17 +464,21 @@ namespace TEXT_RPG
                 switch (achieve.Type)
                 {
                     case QuestType.Hidden:
-                        achieve.CurrentCount = GameManager.Instance().currentEquip;
-                        if (achieve.CurrentCount >= achieve.TargetCount)
+                        if (GameManager.Instance().equipCountByLevel.ContainsKey(achieve.TargetID))
                         {
-                            ClearQuest(achieve);
+                            achieve.CurrentCount = GameManager.Instance().equipCountByLevel[achieve.TargetID];
+                            if (achieve.CurrentCount >= achieve.TargetCount)                            //퀘스트(업적)달성시
+                            {
+                                ClearQuest(achieve);
+                            }
+                            else if (achieve.CurrentCount > achieve.TargetCount / 2 && achieve.IsVisible == false)                    //업적이 진행도가 50%이상이고 보이지않는상태일시
+                            {
+                                achieve.IsVisible = true;
+                                Console.WriteLine($"{achieve.Title} 업적 활성화");
+                                Thread.Sleep(1000);
+                            }
                         }
-                        else if (achieve.CurrentCount > achieve.TargetCount / 2)
-                        {
-                            achieve.IsVisible = true;
-                            Console.WriteLine($"{achieve.Title} 업적 활성화");
-                            Thread.Sleep(1000);
-                        }
+                
                         break;
                 }
             }
@@ -475,7 +503,7 @@ namespace TEXT_RPG
                     //player 골드 , 경험치 대량증가
                 }
             }
-            else if(Quests.Type == QuestType.Hidden)
+            else if(Quests.Type == QuestType.Hidden && Quests.IsClear == false)
             {
                 
                 Quests.IsClear = true;
