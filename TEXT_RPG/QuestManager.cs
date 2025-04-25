@@ -527,7 +527,20 @@ namespace TEXT_RPG
 
             }
         }
-        
+        public void HiddenRoomArcheive(int id)
+        {
+            foreach (Quest achieve in Achieves)
+            {
+                if (achieve.ID == id)
+                {
+                    achieve.IsVisible = true;
+                    achieve.IsClear = true;
+                    Console.WriteLine($"[{achieve.Title}] 업적 완료.");
+                    Thread.Sleep(1000);
+                }
+
+            }
+        }
 
     }
 }

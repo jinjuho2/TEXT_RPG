@@ -9,12 +9,13 @@ using static TEXT_RPG.DungeonManager;
 
 namespace TEXT_RPG
 {
-    class Dungeon
+    class Dungeon//n1층일때 마을로 가는거랑 n0층에서 보스로 연결하는거, 
     {
         public int MonsterCount { get; set; }
 
         Monster monster;
         BattleManager battleManager = new BattleManager();
+        DungeonManager dungeonManager = new DungeonManager();
 
         public List<Monster> GetMonsterList(int nowFloor)//층수에 맞는 몬스터 리스트 생성
         {
@@ -100,24 +101,29 @@ namespace TEXT_RPG
             Console.WriteLine("이벤트 던전 입장");
             DungeonEvent dungeonEvent = new DungeonEvent();
             Random random = new Random();
-            int Num = random.Next(0,5);
+            int Num = random.Next(0,7);
             switch(Num)
             {
                 case 0:
-                    dungeonEvent.TrainingF();
-                    break;
                 case 1:
-                    dungeonEvent.AlterF();
+                    dungeonEvent.AlterF(player);
                     break;
                 case 2:
-                    dungeonEvent.MysteryMerchant();
+                    dungeonEvent.AlterF(player);
                     break;
                 case 3:
-                    dungeonEvent.StatBoost();
+                    dungeonEvent.BoomF(player);
                     break;
                 case 4:
-                    dungeonEvent.NothingF();
+                    dungeonEvent.arrowF(player);
                     break;
+                case 5:
+                    dungeonEvent.AchieveF(player);
+                    break;
+                case 6:
+                    dungeonEvent.NothingF(player);
+                    break;
+
             }
         }
         public void GoRestF(Player player)//휴식층. 쉼터 아님 주의
@@ -130,13 +136,13 @@ namespace TEXT_RPG
             {
                 player.CurrentHP = player.CurrentHP + (player.TotalMaxHP / 100 * fHeal);
                 Console.WriteLine($"충분한 휴식을 취해 체력이 {fHeal}%만큼 회복되었습니다.");
+                Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
             }
             else
             {
                 player.CurrentHP = player.TotalMaxHP;
                 Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
-
-                player.CurrentHP = player.TotalMaxHP;
+                Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
             }
         }
         public bool GOBossF(Player player, List<Monster> list)//보스방
@@ -169,27 +175,51 @@ namespace TEXT_RPG
         public bool GoBattletF(Player player, List<Monster> list)
         {
             Console.WriteLine("던전 입장");
-            //bool Win = battleManager.Battle(player, list);
-            //if (Win)
-            //{   
-            //    Console.WriteLine("보상줌");
-            //    VictoryScene(player);
-            //    return true;
-            //}
-            //else
-            //{
-            //    Console.WriteLine("패배");
-            //    LoseScene(player);
-            //    return false;
-            //}
+            bool Win = battleManager.Battle(player, list);
+            if (Win)
+            {
+                Console.WriteLine("보상줌");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("패배");
+                return false;
+            }
             return false;
 
         }
         public void GoSaveF(Player player)//쉼터 = n1층 n은 1~4
         {
             Console.WriteLine("쉼터입니다");
-            player.CurrentHP = player.TotalMaxHP;
-            Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+            Console.WriteLine("무엇을 하시겠습니까?\n ");
+
+            Console.WriteLine("1. 재정비 하기.");
+            Console.WriteLine("2. 다음층으로 나아가기.");
+
+            int choice;
+            while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            switch(choice)
+            {
+                case 1:
+                    player.CurrentHP = player.TotalMaxHP;
+                    Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+                    Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
+                    GoSaveF(player);
+                    break;
+                case 2:
+                    Console.WriteLine("다음층으로 나아갑니다.");
+                    DungeonManager.dun
+                    break;
+            }
+
+                
+
+            
 
         }
         public void GoShopF(Player player)//상점층 추가 필요?

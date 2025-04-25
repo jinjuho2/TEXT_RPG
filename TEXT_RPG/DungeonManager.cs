@@ -18,10 +18,18 @@ namespace TEXT_RPG
         Dungeon dungeon;
         Player player;
 
-        public void StartDungoen(Player player)//로비에서 첫번째로 던전을 눌렀을때
+        public void StartDungeon(Player player)//로비에서 첫번째로 던전을 눌렀을때
         {
-            Console.WriteLine("던전에 입장하였습니다.");
-            bool isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowFloor));
+            bool isWin;
+            if (nowFloor == 1)
+            {
+                isWin = FirstBattle(player);
+            }
+            else
+            {
+                isWin = ChoiceDungeon(nowFloor);
+            }
+
             if (isWin)//승리씬?
             {
                 Console.WriteLine("승리하셨습니다.");
@@ -29,18 +37,23 @@ namespace TEXT_RPG
                 Console.WriteLine($"Lv : {player.Level} {player.Name}\nHP : {player.CurrentHP} / {player.TotalMaxHP}\n ");
                 nowFloor++;
                 FloorCheck();
-                ChoiceDungeon(nowFloor);
             }
             else
             {
                 Console.WriteLine("패배하셨습니다.");
                 Console.WriteLine($"Lv : {player.Level} {player.Name}\nHP : 0 / {player.TotalMaxHP}\n ");
-                Console.WriteLine($"최고층수 : {nowFloor}");
+                Console.WriteLine($"현재층수 : {nowFloor}");
                 Console.WriteLine("\n잠시 후 처음으로 돌아갑니다.");
                 nowFloor = 0;
                 Thread.Sleep(10000);
                 SceneManager.Instance().SetLobbyScene();
             }
+        }
+        public bool FirstBattle(Player player)
+        {
+            Console.WriteLine("던전에 입장하였습니다.");
+            bool isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowFloor));
+            return isWin;
         }
         public void FloorCheck()//최고층수 갱신용
         {
@@ -68,6 +81,15 @@ namespace TEXT_RPG
                 dungeon.GoRestF(player);
                 return true;
             }
+            else if (type == "보스층으로 진행")
+            {
+                isWin = dungeon.GOBossF(player);
+            }
+            else if (type == "쉼터층으로 진행")
+            {
+                dungeon.GoSaveF(player);
+                return true;
+            }
             else //보상방
             {
                 dungeon.GORewardF(player);
@@ -82,24 +104,39 @@ namespace TEXT_RPG
             string[] arr = new string[3];
             int dungeonNum = rnd.Next(1, 100);
 
-            for (int i = 0; i < 3; i++)
+            if (nowFloor % 10 == 9)//보스 직전라운드에서 보스로
             {
-                if (dungeonNum >= 0 && dungeonNum < 45)//전투방
+                arr[0] = "보스층으로 진행";
+                arr[1] = "보스층으로 진행";
+                arr[2] = "보스층으로 진행";
+            }
+            else if (nowFloor % 10 == 0)//보스에서 쉼터로
+            {
+                arr[0] = "쉼터층으로 진행";
+                arr[1] = "쉼터층으로 진행";
+                arr[2] = "쉼터층으로 진행";
+            }
+            else
+            {
+                for (int i = 0; i < 3; i++)
                 {
-                    arr[i] = "전투층으로 진행";
+                    if (dungeonNum >= 0 && dungeonNum < 45)//전투방
+                    {
+                        arr[i] = "전투층으로 진행";
 
-                }
-                else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
-                {
-                    arr[i] = "이벤트층으로 진행";
-                }
-                else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
-                {
-                    arr[i] = "휴식층으로 진행";
-                }
-                else //보상방
-                {
-                    arr[i] = "보상층으로 진행";
+                    }
+                    else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
+                    {
+                        arr[i] = "이벤트층으로 진행";
+                    }
+                    else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
+                    {
+                        arr[i] = "휴식층으로 진행";
+                    }
+                    else  //보상방
+                    {
+                        arr[i] = "보상층으로 진행";
+                    }
                 }
             }
             Console.WriteLine("다음으로 진행할 층을 선택하세요.");
@@ -118,70 +155,3 @@ namespace TEXT_RPG
     }
 }
 
-//public bool DungeonRun(int nowfloor)//던전을 한번 실행한다
-//{
-//    dungeon = new Dungeon();
-//    Random rnd = new Random();
-//    int dungeonNum = rnd.Next(1, 100);
-//    bool isWin;
-
-//    if (dungeonNum >= 0 && dungeonNum < 45)//전투방
-//    {
-//        isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowfloor));
-
-//    }
-//    else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
-//    {
-//        dungeon.GOEventF(player);
-//        return true;
-//    }
-//    else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
-//    {
-//        dungeon.GoRestF(player);
-//        return true;
-//    }
-//    else //보상방
-//    {
-//        dungeon.GORewardF(player);
-//        return true;
-//    }
-//    return isWin;
-//}
-//public void ChoiceDungeon()//선택지를 3개주어지게 하는 메서드
-//{
-
-//    Random rnd = new Random();
-//    int dungeonNum = rnd.Next(1, 100);
-//    string[] arr = new string[3];
-
-//    for (int i = 0; i < 3; i++)
-//    {
-//        string message;
-//        if (dungeonNum >= 0 && dungeonNum < 45)//전투방
-//        {
-//            Console.WriteLine("전투방 입니다.");
-//            message = "전투방으로 진행";
-
-//        }
-//        else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
-//        {
-//            Console.WriteLine("이벤트방 입니다.");
-//            message = "이벤트방으로 진행";
-//        }
-//        else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
-//        {
-//            Console.WriteLine("휴식방 입니다.");
-//            message = "휴식방으로 진행";
-//        }
-//        else //보상방
-//        {
-//            Console.WriteLine("보상방입니다");
-//            message = "보상방으로 진행";
-//        }
-//        arr[i] = message;
-//    }
-//    foreach (string str in arr)
-//    {
-//        Console.WriteLine(str);
-//    }
-//}
