@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
+
 namespace TEXT_RPG
 {
     internal class Scene
@@ -73,8 +74,17 @@ namespace TEXT_RPG
         }
         public void Text(string name,string txt)
         {
-            layouts[name].Update(new Panel(new Text(txt).Centered()).Expand());
-            
+            layouts[name].Update(new Panel((txt)).Expand());
+            show();
+        }
+        public void showList<T>(List<T> list,string name) where T : IShow
+        {
+            string x="";
+            foreach (T t in list) {
+                x += t.show(0)+"\n";
+            }
+            layouts[name].Update(new Panel(new Text(x).Centered()).Expand());
+            show();
         }
         public int SelectNum(List<string> menu,string name)
         {

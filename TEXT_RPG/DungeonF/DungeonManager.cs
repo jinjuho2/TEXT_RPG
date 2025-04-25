@@ -75,6 +75,8 @@ namespace TEXT_RPG
                 {
                     Floor++;
                 }
+                if (Floor == 5)
+                    break;
                 else break;
             }
         }

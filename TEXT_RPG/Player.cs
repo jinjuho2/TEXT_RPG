@@ -43,7 +43,7 @@ namespace TEXT_RPG
 
         public List<Item> equippedItems = ItemManager.Instance().items.Where(x => x.IsEquipped).ToList();//착용한 아이템 리스트
         public List<Item> inventory = ItemManager.Instance().items.Where(x => x.IsHave).ToList(); // 인벤토리 아이템 리스트
-      
+
         //public void SetJob(Dictionary<string, object> data)
         //{
         //    Job = (Job)Enum.Parse(typeof(Job), (string)data["Name"]);
@@ -61,6 +61,10 @@ namespace TEXT_RPG
         //       skills.Add( DataManager.Instance().MakeSkill(int.Parse(n)));
         //    }
         //}
+        public override float showAtk()
+        {
+            return TotalAttack;
+        }
         public void SetJob(Job job)
         {
 
@@ -126,6 +130,12 @@ namespace TEXT_RPG
             equippedItems = ItemManager.Instance().items.Where(x => x.IsEquipped).ToList();
             
             return equippedItems;
+        }
+        public void Getexp(int e)
+        {
+            Exp += e;
+            if (Exp / 10 > Level - 1)
+                LevelUp();
         }
         public List<Item> ShowInvenItems()
         {

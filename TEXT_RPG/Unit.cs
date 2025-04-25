@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Unit
+    internal class Unit :IShow
     {
         public int ID { get; set; } //유닛 별 ID 
         public string Name { get; set; } // 플레이어 이름
@@ -30,7 +30,10 @@ namespace TEXT_RPG
 
         public List<Skill> skills = new(); // 보유 스킬 리스트
         public bool IsAlive => CurrentHP > 0;
-
+        public virtual float showAtk()
+        {
+            return ATK;
+        }
         public List<Item> items;
         public void Init()
         {
@@ -68,5 +71,22 @@ namespace TEXT_RPG
             QuestManager.Instance().DeadCheck(ID);
         }
 
+        public virtual string show(int mode)
+        {
+            string x="";
+            if (!IsAlive)
+            {
+                
+                x+=$"[gray]Lv.{Level} {Name} 기절[/]";
+            
+            }
+            else x+=$"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}";
+            return x;
+        }
+
+        public string showDetail()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
