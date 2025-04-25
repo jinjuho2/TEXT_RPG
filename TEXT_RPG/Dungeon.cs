@@ -9,12 +9,13 @@ using static TEXT_RPG.DungeonManager;
 
 namespace TEXT_RPG
 {
-    class Dungeon
+    class Dungeon//n1층일때 마을로 가는거랑 n0층에서 보스로 연결하는거, 
     {
         public int MonsterCount { get; set; }
 
         Monster monster;
         BattleManager battleManager = new BattleManager();
+        DungeonManager dungeonManager = new DungeonManager();
 
         public List<Monster> GetMonsterList(int nowFloor)//층수에 맞는 몬스터 리스트 생성
         {
@@ -191,9 +192,34 @@ namespace TEXT_RPG
         public void GoSaveF(Player player)//쉼터 = n1층 n은 1~4
         {
             Console.WriteLine("쉼터입니다");
-            player.CurrentHP = player.TotalMaxHP;
-            Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
-            Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
+            Console.WriteLine("무엇을 하시겠습니까?\n ");
+
+            Console.WriteLine("1. 재정비 하기.");
+            Console.WriteLine("2. 다음층으로 나아가기.");
+
+            int choice;
+            while (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 2)
+            {
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            switch(choice)
+            {
+                case 1:
+                    player.CurrentHP = player.TotalMaxHP;
+                    Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+                    Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
+                    GoSaveF(player);
+                    break;
+                case 2:
+                    Console.WriteLine("다음층으로 나아갑니다.");
+                    DungeonManager.dun
+                    break;
+            }
+
+                
+
+            
 
         }
         public void GoShopF(Player player)//상점층 추가 필요?

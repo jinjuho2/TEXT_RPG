@@ -78,6 +78,7 @@ namespace TEXT_RPG
                         case 1:
                             Console.WriteLine("1000골드 받아간다.");
                             player.Gold -= 1000;
+                            Thread.Sleep(2000);
                             Console.WriteLine("제단에 바친 1000골드가 1500골드가 되어 돌아왔습니다.");
                             player.Gold += 1500;
 
@@ -85,21 +86,22 @@ namespace TEXT_RPG
                         case 2:
                             Console.WriteLine("2000골드 받아간다.");
                             player.Gold -= 2000;
+                            Thread.Sleep(2000);
                             Console.WriteLine("제단에 바친 2000골드가 4000골드가 되어 돌아왔습니다.");
                             player.Gold += 4000;
                             break;
                         case 3:
                             Console.WriteLine("5000골드...?");
                             player.Gold -= 5000;
-                            Console.WriteLine("제단에서 발이 나와 재빠르게 도망가기 시작합니다!!");//메소 복사 사기꾼 
+                            Thread.Sleep(2000);
+                            Console.WriteLine("제단에서 발이 나와 재빠르게 도망가기 시작합니다!!");//메소 복사 사기꾼 ?
                             Console.WriteLine("당신은 쫒아갔으나 제단은 끝내 당신의 시야에서 벗어났습니다");
-                            Thread.Sleep(2000)
+                            Thread.Sleep(2000);
                             Console.WriteLine("당신은 주변을 샅샅이 뒤져보았으나 아무것도 찾지 못하였습니다.");
+                            Thread.Sleep(2000);
                             Console.WriteLine(".........");
                             break;
-
                     }
-
                     break;
                 case 3:
                     Console.WriteLine("당신은 제단의 유혹을 애써 무시하고 나아갑니다.\n당신의 의지가 충만해집니다.");//아무 의미 없음 지워도 무관
