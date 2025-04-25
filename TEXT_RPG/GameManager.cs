@@ -121,7 +121,7 @@ namespace TEXT_RPG
                         break;
                     case 2:
                         shop.GenerateShopItems();
-                        SceneManager.Instance().ShopLayout(shop);
+                        Item item = SceneManager.Instance().ShopLayout(shop); //판매기능 아직 생성 안함 
                         //shop.ShowMenu(player); //상점 아이템 생성
                         break;
                     case 3:
@@ -135,7 +135,7 @@ namespace TEXT_RPG
                                     SceneManager.Instance().StatLayout(player); //스텟 보여줌
                                     break;
                                 case 2:
-                                     SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                     Item item = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
                                     break;
                                 case 3:
                                     SceneManager.Instance().PSkillLayout(player); //스킬 보여줌

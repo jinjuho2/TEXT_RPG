@@ -302,7 +302,7 @@ namespace TEXT_RPG
             return index;
 
         }
-        public int InvenLayout(Player player) //인벤토리 보여줌 클릭한 물체의 인덱스 보내줌
+        public Item InvenLayout(Player player) //인벤토리 보여줌 클릭한 물체의 인덱스 보내줌
         {
             int input = 0;
           
@@ -381,7 +381,7 @@ namespace TEXT_RPG
 
 
             }
-            return input;
+            return player.inventory[input];
         }
         public void StatLayout(Player player) //플레이어 스테이터스 보여줌
         {
@@ -499,7 +499,7 @@ namespace TEXT_RPG
             }
             return input;
         }
-        public int ShopLayout(Shop shop)
+        public Item ShopLayout(Shop shop)
         {
             int index = 0;
             shopLayout = new Layout();
@@ -584,7 +584,7 @@ namespace TEXT_RPG
 
 
             }
-            return index;
+            return ItemManager.Instance().items[index];
         }
 
         public void InitBattleScene(List<Monster> mons,string room,Player player,string a)
