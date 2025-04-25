@@ -12,6 +12,8 @@ namespace TEXTRPG
     {
         static void Main(String[] args) 
         {
+            AudioManager.Instance().InitBgm();
+
             DataManager.Instance().Init();
 
             GameManager.Instance().Init();
