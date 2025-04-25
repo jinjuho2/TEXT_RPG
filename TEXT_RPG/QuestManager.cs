@@ -329,6 +329,9 @@ namespace TEXT_RPG
                 //Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
                 //Thread.Sleep(1000);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -346,6 +349,9 @@ namespace TEXT_RPG
                 //Console.WriteLine($"퀘스트 {Quests.Count - currentQuestsCount}개 추가");
                 //Thread.Sleep(1000);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

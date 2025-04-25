@@ -203,6 +203,7 @@ namespace TEXT_RPG
                     case 4:
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         Console.WriteLine("1.플레이어 인벤");
                         Console.WriteLine("2.플레이어 스탯");
                         Console.WriteLine("3.플레이어 스킬");
@@ -216,6 +217,10 @@ namespace TEXT_RPG
                             player.ShowStat();
                         else
                             player.ShowSkillList();
+=======
+                        
+                        QuestManager.Instance().QuestInit2(); // 퀘스트 매니저 기능 실행
+>>>>>>> Stashed changes
 =======
                         
                         QuestManager.Instance().QuestInit2(); // 퀘스트 매니저 기능 실행

@@ -21,6 +21,7 @@ namespace TEXT_RPG
         }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         public static void AddDefaultWeapons() // 기본 무기 추가
         {
@@ -46,6 +47,8 @@ namespace TEXT_RPG
             Weapons.Add(new Weapone("피스메이커",   "Gun", 60, 0, 6000, 45, false, false, "무기"));
         }
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         public override string show(int i)
