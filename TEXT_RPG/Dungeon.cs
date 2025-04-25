@@ -100,24 +100,29 @@ namespace TEXT_RPG
             Console.WriteLine("이벤트 던전 입장");
             DungeonEvent dungeonEvent = new DungeonEvent();
             Random random = new Random();
-            int Num = random.Next(0,5);
+            int Num = random.Next(0,7);
             switch(Num)
             {
                 case 0:
-                    dungeonEvent.TrainingF();
-                    break;
                 case 1:
-                    dungeonEvent.AlterF();
+                    dungeonEvent.AlterF(player);
                     break;
                 case 2:
-                    dungeonEvent.MysteryMerchant();
+                    dungeonEvent.AlterF(player);
                     break;
                 case 3:
-                    dungeonEvent.StatBoost();
+                    dungeonEvent.BoomF(player);
                     break;
                 case 4:
-                    dungeonEvent.NothingF();
+                    dungeonEvent.arrowF(player);
                     break;
+                case 5:
+                    dungeonEvent.AchieveF(player);
+                    break;
+                case 6:
+                    dungeonEvent.NothingF(player);
+                    break;
+
             }
         }
         public void GoRestF(Player player)//휴식층. 쉼터 아님 주의
@@ -130,13 +135,13 @@ namespace TEXT_RPG
             {
                 player.CurrentHP = player.CurrentHP + (player.TotalMaxHP / 100 * fHeal);
                 Console.WriteLine($"충분한 휴식을 취해 체력이 {fHeal}%만큼 회복되었습니다.");
+                Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
             }
             else
             {
                 player.CurrentHP = player.TotalMaxHP;
                 Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
-
-                player.CurrentHP = player.TotalMaxHP;
+                Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
             }
         }
         public bool GOBossF(Player player, List<Monster> list)//보스방
@@ -169,19 +174,17 @@ namespace TEXT_RPG
         public bool GoBattletF(Player player, List<Monster> list)
         {
             Console.WriteLine("던전 입장");
-            //bool Win = battleManager.Battle(player, list);
-            //if (Win)
-            //{   
-            //    Console.WriteLine("보상줌");
-            //    VictoryScene(player);
-            //    return true;
-            //}
-            //else
-            //{
-            //    Console.WriteLine("패배");
-            //    LoseScene(player);
-            //    return false;
-            //}
+            bool Win = battleManager.Battle(player, list);
+            if (Win)
+            {
+                Console.WriteLine("보상줌");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("패배");
+                return false;
+            }
             return false;
 
         }
@@ -190,6 +193,7 @@ namespace TEXT_RPG
             Console.WriteLine("쉼터입니다");
             player.CurrentHP = player.TotalMaxHP;
             Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
+            Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
 
         }
         public void GoShopF(Player player)//상점층 추가 필요?

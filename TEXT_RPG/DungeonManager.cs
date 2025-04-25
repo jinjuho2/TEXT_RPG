@@ -20,8 +20,16 @@ namespace TEXT_RPG
 
         public void StartDungoen(Player player)//로비에서 첫번째로 던전을 눌렀을때
         {
-            Console.WriteLine("던전에 입장하였습니다.");
-            bool isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowFloor));
+            bool isWin;
+            if(nowFloor == 1)
+            {
+                isWin = FirstBattle(player);
+            }
+            else
+            {
+               isWin = ChoiceDungeon(nowFloor);
+            }
+
             if (isWin)//승리씬?
             {
                 Console.WriteLine("승리하셨습니다.");
@@ -29,7 +37,6 @@ namespace TEXT_RPG
                 Console.WriteLine($"Lv : {player.Level} {player.Name}\nHP : {player.CurrentHP} / {player.TotalMaxHP}\n ");
                 nowFloor++;
                 FloorCheck();
-                ChoiceDungeon(nowFloor);
             }
             else
             {
@@ -41,6 +48,12 @@ namespace TEXT_RPG
                 Thread.Sleep(10000);
                 SceneManager.Instance().SetLobbyScene();
             }
+        }
+        public bool FirstBattle(Player player)
+        {
+            Console.WriteLine("던전에 입장하였습니다.");
+            bool isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowFloor));
+            return isWin;
         }
         public void FloorCheck()//최고층수 갱신용
         {
