@@ -18,6 +18,7 @@ namespace TEXT_RPG
 
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public Potion(string name, string type, int recoverHp, int recoverMp, int price, bool isHave,string mainType) // 이름 ,타입 ,회복량 ,가격, 소지 여부
             : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false, mainType)
         {
@@ -34,6 +35,10 @@ namespace TEXT_RPG
 =======
        
 
+=======
+       
+
+>>>>>>> Stashed changes
         public override string show(int i)
         {
             string display = "";
@@ -45,12 +50,19 @@ namespace TEXT_RPG
                     display += ($"[gray]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 판매완료[/]");
                 else
                     display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+<<<<<<< Updated upstream
 
             }
             return display;
 >>>>>>> Stashed changes
         }
 
+=======
+
+            }
+            return display;
+        }
+>>>>>>> Stashed changes
         public void Use(Player player) // 포션 사용
         {
             if (Type == "HP" && player.CurrentHP < player.MaxHP && IsHave)

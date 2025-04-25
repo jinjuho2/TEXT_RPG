@@ -15,6 +15,7 @@ namespace TEXT_RPG
         {
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
         public Acessory(string name, string type, float atk, float def, int hp, int mp, // 이름 ,타입 ,공격력 ,방어력 ,쳐력 ,마나 ,
                         int price, int level, bool isHave, bool isEquipped, string mainType) //가격,착용레벨,소지 여부, 장착 여부
@@ -40,10 +41,31 @@ namespace TEXT_RPG
                 else
                     display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
 
+=======
+        public override string show(int i)
+        {
+          
+            string display = "";
+            if (i == 0)
+            {
+                if (IsEquipped)
+                    display = ($"[red][[E]][/]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+                else
+                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+            }
+            else
+            {
+                if (IsHave)
+                    display += ($"[gray]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 판매완료[/]");
+                else
+                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+
+>>>>>>> Stashed changes
             }
             return display;
         }
         
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 
 
@@ -54,5 +76,8 @@ namespace TEXT_RPG
             Acessories.Add(new Acessory("금 반지", "Ring", 15, 0, 0, 0, 3000, 30, false, false, "악세서리"));
             Acessories.Add(new Acessory("다이아몬드 반지", "Ring", 20, 0, 0, 0, 6000, 45, false, false, "악세서리"));
         }
+=======
+
+>>>>>>> Stashed changes
     }
 }

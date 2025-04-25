@@ -22,6 +22,7 @@ namespace TEXT_RPG
         
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         public static void AddDefaultArmors() // 기본 방어구 추가
         {
             Armors.Add(new Armor("가죽 갑옷", "Armor", 5, 1f, 0, 0, 100, 1, false, false, "갑옷"));
@@ -46,6 +47,14 @@ namespace TEXT_RPG
             if (i == 0)
             {
 
+=======
+        public override string show(int i)
+        {
+                        string display = "";
+            if (i == 0)
+            {
+
+>>>>>>> Stashed changes
                 if (IsEquipped)
                     display += ($"[red][[E]][/]{Name,-15} | {Type,-5} | 방어력 : {Def,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} |가격 : {Price}");
                 else
