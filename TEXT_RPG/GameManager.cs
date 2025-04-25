@@ -10,10 +10,11 @@ namespace TEXT_RPG
 {
     internal class GameManager
     {
-        public int playerLevel = 2;
+        public int playerLevel = 1;
         public int currentStage = 11;
-        public int monsterKill = 5;
-        public int currentEquip = 3;
+
+        public int currentEquip = 0;
+        public int deadId ;
 
 
         private static GameManager instance;
@@ -25,84 +26,62 @@ namespace TEXT_RPG
         }
 
         private Dungeon dungeon;
+        private DungeonManager dungeonManager; // 추가
         private QuestManager questManager;
         private Inven inven;
         private Shop shop;
         private Player player;
-
+        public Dictionary<int, int> equipCountByLevel = new Dictionary<int, int>();
         public void Init() //시작전
         {
-            ItemManager.InitializIeItem();
+            ItemManager.Instance().InitializeItems();
             dungeon = new Dungeon();
+            dungeonManager = new DungeonManager();//추가
             questManager = new QuestManager();
             inven = new Inven();
             shop = new Shop();
             player = new Player();
-<<<<<<< Updated upstream
-            MakeName();
-=======
+
+
             SceneManager.Instance().SetLobbyScene();
             SceneManager.Instance().InitCharaMake();
             player.Name = SceneManager.Instance().setName();
->>>>>>> Stashed changes
+
             ChooseJob();
+            
         }
-        public void MakeName() //이름생성
-        {
-            Console.WriteLine("이름을 입력해주세요");
-            while (true)
-            {
-                string name = Console.ReadLine()?.Trim();
-
-                Console.WriteLine($"정말 {name}이 맞습니까?");
-                Console.WriteLine("1. 예");
-                Console.WriteLine("2. 아니오");
-
-                int selectNum = GetValidInput(new List<int> { 1, 2 });
-
-                if (selectNum == 1)
-                {
-                    player.Name = name;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("다시 입력해주세요.");
-                }
-            }
-        }
+       
         public void ChooseJob()
         {
            
             
-                int confirm = 0;
-                int selectNum=0;
-                while (confirm == 1)
-                {
-                    Console.WriteLine("직업을 선택해 주세요");
-                Console.WriteLine("1. 전사");
-                Console.WriteLine("2. 궁수");
-                Console.WriteLine("3. 마법사");
-                Console.WriteLine("4. 도적");
-                Console.WriteLine("5. 해적");
+                //int confirm = 0;
+                //int selectNum=0;
+                //while (confirm == 1)
+                //{
+                //    Console.WriteLine("직업을 선택해 주세요");
+                //Console.WriteLine("1. 전사");
+                //Console.WriteLine("2. 궁수");
+                //Console.WriteLine("3. 마법사");
+                //Console.WriteLine("4. 도적");
+                //Console.WriteLine("5. 해적");
 
-                selectNum = GetValidInput(new List<int> { 1, 2, 3, 4, 5 });
+                //selectNum = GetValidInput(new List<int> { 1, 2, 3, 4, 5 });
 
-                // 선택한 직업명 가져오기
-                string jobName = GetJobName(selectNum);
+                //// 선택한 직업명 가져오기
+                //string jobName = GetJobName(selectNum);
                 
-                    Console.WriteLine($"\n정말 [{jobName}]이 맞습니까?");
-                    Console.WriteLine("1. 예");
-                    Console.WriteLine("2. 아니오");
+                //    Console.WriteLine($"\n정말 [{jobName}]이 맞습니까?");
+                //    Console.WriteLine("1. 예");
+                //    Console.WriteLine("2. 아니오");
 
-                    confirm = GetValidInput(new List<int> { 1, 2 });
-                }
+                //    confirm = GetValidInput(new List<int> { 1, 2 });
+                //}
               
-                Dictionary<string,object> jobd=DataManager.Instance().giveJob(selectNum);
-                player.SetJob(jobd);
-                   
-                Console.WriteLine($"[{player.Job}] 직업이 선택되었습니다!");
-                 
+
+                int input = 0;
+                input = SceneManager.Instance().SetJob(DataManager.Instance().jobs);
+                player.SetJob(DataManager.Instance().MakeJob(input));
             
         }
 
@@ -122,7 +101,10 @@ namespace TEXT_RPG
         {
             while (true)
             {
-
+                int input=SceneManager.Instance().MenuLayout();
+                QuestManager.Instance().AddQuest();
+                QuestManager.Instance().AddAchieve();
+                QuestManager.Instance().CheckQuest();
                 Console.Clear();
                 Console.WriteLine("1.퀘스트 매니저 테스트");
                 Console.WriteLine("2.던전 테스트");
@@ -130,30 +112,83 @@ namespace TEXT_RPG
                 Console.WriteLine("4.플레이어 테스트");
                 Console.WriteLine("5.상점 테스트");
 
-                int input;
-                while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
-                {
-                    Console.WriteLine("입력 오류");
-                }
+                player.Gold = 10000;
+               
 
                 switch (input)
                 {
                     case 1:
-<<<<<<< Updated upstream
-                        questManager.QuestInit(); // 퀘스트 매니저 기능 실행
-=======
+
 
                         dungeonManager.StartDungeon(player); // 던전 매니저 기능 실행
                         //dungeonManager.StartDungeon(player); //교체?
->>>>>>> Stashed changes
+
                         break;
                     case 2:
-                        dungeon.DungeonRun(player); // 던전 매니저 기능 실행
+                        shop.GenerateShopItems();
+  
+                        SceneManager.Instance().InitShop(); //레이아웃 생성
+                        bool isRun2 = true;
+                        while (isRun2)
+                        {
+                            int i = SceneManager.Instance().SelectShop();
+                            Item item;
+                            string x;
+                            switch (i)
+                            {
+                                case 1:
+                                    item = SceneManager.Instance().ShopBuy(shop); //판매기능 아직 생성 안함 
+                                    x = shop.BuyS(item, player);
+                                    if (x[0] == '*')
+                                    {
+                                        x.Substring(1, x.Length - 1);
+                                        SceneManager.Instance().ShopResult(x,shop);
+
+                                    }
+                                 
+                                    else
+                                    {
+                                        int a=SceneManager.Instance().ShopSellConfirm(x);
+                                        if (a == 1)
+                                        {
+                                            //구매
+                                            SceneManager.Instance().ShopResult(shop.BuySC(item,player),shop);
+                                        }
+                                        //안 삼
+                                    }
+                                   
+                                    break;
+                                case 2:
+                                    item = SceneManager.Instance().ShopSell(player); //판매기능 
+                                    x = shop.SellS(item, player);
+                                    if (x[0] == '*')
+                                    {
+                                        x.Substring(1, x.Length - 1);
+                                        SceneManager.Instance().ShopResult(x, shop);
+
+                                    }
+
+                                    else
+                                    {
+                                        int a = SceneManager.Instance().ShopSellConfirm(x);
+                                        if (a == 1)
+                                        {
+                                            //구매
+                                            SceneManager.Instance().ShopResult(shop.SellSC(item, player), shop);
+                                        }
+                                        //안 삼
+                                    }
+                                    break;
+                                case 3:
+
+                                    isRun2 = false;
+                                    break;
+                            }
+                        }
+                        //shop.ShowMenu(player); //상점 아이템 생성
                         break;
                     case 3:
-<<<<<<< Updated upstream
-                        inven.ShowInventory(); //인벤 확인
-=======
+
                         bool isRun = true;
                         SceneManager.Instance().InitPlayer();//레이아웃 생성
                         while (isRun)
@@ -198,31 +233,65 @@ namespace TEXT_RPG
                         //    player.ShowStat();
                         //else
                         //    player.ShowSkillList();
->>>>>>> Stashed changes
+
                         break;
                     case 4:
-<<<<<<< Updated upstream
-                        Console.WriteLine("1.플레이어 인벤");
-                        Console.WriteLine("2.플레이어 스탯");
-                        Console.WriteLine("3.플레이어 스킬");
-                        while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
+                        bool isRun = true;
+                        SceneManager.Instance().InitPlayer();//레이아웃 생성
+                        while (isRun)
                         {
-                            Console.WriteLine("입력 오류");
+                           int i= SceneManager.Instance().SelectPlayerLayout();  //레이아웃 확인
+                            switch(i)
+                            {
+                                case 1:
+                                    SceneManager.Instance().StatLayout(player); //스텟 보여줌
+                                    break;
+                                case 2:
+                                    while (true)
+                                    {
+                                        Item item2 = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                        if (item2 == null)
+                                            break;
+                                        
+                                        inven.EquipS(player, item2);
+                                    }
+                                    break;
+                                case 3:
+                                    SceneManager.Instance().PSkillLayout(player); //스킬 보여줌
+                                    break;
+                                case 4:
+                                    isRun = false;
+                                    break;
+                            }
+                           
                         }
-                        if (input == 1)
-                            inven.ShowInventory(); //플레이어 기능들 확인.... 
-                        else if (input == 2)
-                            player.ShowStat();
-                        else
-                            player.ShowSkillList();
-=======
                         
                         QuestManager.Instance().QuestInit2(); // 퀘스트 매니저 기능 실행
->>>>>>> Stashed changes
+
+                        //Console.WriteLine("1.플레이어 인벤");
+                        //Console.WriteLine("2.플레이어 스탯");
+                        //Console.WriteLine("3.플레이어 스킬");
+                        //while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
+                        //{
+                        //    Console.WriteLine("입력 오류");
+                        //}
+                        //if (input == 1)
+                        //    inven.ShowInventory(player); //플레이어 기능들 확인.... 
+                        //else if (input == 2)
+
+                        //    player.ShowStat();
+                        //else
+                        //    player.ShowSkillList();
+                        break;
+                        //inven.ShowInventory(player); //인벤 확인
+                        
+                    case 4:
+
+                        QuestManager.Instance().QuestInit(); // 퀘스트 매니저 기능 실행
+
                         break;
                     case 5:
-                        shop.GenerateShopItems();
-                        shop.ShowMenu(player); //상점 아이템 생성
+               
                         break;
 
                     case 0:

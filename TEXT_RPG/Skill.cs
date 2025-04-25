@@ -33,15 +33,15 @@ namespace TEXT_RPG
             Critical = _critical;
         }
 
-<<<<<<< Updated upstream
 
-=======
         public string show(int i)
+
         {
             string s = "";
             s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
             return s;
         }
+
         public string showDetail()
         {
             string s = "";
@@ -49,8 +49,6 @@ namespace TEXT_RPG
             s += ($" {Description}");
             return s;
         }
->>>>>>> Stashed changes
-
 
 
     }

@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace TEXT_RPG
 {
@@ -21,14 +24,11 @@ namespace TEXT_RPG
         Layout playerlayout;
         Layout Lobbylayout;
         Layout charaLayout;
-<<<<<<< Updated upstream
-        public int SetLobbyScene() //로비 
-=======
         Layout shopLayout;
         Layout questLayout;
         Layout dungeonLayout;
+
         public int SetLobbyScene() //로비 씬 시작 
->>>>>>> Stashed changes
         {
             Lobbylayout= new Layout();
             Lobbylayout.SplitRows(new Layout(new Panel(
@@ -81,23 +81,20 @@ namespace TEXT_RPG
 
             return index;
         }
-<<<<<<< Updated upstream
-        public void CharaLayout()
-=======
-        public void InitCharaMake() //캐릭터 선택 창
->>>>>>> Stashed changes
+
+        public void CharaLayout() //캐릭터 선택 창
         {
             charaLayout = new Layout();
             charaLayout.SplitRows(new Layout("menu").Ratio(1), new Layout("name").Ratio(1),new Layout().SplitColumns(new Layout("status").Ratio(3),new Layout("select").Ratio(1)).Ratio(5)
                 );
             charaLayout["menu"].Update(new Panel(new Text("이름 입력").Centered()).Expand());
-            charaLayout["name"].Update(new Panel(new Text("").Centered()).Expand());
-            charaLayout["status"].Update(new Panel(new Text("").Centered()).Expand());
-            charaLayout["select"].Update(new Panel(new Text("").Centered()).Expand());
+            charaLayout["name"].Update(new Panel(new Text("").Centered()).Expand()); //이름 
+            charaLayout["status"].Update(new Panel(new Text("").Centered()).Expand()); //직업별 스텟
+            charaLayout["select"].Update(new Panel(new Text("").Centered()).Expand()); //선택지
             AnsiConsole.Console.Clear();
             AnsiConsole.Write(charaLayout);
         }
-        public string setName()
+        public string setName() //이름 설정
         {
             ConsoleKeyInfo key;
             string input="";
@@ -122,19 +119,55 @@ namespace TEXT_RPG
             }
             return input;
         }
-        public int SetJob(List<string> menu)
+        public int SetJob(List<Job> jobs) //직업설정
         {
+            charaLayout["menu"].Update(new Panel(new Text("직업 선택").Centered()).Expand());
+            ConsoleKeyInfo key;
+            int index = 1;
             bool isEnd = false;
-            int i=-1;
-            while (!isEnd) { 
-                i = makeSelect(menu, charaLayout["select"]); 
+            while (!isEnd)
+            {
+                string a = "\n";
+                for (int i = 0; i < jobs.Count; i++)
+                {
+                    if (i + 1 == index)
+                        a += ("[bold]-> " + i + ": " + jobs[i].Name + "[/]\n\n");
+                    else
+                        a += (i + ": " + jobs[i].Name + "\n\n");
+                }
+                charaLayout["select"].Update(
+                new Panel(a)
+                   .Expand()
+                   .Padding(0, 0));
+                charaLayout["status"].Update(
+               new Panel(jobs[index - 1].showInfo())
+                  .Expand()
+                  .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(charaLayout);
+               
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        index--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        index++;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                }
+                if (index < 1)
+                    index = jobs.Count;
+                if (index > jobs.Count)
+                    index = 1;
             }
-            return i;
+            return index;
         }
-<<<<<<< Updated upstream
-       
-        public int MenuLayout()
-=======
+
         public void InitDungeon()
         {
             dungeonLayout = new Layout();
@@ -388,7 +421,6 @@ namespace TEXT_RPG
 
         }
         public int MenuLayout() //메뉴
->>>>>>> Stashed changes
         {
             var layout = new Layout();
 
@@ -456,17 +488,21 @@ namespace TEXT_RPG
             return index;
 
         }
-        public int PlayerLayout()
+        public void InitPlayer()
         {
-           
+            playerlayout = new Layout();
 
             playerlayout.SplitRows(
-                new Layout(new Panel(new Text("MENU").Centered()).Expand()).Size(3),
+                new Layout(new Panel(new Text("Player").Centered()).Expand()).Size(3),
                 new Layout("Middle")
                     .SplitColumns(new Layout().SplitRows(
                         new Layout("status"),
-                        new Layout("item"), new Layout(""), new Layout("")).Ratio(1), new Layout("MAP").Ratio(4))
+                        new Layout("item"), new Layout("skill"), new Layout("back")).Ratio(1), new Layout("MAP").Ratio(4))
                 );
+        }
+        public int SelectPlayerLayout() //플레이어 정보 확인
+        {
+           
             int index = 1;
             ConsoleKeyInfo key;
             bool isEnd = false;
@@ -477,13 +513,28 @@ namespace TEXT_RPG
                     case 1:
                         playerlayout["status"].Update(new Panel("[blink]스테이터스[/]").Expand().Padding(0, 0));
                         playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
-      
+                        playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
+                        playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
                         break;
                     case 2:
-                        playerlayout["status"].Update(new Panel("[blink]스테이터스[/]").Expand().Padding(0, 0));
-                        playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));    
+                        playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
+                        playerlayout["item"].Update(new Panel("[blink]아이템[/]").Expand().Padding(0, 0));
+                        playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
+                        playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
                         break;
-                 
+                    case 3:
+                        playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
+                        playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
+                        playerlayout["skill"].Update(new Panel("[blink]스킬[/]").Expand().Padding(0, 0));
+                        playerlayout["back"].Update(new Panel("뒤로").Expand().Padding(0, 0));
+                        break;
+                    case 4:
+                        playerlayout["status"].Update(new Panel("스테이터스").Expand().Padding(0, 0));
+                        playerlayout["item"].Update(new Panel("아이템").Expand().Padding(0, 0));
+                        playerlayout["skill"].Update(new Panel("스킬").Expand().Padding(0, 0));
+                        playerlayout["back"].Update(new Panel("[blink]뒤로[/]").Expand().Padding(0, 0));
+                        break;
+
                 }
 
                 AnsiConsole.Clear();
@@ -503,19 +554,525 @@ namespace TEXT_RPG
                         break;
                 }
                 if (index < 1)
-                    index = 2;
-                if (index > 2)
+                    index = 4;
+                if (index > 4)
                     index = 1;
             }
             return index;
 
         }
-<<<<<<< Updated upstream
+
         private int ScrollMenu(List<Item> items,Layout lay)
+
+        public void InitShop() //샵 레이아웃
+        {
+            
+            shopLayout = new Layout();
+
+            shopLayout.SplitRows(
+                new Layout(new Panel(new Text("상점").Centered()).Expand()).Size(3),
+                new Layout("ItemList").Ratio(5)
+                    , new Layout("Order").Ratio(2)
+                );
+  
+        }
+        public Item ShopBuy(Shop shop)
+        {
+            int index = 0;
+
+
+            int page = 1;
+
+            int num = 10;
+            int maxIndex = shop.shopItems.Count - 1;
+            int maxPage = maxIndex / num + 1;
+            if (maxIndex % num == 0)
+                maxPage--;
+
+            bool isEnd = false;
+            while (!isEnd)
+            {
+                string txt = "";
+                if (maxIndex > page * num)
+                {
+                    for (int i = (page - 1) * num; i <= page * num; i++)
+                    {
+
+                        if (index == i)
+                            txt += "[bold]->" + shop.shopItems[i].showS() + "[/]\n\n";
+                        else
+                            txt += shop.shopItems[i].showS() + "\n\n";
+                    }
+                }
+                else
+                {
+                    for (int i = (page - 1) * num; i <= maxIndex; i++)
+                    {
+                        if (index == i)
+                            txt += "[bold]->" + shop.shopItems[i].showS() + "[/]\n\n";
+                        else
+                            txt += shop.shopItems[i].showS() + "\n\n";
+                    }
+                }
+
+                shopLayout["ItemList"].Update(
+                  new Panel(txt)
+                     .Expand()
+                     .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(shopLayout);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (index > 0)
+                            index--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (index < page * num)
+                            index++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (page > 1)
+                        {
+
+                            page--;
+                            index = (page - 1) * num;
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (page < maxPage)
+                            page++;
+                        index = (page - 1) * num;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                }
+
+
+
+
+            }
+            return shop.shopItems[index];
+        } //상점
+        public int SelectShop() //선택
+        {
+            int index = 1;
+            ConsoleKeyInfo key;
+            bool isEnd = false;
+            List<string> menu = new List<string>();
+            menu.Add("구매");
+            menu.Add("판매");
+            menu.Add("뒤로");
+            Layout layout = shopLayout["Order"];
+            while (!isEnd)
+            {
+                string a = "\n";
+                for (int i = 0; i < menu.Count; i++)
+                {
+                    if (i + 1 == index)
+                        a += ("[bold]-> " + menu[i] + "[/]\n");
+                    else
+                        a += (" " + menu[i] + "\n");
+                }
+                layout.Update(
+                new Panel(a)
+                   .Expand()
+                   .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(shopLayout);
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        index--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        index++;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                }
+                if (index < 1)
+                    index = menu.Count;
+                if (index > menu.Count)
+                    index = 1;
+            }
+            return index;
+        }
+        public void ShopResult(string message,Shop shop) //실패
+        {
+            shopLayout["Order"].Update(
+              new Panel(message)
+                 .Expand()
+                 .Padding(0, 0));
+            int maxIndex = shop.shopItems.Count - 1;
+            string txt = "";
+
+            if (maxIndex > 5)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+
+                    if (0 == i)
+                        txt += "[bold]->" + shop.shopItems[i].showS() + "[/]\n\n";
+                    else
+                        txt += shop.shopItems[i].showS() + "\n\n";
+                }
+            }
+            else
+            {
+                for (int i = 0; i <= maxIndex; i++)
+                {
+                    if (0 == i)
+                        txt += "[bold]->" + shop.shopItems[i].showS() + "[/]\n\n";
+                    else
+                        txt += shop.shopItems[i].showS() + "\n\n";
+                }
+            }
+            shopLayout["ItemList"].Update(
+               new Panel(txt)
+                  .Expand()
+                  .Padding(0, 0));
+
+
+            AnsiConsole.Clear();
+            AnsiConsole.Write(shopLayout);
+            Thread.Sleep(1000);
+        }
+        public int ShopSellConfirm(string message)
+        {
+            int index =1;
+            bool isEnd = false;
+            
+            Layout layout = shopLayout["Order"];
+            List<String> menu = new List<String>();
+            ConsoleKeyInfo key;
+            menu.Add("네");
+            menu.Add("아니오");
+            while (!isEnd)
+            {
+                string a = message+"\n";
+                for (int i = 0; i < menu.Count; i++)
+                {
+                    if (i + 1 == index)
+                        a += ("[bold]->" + menu[i] + "[/]\n\n");
+                    else
+                        a += ( menu[i] + "\n\n");
+                }
+                layout.Update(
+                new Panel(a)
+                   .Expand()
+                   .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(shopLayout);
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        index--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        index++;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                }
+                if (index < 1)
+                    index = menu.Count;
+                if (index > menu.Count)
+                    index = 1;
+            }
+            return index;
+        }
+        public Item ShopSell(Player player)
+        {
+            int index = 0;
+
+
+            int page = 1;
+
+            int num = 10;
+            int maxIndex = player.inventory.Count - 1;
+            int maxPage = maxIndex / num + 1;
+            if (maxIndex % num == 0)
+                maxPage--;
+
+            bool isEnd = false;
+            while (!isEnd)
+            {
+                string txt = "";
+                if (maxIndex > page * num)
+                {
+                    for (int i = (page - 1) * num; i <= page * num; i++)
+                    {
+
+                        if (index == i)
+                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                        else
+                            txt += player.inventory[i].show() + "\n\n";
+                    }
+                }
+                else
+                {
+                    for (int i = (page - 1) * num; i <= maxIndex; i++)
+                    {
+                        if (index == i)
+                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                        else
+                            txt += player.inventory[i].show() + "\n\n";
+                    }
+                }
+
+                shopLayout["ItemList"].Update(
+                  new Panel(txt)
+                     .Expand()
+                     .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(shopLayout);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (index > 0)
+                            index--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (index < page * num)
+                            index++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (page > 1)
+                        {
+
+                            page--;
+                            index = (page - 1) * num;
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (page < maxPage)
+                            page++;
+                        index = (page - 1) * num;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                }
+
+
+
+
+            }
+            return player.inventory[index];
+        }
+        public Item InvenLayout(Player player) //인벤토리 보여줌 클릭한 물체의 인덱스 보내줌
+        {
+            int input = 0;
+          
+
+            int index = 0;
+            int page = 1;
+
+            int num = 5;
+            int maxIndex = player.inventory.Count - 1;
+            if (maxIndex == -1)
+                return null;
+            int maxPage = maxIndex / num + 1;
+            if (maxIndex % num == 0)
+                maxPage--;
+
+            bool isEnd = false;
+            while (!isEnd)
+            {
+                string txt = "";
+                if (maxIndex > page*num)
+                {
+                    for (int i = (page - 1) * num; i <= page * num; i++)
+                    {
+                        if (input == i)
+                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                        else
+                            txt += player.inventory[i].show() + "\n\n";
+                    }
+                }
+                else
+                {
+                    for (int i = (page - 1) * num; i <= maxIndex; i++)
+                    {
+                        if (input == i)
+                            txt += "[bold]->" + player.inventory[i].show() + "[/]\n\n";
+                        else
+                            txt += player.inventory[i].show() + "\n\n";
+                    }
+             }
+
+                playerlayout["map"].Update(
+                  new Panel(txt)
+                     .Expand()
+                     .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(playerlayout);
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if (input > 0)
+                            input--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (input < maxIndex)
+                            input++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (page > 1)
+                        {
+
+                            page--;
+                            input = (page - 1) * num;
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (page < maxPage)
+                            page++;
+                        input = (page - 1) * num;
+                        break;
+                    case ConsoleKey.Enter:
+                        isEnd = true;
+                        break;
+                    case ConsoleKey.Backspace:
+                        return null;
+                }
+
+
+
+
+            }
+            return player.inventory[input];
+        }
+        public void StatLayout(Player player) //플레이어 스테이터스 보여줌
+        {
+            AnsiConsole.Clear();
+            playerlayout["map"].Update(
+                  new Panel(player.showInfo())
+                     .Expand()
+                     .Padding(0, 0));
+            AnsiConsole.Write(playerlayout);
+            
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Backspace)
+                    break;
+            }
+
+
+        }
+        public void PSkillLayout(Player player) //스킬 보여줌
+        {
+            AnsiConsole.Clear();
+            playerlayout["map"].Update(
+                  new Panel(player.ShowSkillListS())
+                     .Expand()
+                     .Padding(0, 0));
+            AnsiConsole.Write(playerlayout);
+
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Backspace)
+                    break;
+            }
+        }
+        private int ScrollMenu(Player player,Layout lay)
         {
             int input=0;
+            string txt = "";
+            
+            int index = 0;
+            int page = 1;
+            
+            int num = 5;
+            int maxIndex = player.inventory.Count-1;
+            int maxPage = maxIndex / num+1;
+            if (maxIndex % num == 0)
+                maxPage--;
+            ConsoleKeyInfo key;
+            key = Console.ReadKey(true);
+            while (key.Key != ConsoleKey.Backspace)
+            {
+                if (maxIndex > page)
+                {
+                    for (int i = (page-1)*num; i < page * num; i++)
+                    {
+                        if (input == 1)
+                            txt = "[bold]->" + player.inventory[i].show() + "[/]\n";
+                        else
+                            txt += player.inventory[i].show() + "\n";
+                    }
+                }
+                else
+                {
+                    for (int i = (page - 1) * num; i < maxPage; i++)
+                    {
+                        if (input == 1)
+                            txt = "[bold]->" + player.inventory[i].show() + "[/]\n";
+                        else
+                            txt += player.inventory[i].show() + "\n";
+                    }
+
+
+
+                }
+
+                lay.Update(
+                  new Panel(txt)
+                     .Expand()
+                     .Padding(0, 0));
+                AnsiConsole.Clear();
+                AnsiConsole.Write(charaLayout);
+                key = Console.ReadKey(true);
+                switch (key.Key)
+                {
+                    case ConsoleKey.UpArrow:
+                        if(input>0)
+                        input--;
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (input < maxIndex)
+                            input++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        if (page > 1)
+                        {
+                            
+                            page--;
+                            input =(page - 1)*num;
+                        }
+                        break;
+                    case ConsoleKey.RightArrow:
+                        if (page <maxPage )
+                            page++;
+                        input = (page - 1) * num;
+                        break;
+                    case ConsoleKey.Enter:
+                        break;
+                }
+            
+
+
+
+            }
             return input;
-=======
+        }
         public void InitShop() //샵 레이아웃
         {
             
@@ -1024,8 +1581,9 @@ namespace TEXT_RPG
 
             }
             return list[in];
->>>>>>> Stashed changes
+
         }
+     
 
         public void InitBattleScene(List<Monster> mons,string room,Player player,string a)
         {
@@ -1065,11 +1623,11 @@ namespace TEXT_RPG
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        index++;
+                        index--;
                         break;
 
                     case ConsoleKey.DownArrow:
-                        index--;
+                        index++;
                         break;
                     case ConsoleKey.Enter:
                         isEnd = true;
@@ -1123,7 +1681,7 @@ namespace TEXT_RPG
                     index=1;
             }
             return index;
-        }
+        } //플레이어 전투시
 
         private  void CreateBattleLayout(Panel Mon, Panel room, Panel info, Panel dialog)
         {
@@ -1188,7 +1746,7 @@ namespace TEXT_RPG
         {
 
 
-            return new Panel($"\n{player.Name}({player.Job.ToString()}) HP: {player.CurrentHP}/{player.MaxHP} 마나: {player.CurrentMP}/{player.MaxMP} ")
+            return new Panel($"\n{player.Name}({player.Job.ToString()}) HP: {player.CurrentHP}/{player.MaxHp} 마나: {player.CurrentMP}/{player.MaxMp} ")
                      .Expand()
                      .Padding(0, 0);
         }

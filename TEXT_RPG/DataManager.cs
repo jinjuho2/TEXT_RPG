@@ -13,17 +13,16 @@ using System.Xml.Linq;
 
 namespace TEXT_RPG
 {
-    enum Job{ 마법사,전사,도적,궁수,해적
-        }
+  
 
     internal class DataManager
     {
         string monPath = @"Data\monster.json";
         string skillPath = @"Data\skill.json";
-        string  jobPath = @"Data\job.json";
+        string jobPath = @"Data\job.json";
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
-        List<Dictionary<string, object>> jobs;
+        public List<Job> jobs;
         List<Skill> skills;
         List<Monster> monsters;
         List<Item> items;
@@ -41,9 +40,7 @@ namespace TEXT_RPG
         {
             string j = File.ReadAllText(monPath);
             monsters = JsonConvert.DeserializeObject<List<Monster>>(j);
-           j = File.ReadAllText(jobPath);
-
-            jobs = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(j);
+           
           j = File.ReadAllText(skillPath);
 
             skills = JsonConvert.DeserializeObject<List<Skill>>(j);
@@ -51,19 +48,29 @@ namespace TEXT_RPG
             j = j.Replace("\"IsHave\": \"\"", "\"IsHave\": false");
             j = j.Replace("\"IsEquipped\": \"\"", "\"IsEquipped\": false");
             items = JsonConvert.DeserializeObject<List<Item>>(j);
-      
-           
+            j  = File.ReadAllText(QuestPath);
+            quest = JsonConvert.DeserializeObject<List<Quest>>(j);
+            j = File.ReadAllText(jobPath);
+
+            jobs = JsonConvert.DeserializeObject<List<Job>>(j);
+
         }
-   
 
-
-
-        public Dictionary<string, object> giveJob(int i)
+        public Job MakeJob(int i)
         {
-            Console.WriteLine(i);
-            Console.WriteLine(jobs.Count);
-            return jobs[i];
+            Job data = null;
+            foreach (Job s in jobs)
+            {
+                if (s.ID == i)
+                    data = s;
+            }
+            data.Init();
+            return data;
+
+
         }
+
+
 
         public Skill MakeSkill(int i)
         {
@@ -77,7 +84,7 @@ namespace TEXT_RPG
 
 
             return sdata;
-        
+
         }
         public Item MakeItem(int i)
         {
@@ -87,10 +94,8 @@ namespace TEXT_RPG
                 if (s.ID == i)
                     data = s;
             }
-            Console.WriteLine(data.Name);
             if (data.MainType == "무기")
             {
-                Console.WriteLine("확인");
                 return new Weapone(data);
             }
             if (data.MainType == "갑옷")
@@ -99,7 +104,7 @@ namespace TEXT_RPG
             }
             if (data.MainType == "악세서리")
             {
-                return new Acessory(data);   
+                return new Acessory(data);
             }
             if (data.MainType == "포션")
             {
@@ -108,17 +113,28 @@ namespace TEXT_RPG
 
             return null;
         }
-        public Quest MakeQuest(int i)
+        //public Quest MakeQuest(int level)
+        //{
+        //    Quest data = null;
+        //    foreach (Quest s in quest)
+        //    {
+        //        if (s.Level == level)
+        //            data = s;
+        //    }
+        //    return data;
+
+        //}
+        public List<Quest> FindQuest(int level)
         {
-            Quest data = null;
+            List<Quest> data = new List<Quest>();
             foreach (Quest s in quest)
             {
-                if (s.ID == i)
-                    data = s;
+                if (s.Level == level)
+                    data.Add(s);
             }
 
             return data;
-           
+
         }
 
         public Monster makeMonster(int i)
@@ -134,6 +150,11 @@ namespace TEXT_RPG
 
 
         }
+        public int GetItemCount()
+        {
+            return items.Count;
+        }
+
 
 
 

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -19,10 +21,16 @@ namespace TEXT_RPG
 
         public List<Quest> Quests { get; set; }
         public List<Quest> Achieves { get; set; }
-
+        private static QuestManager instance;
+        public static QuestManager Instance()
+        {
+            if (instance == null)
+                instance = new QuestManager();
+            return instance;
+        }
         public QuestManager()//게임매니저에서 퀘스트 매니저를 부르는 거라 상호 참조할 필요는 없는데요 
         {                    //만약 게임 매니저의 값이 필요하시다면 메소드를 통해 가져오던가 게임매니저를 싱글톤으로 바꾸는 게 낫겠습니다     
-       
+            
             Quests = new List<Quest>();
             Achieves = new List<Quest>();
         }
@@ -41,7 +49,7 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 0:
-                        isRunning = false;             
+                        isRunning = false;
                         break; //로 해도 괜찮을듯합니다...
                     case 1:
                         isRunning = false;
@@ -103,6 +111,7 @@ namespace TEXT_RPG
             {
                 Console.Clear();
                 Console.WriteLine("-퀘스트창-\n");
+
                 ShowQuest(0);
                 Console.WriteLine("원하시는 퀘스트를 선택해주세요 \n0.나가기");
                 string? input = Console.ReadLine();
@@ -177,9 +186,9 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = true;
                                 Console.WriteLine("퀘스트가 수락되었습니다!");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
-                                
                                 QuestWindow();
                                 isRunning = false;
                                 break;
@@ -200,6 +209,7 @@ namespace TEXT_RPG
                                 Quests[index].IsActive = false;
                                 Console.WriteLine("퀘스트를 포기했습니다..");
                                 Thread.Sleep(1000);
+                                QuestWindow();
                                 break;
                             case 2:
                                 isRunning = false;
@@ -221,7 +231,9 @@ namespace TEXT_RPG
                         case 1:
                             isRunning = false;
                             Reward(Quests[index]);
+                            Quests[index].IsComplete = true;
                             Quests.RemoveAt(index);
+                            Console.WriteLine("삭제됨");
                             Thread.Sleep(1000);
                             break;
                         case 2:
@@ -283,9 +295,22 @@ namespace TEXT_RPG
             while (isRunning)
             {
                 Console.Clear();
-                if(Achieves[index].IsClear == false) Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
-                Console.ResetColor();
+                if (Achieves[index].IsClear == false && Achieves[index].IsVisible == true)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                    Console.ResetColor();
+                }
+                else if(Achieves[index].IsVisible == false)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"??? \n\n??? ??? / ??? \n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"{Achieves[index].Title} \n\n{Achieves[index].Etc} {Achieves[index].CurrentCount} / {Achieves[index].TargetCount} \n");
+                }
                 if (Achieves[index].IsClear == true && Achieves[index].IsReward == false) Console.WriteLine("1. 보상받기 \n");                              //업적달성시 보상받기 텍스트보임
                 Console.WriteLine("0. 돌아가기 \n");
                 int input = int.Parse(Console.ReadLine());
@@ -302,7 +327,7 @@ namespace TEXT_RPG
                             Achieves[index].IsReward = true;
                             Console.WriteLine("보상을 받았습니다.");
                         }
-                        else
+                        else 
                         {
                             Console.WriteLine("올바른 입력이 아닙니다.");
                         }
@@ -316,44 +341,35 @@ namespace TEXT_RPG
             }
 
         }
-        void AddQuest()                                                                             //퀘스트 목록 추가
+        public void AddQuest()                                                                             //퀘스트 목록 추가
         {
-            if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)
+            if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)                                                 //조건만족시 한번만발동
             {
-<<<<<<< Updated upstream
-                Quests.Add(new Quest { Title = "슬라임을 잡아라!", Etc = "슬라임을 5마리 잡으세요 \n - 주황버섯 10마리 처치", CurrentCount = 0, TargetCount = 5, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "스톤골렘을 잡아라!", Etc = "스톤골렘을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.StageClear });
-=======
+
                 Quests.AddRange(DataManager.Instance().FindQuest(1));
                 //Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
                 //Thread.Sleep(1000);
->>>>>>> Stashed changes
+
                 addQuest_1 = true;
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
             {
-<<<<<<< Updated upstream
-                Quests.Add(new Quest { Title = "좀비 버섯을 잡아라!", Etc = "좀비 버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "미노타우르스를 잡아라!", Etc = "미노타우르스를 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
-                Quests.Add(new Quest { Title = "중급 여행가", Etc = "타워 20층을 완료하세요", IsClear = false, level = 1, Type = QuestType.StageClear });
-=======
+
                 int currentQuestsCount = Quests.Count;
                 Quests.AddRange(DataManager.Instance().FindQuest(2));
                 //Console.WriteLine($"퀘스트 {Quests.Count - currentQuestsCount}개 추가");
                 //Thread.Sleep(1000);
->>>>>>> Stashed changes
+
                 addQuest_2 = true;
             }
+
         }
-        void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
+        public void AddAchieve()       //업적은 자동수락 자동진행 처음엔 안보이다가 진행도가 50%이상일때 목록에 보임
         {
             if (addAchieve == false)
             {
-                Achieves.Add(new Quest { Title = "메린이", Etc = "초급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메청년", Etc = "중급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-                Achieves.Add(new Quest { Title = "메노인", Etc = "고급(가명) 장비 풀세트 착용", CurrentCount = 0, TargetCount = 5, IsActive = true, IsClear = false, IsVisible = false, Type = QuestType.Hidden });
-
+                Achieves.AddRange(DataManager.Instance().FindQuest(0));
+                
                 addAchieve = true;
             }
         }
@@ -361,15 +377,16 @@ namespace TEXT_RPG
 
         public void ShowQuest(int index = -1)                                          //퀘스트 목록 보이기,index 매개변수 0으로 호출시 퀘스트넘버 보임
         {
-            int level = GameManager.Instance().currentStage / 10;
+            int level = GameManager.Instance().playerLevel;
             int counter = index >= 0 ? index : -1;
             foreach (Quest quest in Quests)
             {
+                if (quest.IsComplete == true) continue;
                 //if(quest.Type == QuestType.Hidden && quest.IsVisible == true)
                 //{
                 //    Console.WriteLine($"{quest.Title} : {quest.Etc} ");
                 //}
-                if (quest.level <= level)
+                if (quest.Level <= level)
                 {
                     string questNum = counter >= 0 ? $"{counter + 1}." : "";
                     string questStatus;
@@ -402,7 +419,7 @@ namespace TEXT_RPG
                             if (quest.IsActive == true) Console.WriteLine($"진행상황 : {quest.CurrentCount}마리 / {quest.TargetCount}마리");
                             Console.WriteLine("\n");
                             break;
-                        case QuestType.StageClear:
+                        case QuestType.Stage:
                             Console.WriteLine($"{questNum}{quest.Title}");
                             if (quest.IsActive == true) Console.WriteLine($"진행상황 : {quest.CurrentCount}층 / {quest.TargetCount}층");
                             Console.WriteLine("\n");
@@ -418,20 +435,47 @@ namespace TEXT_RPG
             int counter = index >= 0 ? index : -1;
             foreach (Quest achieve in Achieves)
             {
+                string questNum = counter >= 0 ? $"{counter + 1}." : "";
                 if (achieve.IsVisible == true)                                                  
                 {
-                    string questNum = counter >= 0 ? $"{counter + 1}." : "";
-                    if (achieve.IsClear == false)
+                    
+                    if (achieve.IsClear == false)                                  //클리어 안했을시
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
+                        Console.ResetColor();
                     }
-                    Console.WriteLine($"{questNum}. {achieve.Title} : {achieve.CurrentCount}/{achieve.TargetCount}");
-                    Console.ResetColor();
-                    counter++;
+                    else
+                    {
+                        Console.WriteLine($"{questNum}. {achieve.Title} - 완료 ");
+                    }
                 }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"{questNum}. ???");
+                    Console.ResetColor();
+                }
+                counter++;
             }
         }
-        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크
+        public void DeadCheck(int id)                                                                       //몬스터가 죽었을때 호출
+        {
+
+            foreach (Quest quest in Quests)
+            {
+                if (quest.TargetID == id && quest.IsActive == true)                                        //퀘스트의 타겟id와 같고 그 퀘스트가 진행중(수락상태)일때
+                {
+                    quest.CurrentCount++;
+                    Console.WriteLine($"[Quest] {quest.Title} 진행도 상승 {quest.CurrentCount} / {quest.TargetCount}");
+                    Thread.Sleep(1000);
+                }
+            }
+
+        }
+
+        
+        public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크, 마을에서 호출
         {
             foreach (Quest quest in Quests)
             {
@@ -441,14 +485,13 @@ namespace TEXT_RPG
                 switch (quest.Type)
                 {
                     case QuestType.Hunting:
-                        quest.CurrentCount = GameManager.Instance().monsterKill;
-                        if (GameManager.Instance().monsterKill >= quest.TargetCount)
+                        if (quest.CurrentCount >= quest.TargetCount)
                         {
                             ClearQuest(quest);
                         }
                         break;
-                    case QuestType.StageClear:
-                        quest.CurrentCount = GameManager.Instance().currentStage;
+                    case QuestType.Stage:
+                        //quest.CurrentCount = Floor.Instance().highFloor;
                         if (GameManager.Instance().currentStage >= quest.TargetCount)
                         {
                             ClearQuest(quest);
@@ -462,42 +505,46 @@ namespace TEXT_RPG
                 switch (achieve.Type)
                 {
                     case QuestType.Hidden:
-                        achieve.CurrentCount = GameManager.Instance().currentEquip;
-                        if (achieve.CurrentCount >= achieve.TargetCount)
+                        if (GameManager.Instance().equipCountByLevel.ContainsKey(achieve.TargetID))
                         {
-                            ClearQuest(achieve);
+                            achieve.CurrentCount = GameManager.Instance().equipCountByLevel[achieve.TargetID];
+                            if (achieve.CurrentCount >= achieve.TargetCount)                            //퀘스트(업적)달성시
+                            {
+                                ClearQuest(achieve);
+                            }
+                            else if (achieve.CurrentCount > achieve.TargetCount / 2 && achieve.IsVisible == false)                    //업적이 진행도가 50%이상이고 보이지않는상태일시
+                            {
+                                achieve.IsVisible = true;
+                                Console.WriteLine($"{achieve.Title} 업적 활성화");
+                                Thread.Sleep(1000);
+                            }
                         }
-                        else if (achieve.CurrentCount > achieve.TargetCount / 2)
-                        {
-                            achieve.IsVisible = true;
-                            Console.WriteLine($"{achieve.Title} 업적 활성화");
-                            Thread.Sleep(1000);
-                        }
+                
                         break;
                 }
             }
         }
         public void ClearQuest(Quest Quests)                                                                            //퀘스트,업적 클리어시 호출
         {
-            if (Quests.Type == QuestType.Hunting || Quests.Type == QuestType.StageClear)
+            if (Quests.Type == QuestType.Hunting || Quests.Type == QuestType.Stage)
             {
-                if (Quests.level == 0)
+                if (Quests.Level == 0)
                 {
                     Quests.IsClear = true;            //완료표시
                     Console.WriteLine($"{Quests.Title} 퀘스트완료");
                     Thread.Sleep(1000);
 
                 }
-                else if (Quests.level == 1)
+                else if (Quests.Level == 1)
                 {
                     //player 골드 , 경험치 중량증가
                 }
-                else if (Quests.level == 2)
+                else if (Quests.Level == 2)
                 {
                     //player 골드 , 경험치 대량증가
                 }
             }
-            else if(Quests.Type == QuestType.Hidden)
+            else if(Quests.Type == QuestType.Hidden && Quests.IsClear == false)
             {
                 
                 Quests.IsClear = true;
@@ -509,7 +556,7 @@ namespace TEXT_RPG
         }
         public void Reward(Quest Quests)
         {
-            if (Quests.level == 0)
+            if (Quests.Level == 0)
             {
                 //player 골드 , 경험치 소량증가
                 Console.WriteLine($"{Quests.Title} 보상받기 완료");

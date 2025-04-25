@@ -72,7 +72,7 @@ namespace TEXT_RPG
             Console.WriteLine($"몬스터 {nowMonsters.Count} 해결");
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.Level} {player.Name}");
-            Console.WriteLine($"HP {player.CurrentHP}/{player.MaxHP}");
+            Console.WriteLine($"HP {player.CurrentHP}/{player.MaxHp}");
             Console.WriteLine($"{gold}원 획득");
             Console.WriteLine("획득");
         }
