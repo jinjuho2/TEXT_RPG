@@ -192,5 +192,10 @@ namespace TEXT_RPG
             Console.WriteLine("충분한 휴식을 취해 체력이 모두 회복되었습니다.");
 
         }
+        public void GoShopF(Player player)//상점층 추가 필요?
+        {
+            Console.WriteLine("상점입니다.");
+            
+        }
     }
 }

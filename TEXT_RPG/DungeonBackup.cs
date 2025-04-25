@@ -216,8 +216,73 @@
 //    }
 //}
 
+//using TEXT_RPG;
+
+//public bool DungeonRun(string type, int nowFloor)
+//{
+//    dungeon = new Dungeon();
+//    bool isWin;
+
+//    if (type == "전투방")
+//    {
+//        isWin = dungeon.GoBattletF(player, dungeon.GetMonsterList(nowFloor));
+//    }
+//    else if (type == "이벤트방")
+//    {
+//        dungeon.GOEventF(player);
+//        return true;
+//    }
+//    else if (type == "휴식방")
+//    {
+//        dungeon.GoRestF(player);
+//        return true;
+//    }
+//    else // 보상방
+//    {
+//        dungeon.GORewardF(player);
+//        return true;
+//    }
+
+//    return isWin;
+//}
 
 
+//public bool ChoiceDungeonRun(int nowFloor)
+//{
+//    string[] arr = new string[3];
+//    Random rnd = new Random();
+
+//    // 선택지 생성
+//    for (int i = 0; i < 3; i++)
+//    {
+//        int dungeonNum = rnd.Next(1, 100);
+//        if (dungeonNum < 45)
+//            arr[i] = "전투방";
+//        else if (dungeonNum < 75)
+//            arr[i] = "이벤트방";
+//        else if (dungeonNum < 90)
+//            arr[i] = "휴식방";
+//        else
+//            arr[i] = "보상방";
+//    }
+
+//    // 선택지 출력
+//    Console.WriteLine("다음 층 중 하나를 선택하세요:");
+//    for (int i = 0; i < arr.Length; i++)
+//    {
+//        Console.WriteLine($"{i + 1}. {arr[i]}");
+//    }
+
+//    // 플레이어 입력
+//    int input;
+//    while (!int.TryParse(Console.ReadLine(), out input) || input < 1 || input > 3)
+//    {
+//        Console.WriteLine("잘못된 입력입니다. 1~3 중 하나를 선택해주세요.");
+//    }
+
+//    // 선택한 타입으로 실행
+//    return DungeonRun(arr[input - 1], nowFloor);
+//}
 
 
 
