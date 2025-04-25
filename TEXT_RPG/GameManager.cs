@@ -24,7 +24,6 @@ namespace TEXT_RPG
                 instance = new GameManager();
             return instance;
         }
-
         private Dungeon dungeon;
         private DungeonManager dungeonManager; // 추가
         private QuestManager questManager;
