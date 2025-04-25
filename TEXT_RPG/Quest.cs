@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Quest
+    internal class Quest :IShow
     {
         public int ID { get; set; }
         public string Title { get; set; }
@@ -44,7 +44,7 @@ namespace TEXT_RPG
             Level = _level;
         }
         public Quest() { }
-        public string show()
+        public string show(int mode)
         {
             string x=" ";
             if (IsActive)
@@ -76,6 +76,12 @@ namespace TEXT_RPG
             return x;
         }
 
+      
+
+        public string showDetail()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public enum QuestType

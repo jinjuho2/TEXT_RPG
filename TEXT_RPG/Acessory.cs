@@ -16,9 +16,7 @@ namespace TEXT_RPG
         }
 
 
-        public Acessory(string name, string type, float atk, float def, int hp, int mp, // 이름 ,타입 ,공격력 ,방어력 ,쳐력 ,마나 ,
-                        int price, int level, bool isHave, bool isEquipped, string mainType) //가격,착용레벨,소지 여부, 장착 여부
-            : base(name, type, atk, def, 0, 0, hp, mp, 0, 0, price, level, isHave, isEquipped, mainType)
+       
 
         public override string show(int i)
         {

@@ -98,9 +98,11 @@ namespace TEXT_RPG
             while (isRunning)
             {
                 Quest q = SceneManager.Instance().SelectQuest();
-               
+
                 if (q != null)
                     SceneManager.Instance().confirmQuest(q);
+                else
+                    break;
             }
         }
         public void QuestWindow()

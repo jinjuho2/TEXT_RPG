@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TEXT_RPG
 {
-    internal class Job
+    internal class Job : IShow
     {
         public int ID { get; set; }
         public string Name { get; set; }
@@ -27,7 +27,15 @@ namespace TEXT_RPG
             }
 
         }
-        public string showInfo()
+
+        public string show(int mode)
+        {
+            return Name;
+        }
+
+      
+
+        public string showDetail()
         {
             SkillList = new List<Skill>();
             string[] a = skill.Split(',');
@@ -41,7 +49,7 @@ namespace TEXT_RPG
             str += $"MP: {MaxMP}\n";
             str += $"ATK: {Attack}\n";
             str += $"DEF: {Defense}\n";
-            str += $"SPEED: {speed}\n";
+            str += $"SPEED: {speed}\n\n\n";
             foreach(Skill s in SkillList)
             {
                 str += $"{s.Name}: {s.Description} DMG: {s.Damage} {s.TargetNum}명\n";
