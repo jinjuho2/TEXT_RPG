@@ -145,7 +145,7 @@ namespace TEXT_RPG
                 Console.WriteLine($"{player.CurrentHP} / {player.TotalMaxHP}");
             }
         }
-        public bool GOBossF(Player player, List<Monster> list)//보스방
+        public bool GOBossF(Player player)//보스방
         {
             Console.WriteLine("보스방 입장");
             bool Win = battleManager.Battle(player);
@@ -213,7 +213,7 @@ namespace TEXT_RPG
                     break;
                 case 2:
                     Console.WriteLine("다음층으로 나아갑니다.");
-                    DungeonManager.dun
+                    dungeonManager.StartDungeon(player);
                     break;
             }
 
