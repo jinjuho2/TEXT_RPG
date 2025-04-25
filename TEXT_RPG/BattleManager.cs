@@ -13,7 +13,7 @@ namespace TEXT_RPG
     {
         //List<string> monsterInfo = new List<string> { "1,슬라임,1,Normal,10,5,3,30,30,10", "2,빅슬라임,1,Dark,10,5,3,30,30,10" };
 
-
+        
         List<Monster> nowMonsters;
         Player player;
         int turn = 0;
@@ -22,9 +22,9 @@ namespace TEXT_RPG
         int OriginHP;
         int pTurn;
         int mTurn;
-        public bool Battle(Player player)
+        public bool Battle(Player player,List<Monster> mon)
         {
-            Init(player);
+            Init(player,mon);
 
             for (int i = 0; i < nowMonsters.Count; i++)
             {
@@ -77,14 +77,18 @@ namespace TEXT_RPG
             Console.WriteLine("획득");
         }
       
-        private void Init(Player _player)
+        private void Init(Player _player, List<Monster> mon)
         {
              nowMonsters= new List<Monster>();
             player = _player;
-            nowMonsters.Add(DataManager.Instance().makeMonster(1));
-            nowMonsters[nowMonsters.Count-1].skills.Add(DataManager.Instance().MakeSkill(1));
-            nowMonsters.Add(DataManager.Instance().makeMonster(2));
-            nowMonsters[nowMonsters.Count - 1].skills.Add(DataManager.Instance().MakeSkill(1));
+            nowMonsters.AddRange(mon);
+            for(int i = 0;i < nowMonsters.Count;i++)
+            {
+                nowMonsters[i].skills.Add(DataManager.Instance().MakeSkill(1));
+
+      
+            }
+
             monsterCount = 0;
             int Pspeed = player.Speed;
             int Espeed = 0;

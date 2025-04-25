@@ -27,10 +27,11 @@ namespace TEXT_RPG
         Scene menuScene;
         Scene playerScene;
         Scene shopScene;
+        Scene dungeonScene;
         Layout battlelayout;
 
       
-        Layout dungeonLayout;
+     
 
         public int InitStartScene() //로비 씬 시작 
         {
@@ -107,78 +108,31 @@ namespace TEXT_RPG
 
         public void InitDungeon()
         {
-            dungeonLayout = new Layout();
-            dungeonLayout.SplitRows(
-                           new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3),
-                           new Layout("Middle")
-                    .SplitRows(new Layout().SplitRows(
-                        new Layout("dungeon"),
-                        new Layout("room1"), new Layout("room2"), new Layout("room3")).Ratio(5), new Layout("Text").Ratio(1), new Layout("Order").Ratio(2))
+            Layout temp = new Layout();
+            Layout head = new Layout("head");
+            Layout info = new Layout("Text").Ratio(1);
+            Layout btn1 = new Layout("room1");
+            Layout btn2 = new Layout("room2");
+            Layout btn3 = new Layout("room3");
+            Layout order = new Layout("Order").Ratio(2);
+            Dictionary<string, Layout> temp2 = new Dictionary<string, Layout>
+            { { "btn1", btn1 }, { "btn2", btn2 }, { "btn3", btn3 }, { "head", head },{ "order",order},{ "info",info} };
+            temp = new Layout();
+            temp.SplitRows( new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3),head,
+                          new Layout().SplitColumns(
+                        
+                       btn1 ,btn2 ,btn3 ).Ratio(5), order 
                 );
+            dungeonScene = new Scene(temp, "Dungeon", temp2);
+
+            dungeonScene.show();
+            
         }
         public int SelectDungeon()
         {
-            int index=0;
-            ConsoleKeyInfo key;
-            bool isEnd = false;
-
-
-            while (!isEnd)
-            {
-                switch (index)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-                if (index == 0)
-                {
-                   dungeonLayout["room1"].Update(
-                 new Panel("[blink]던전 1[/]").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room2"].Update(
-                 new Panel("던전 2").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room3"].Update(
-                new Panel("던전 2").AsciiBorder()
-                   .Padding(1, 1));
-
-                }
-                if (index == 1)
-                {
-                    dungeonLayout["room1"].Update(
-                 new Panel("[blink]던전 1[/]").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room2"].Update(
-                 new Panel("던전 2").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room3"].Update(
-                new Panel("던전 2").AsciiBorder()
-                   .Padding(1, 1));
-                }
-                AnsiConsole.Clear();
-             //   AnsiConsole.Write(Lobbylayout);
-                key = Console.ReadKey(true);
-                switch (key.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        index = 1 - index;
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        index = 1 - index;
-                        break;
-                    case ConsoleKey.Enter:
-                        isEnd = true;
-                        break;
-                }
-            }
-
-            return index;
-            return 0;
+            List<string> menu =new  List<string>{ "1번 방","2번 방","3번 방"};
+            List<string> room = new List<string> { "btn1", "btn2", "btn3" };
+            return dungeonScene.SelectPanel(room,menu);
         }
         public void InitQuest()
         {
