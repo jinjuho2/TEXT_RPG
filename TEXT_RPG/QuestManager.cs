@@ -58,6 +58,43 @@ namespace TEXT_RPG
                 }
             }
         }
+        public void QuestInit2()
+        {
+            AddQuest();
+            AddAchieve();
+            bool isRunning = true;
+            SceneManager.Instance().InitQuest();
+            int t = SceneManager.Instance().SelectQMenu();
+            bool isRun = true;
+            if (isRun)
+            {
+                switch (t)
+                {
+                    case 1:
+                        isRun = false;
+                        QuestWindow2();
+                      
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        isRun = false;
+                        break;
+                }
+            }
+        }
+        public void QuestWindow2()
+        {
+
+            bool isRunning = true;
+            while (isRunning)
+            {
+                Quest q = SceneManager.Instance().SelectQuest();
+               
+                if (q != null)
+                    SceneManager.Instance().confirmQuest(q);
+            }
+        }
         public void QuestWindow()
         {
 
@@ -283,16 +320,29 @@ namespace TEXT_RPG
         {
             if (GameManager.Instance().playerLevel >= 1 && addQuest_1 == false)
             {
+<<<<<<< Updated upstream
                 Quests.Add(new Quest { Title = "슬라임을 잡아라!", Etc = "슬라임을 5마리 잡으세요 \n - 주황버섯 10마리 처치", CurrentCount = 0, TargetCount = 5, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
                 Quests.Add(new Quest { Title = "스톤골렘을 잡아라!", Etc = "스톤골렘을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.Hunting });
                 Quests.Add(new Quest { Title = "초보 여행가", Etc = "타워 10층을 완료하세요", CurrentCount = 0, TargetCount = 10, IsActive = false, IsClear = false, level = 0, Type = QuestType.StageClear });
+=======
+                Quests.AddRange(DataManager.Instance().FindQuest(1));
+                //Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
+                //Thread.Sleep(1000);
+>>>>>>> Stashed changes
                 addQuest_1 = true;
             }
             if (GameManager.Instance().playerLevel >= 2 && addQuest_2 == false)
             {
+<<<<<<< Updated upstream
                 Quests.Add(new Quest { Title = "좀비 버섯을 잡아라!", Etc = "좀비 버섯을 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
                 Quests.Add(new Quest { Title = "미노타우르스를 잡아라!", Etc = "미노타우르스를 10마리 잡으세요", CurrentCount = 0, TargetCount = 10, IsClear = false, level = 1, Type = QuestType.Hunting });
                 Quests.Add(new Quest { Title = "중급 여행가", Etc = "타워 20층을 완료하세요", IsClear = false, level = 1, Type = QuestType.StageClear });
+=======
+                int currentQuestsCount = Quests.Count;
+                Quests.AddRange(DataManager.Instance().FindQuest(2));
+                //Console.WriteLine($"퀘스트 {Quests.Count - currentQuestsCount}개 추가");
+                //Thread.Sleep(1000);
+>>>>>>> Stashed changes
                 addQuest_2 = true;
             }
         }

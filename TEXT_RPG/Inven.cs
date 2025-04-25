@@ -118,5 +118,45 @@ namespace TEXT_RPG
 
             }
         }
+<<<<<<< Updated upstream
+=======
+        public void EquipS(Player player, Item selectedItem)
+        {
+
+
+            int? nullableLevel = selectedItem.Level;
+
+            if (selectedItem.IsEquipped)
+            {
+
+                selectedItem.IsEquipped = false;
+
+
+                UpdateEquipCount(selectedItem.Level, 1);
+
+            }
+            //else if (selectedItem.Level > player.Level)
+            //{
+
+            //}
+            else
+            {
+                selectedItem.IsEquipped = true;
+                UpdateEquipCount(selectedItem.Level, -1);
+
+            }
+        }
+        void UpdateEquipCount(int? level, int delta)
+        {
+            if (!level.HasValue) return;
+
+            int lv = level.Value;
+
+            if (GameManager.Instance().equipCountByLevel.ContainsKey(lv))
+                GameManager.Instance().equipCountByLevel[lv] += delta;
+            else
+                GameManager.Instance().equipCountByLevel[lv] = Math.Max(0, delta);
+        }
+>>>>>>> Stashed changes
     }
 }

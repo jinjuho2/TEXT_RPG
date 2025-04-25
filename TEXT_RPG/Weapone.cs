@@ -19,6 +19,7 @@ namespace TEXT_RPG
            : base(item.Name, item.Type, item.Atk??0, 0, item.Critical??0, 0, 0, 0, 0, 0, item.Price ?? 0, item.Level ?? 0, item.IsHave, item.IsEquipped, item.MainType)
         {
         }
+<<<<<<< Updated upstream
 
         public static void AddDefaultWeapons() // 기본 무기 추가
         {
@@ -43,5 +44,30 @@ namespace TEXT_RPG
             Weapons.Add(new Weapone("슈팅스타",     "Gun", 30, 0, 3000, 30, false, false, "무기"));
             Weapons.Add(new Weapone("피스메이커",   "Gun", 60, 0, 6000, 45, false, false, "무기"));
         }
+=======
+        public override string show(int i)
+        {
+
+            string display = "";
+            if (i == 0)
+            {
+                if (IsEquipped)
+                    display += ($"[red][[E]][/]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 치명타율 : {Critical,-5} | 레벨 : {Level,-5} | 가격 : {Price}");
+                else
+                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 치명타율 : {Critical,-5} | 레벨 : {Level,-5} | 가격 : {Price}");
+            }
+            else
+            {
+                if (IsHave)
+                    display += ($"[gray]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 치명타율 : {Critical,-5} | 레벨 : {Level,-5} | 판매완료[/]");
+                else
+                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 치명타율 : {Critical,-5} | 레벨 : {Level,-5} | 가격 : {Price}");
+
+            }
+            return display;
+        }
+        
+
+>>>>>>> Stashed changes
     }
 }

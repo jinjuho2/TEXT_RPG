@@ -10,7 +10,7 @@ namespace TEXT_RPG
     {
         Normal, Fire, Water, Grass, Dark, Light
     }
-    internal class Skill
+    internal class Skill : IShow
     {
         public int ID { get; set; }
         public string Name { get; set; } // 스킬 이름
@@ -33,7 +33,23 @@ namespace TEXT_RPG
             Critical = _critical;
         }
 
+<<<<<<< Updated upstream
 
+=======
+        public string show(int i)
+        {
+            string s = "";
+            s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            return s;
+        }
+        public string showDetail()
+        {
+            string s = "";
+            s = ($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            s += ($" {Description}");
+            return s;
+        }
+>>>>>>> Stashed changes
 
 
 

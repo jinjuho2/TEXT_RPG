@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +38,37 @@ namespace TEXT_RPG
 
         }
         public Quest() { }
+        public string show()
+        {
+            string x=" ";
+            if (IsActive)
+            {
+                if (IsClear)
+                {
+                    x += "[red][[완료]][/]";
+                }
+                else
+                {
+                    x += "[red][[진행중]][/]";
+                }
+            }
+         
+            switch (Type)
+            {
+                case QuestType.Hunting:
+                    x+=($"{Title} ");
+                    if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}마리 / {TargetCount}마리");
+                    Console.WriteLine("\n");
+                    break;
+                case QuestType.Stage:
+                   x+=($"{Title} ");
+                    if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}층 / {TargetCount}층");
+                    Console.WriteLine("\n");
+                    break;
+            }
+   
+            return x;
+        }
 
     }
 

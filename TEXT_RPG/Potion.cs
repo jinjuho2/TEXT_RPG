@@ -17,6 +17,7 @@ namespace TEXT_RPG
         {
 
         }
+<<<<<<< Updated upstream
         public Potion(string name, string type, int recoverHp, int recoverMp, int price, bool isHave,string mainType) // 이름 ,타입 ,회복량 ,가격, 소지 여부
             : base(name, type, 0, 0, 0, 0, 0, 0, recoverHp, recoverMp , price, 0, isHave, false, mainType)
         {
@@ -30,6 +31,24 @@ namespace TEXT_RPG
             Potions.Add(new Potion("하얀 포션", "HP", 300, 0, 330, false, "포션"));
             Potions.Add(new Potion("파란 포션", "MP", 0, 100, 100, false, "포션"));
             Potions.Add(new Potion("마나 엘릭서", "MP", 0, 300, 320, false, "포션"));
+=======
+       
+
+        public override string show(int i)
+        {
+            string display = "";
+            if (i==0)
+              display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+            else
+            {
+                if (IsHave)
+                    display += ($"[gray]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 판매완료[/]");
+                else
+                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+
+            }
+            return display;
+>>>>>>> Stashed changes
         }
 
         public void Use(Player player) // 포션 사용

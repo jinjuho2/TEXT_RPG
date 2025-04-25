@@ -38,7 +38,13 @@ namespace TEXT_RPG
             inven = new Inven();
             shop = new Shop();
             player = new Player();
+<<<<<<< Updated upstream
             MakeName();
+=======
+            SceneManager.Instance().SetLobbyScene();
+            SceneManager.Instance().InitCharaMake();
+            player.Name = SceneManager.Instance().setName();
+>>>>>>> Stashed changes
             ChooseJob();
         }
         public void MakeName() //이름생성
@@ -133,15 +139,69 @@ namespace TEXT_RPG
                 switch (input)
                 {
                     case 1:
+<<<<<<< Updated upstream
                         questManager.QuestInit(); // 퀘스트 매니저 기능 실행
+=======
+
+                        dungeonManager.StartDungeon(player); // 던전 매니저 기능 실행
+                        //dungeonManager.StartDungeon(player); //교체?
+>>>>>>> Stashed changes
                         break;
                     case 2:
                         dungeon.DungeonRun(player); // 던전 매니저 기능 실행
                         break;
                     case 3:
+<<<<<<< Updated upstream
                         inven.ShowInventory(); //인벤 확인
+=======
+                        bool isRun = true;
+                        SceneManager.Instance().InitPlayer();//레이아웃 생성
+                        while (isRun)
+                        {
+                           int i= SceneManager.Instance().SelectPlayerLayout();  //레이아웃 확인
+                            switch(i)
+                            {
+                                case 1:
+                                    SceneManager.Instance().StatLayout(player); //스텟 보여줌
+                                    break;
+                                case 2:
+                                    while (true)
+                                    {
+                                        Item item2 = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                        
+                                        if (item2 == null)
+                                            break;
+                                        
+                                        inven.EquipS(player, item2); 
+                                    }
+                                    break;
+                                case 3:
+                                    SceneManager.Instance().PSkillLayout(player); //스킬 보여줌
+                                    break;
+                                case 4:
+                                    isRun = false;
+                                    break;
+                            }
+                           
+                        }
+                        //Console.WriteLine("1.플레이어 인벤");
+                        //Console.WriteLine("2.플레이어 스탯");
+                        //Console.WriteLine("3.플레이어 스킬");
+                        //while (!int.TryParse(Console.ReadLine(), out input) || input < 0 || input > 6)
+                        //{
+                        //    Console.WriteLine("입력 오류");
+                        //}
+                        //if (input == 1)
+                        //    inven.ShowInventory(player); //플레이어 기능들 확인.... 
+                        //else if (input == 2)
+
+                        //    player.ShowStat();
+                        //else
+                        //    player.ShowSkillList();
+>>>>>>> Stashed changes
                         break;
                     case 4:
+<<<<<<< Updated upstream
                         Console.WriteLine("1.플레이어 인벤");
                         Console.WriteLine("2.플레이어 스탯");
                         Console.WriteLine("3.플레이어 스킬");
@@ -155,6 +215,10 @@ namespace TEXT_RPG
                             player.ShowStat();
                         else
                             player.ShowSkillList();
+=======
+                        
+                        QuestManager.Instance().QuestInit2(); // 퀘스트 매니저 기능 실행
+>>>>>>> Stashed changes
                         break;
                     case 5:
                         shop.GenerateShopItems();

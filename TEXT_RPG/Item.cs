@@ -52,7 +52,22 @@ namespace TEXT_RPG
             this.MainType = mainType;
         }
 
+<<<<<<< Updated upstream
 
+=======
+        public virtual string show(int m)
+        {
+            string x;
+            
+            return Name;
+        }
+        public virtual string showDetail() {
+            string x;
+
+            return Name;
+        }
+        
+>>>>>>> Stashed changes
 
     }
 }
