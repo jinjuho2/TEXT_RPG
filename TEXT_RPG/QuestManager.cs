@@ -328,9 +328,6 @@ namespace TEXT_RPG
                 Quests.AddRange(DataManager.Instance().FindQuest(1));
                 //Console.WriteLine($"퀘스트 {Quests.Count}개 추가");
                 //Thread.Sleep(1000);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
                 addQuest_1 = true;
             }
@@ -345,9 +342,6 @@ namespace TEXT_RPG
                 Quests.AddRange(DataManager.Instance().FindQuest(2));
                 //Console.WriteLine($"퀘스트 {Quests.Count - currentQuestsCount}개 추가");
                 //Thread.Sleep(1000);
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
                 addQuest_2 = true;
             }

@@ -34,11 +34,8 @@ namespace TEXT_RPG
         }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 =======
-=======
->>>>>>> Stashed changes
         public string show(int i)
         {
             string s = "";
@@ -52,9 +49,6 @@ namespace TEXT_RPG
             s += ($" {Description}");
             return s;
         }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 
 

@@ -53,11 +53,8 @@ namespace TEXT_RPG
         }
 
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 =======
-=======
->>>>>>> Stashed changes
         public virtual string show(int m)
         {
             string x;
@@ -70,9 +67,6 @@ namespace TEXT_RPG
             return Name;
         }
         
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 
     }
