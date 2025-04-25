@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -124,6 +125,65 @@ namespace TEXT_RPG
                     Thread.Sleep(1000);
                 }
             }
+        }
+        public string BuyS(Item selectedItem,Player player)
+        {
+            string x="";
+            if (!selectedItem.IsHave && player.Gold >= selectedItem.Price)
+            {
+                x="정말 구매하시겠습니까?";
+            }
+
+            else if (!selectedItem.IsHave && player.Gold < selectedItem.Price)
+            {
+                x=($"*골드가 부족합니다.");
+                Thread.Sleep(1000);
+            }
+
+            else
+            {
+                x=$"*'{selectedItem.Name}' 을(를) 이미 구매하였습니다.";
+                Thread.Sleep(1000);
+            }
+            return x;
+        }
+        public string BuySC(Item selectedItem, Player player)
+        {
+       
+            selectedItem.IsHave = true;
+            player.inventory.Add(selectedItem);
+     
+            player.Gold -= selectedItem.Price ?? 0;
+
+            return  $"'{selectedItem.Name}' 을(를) 구매했습니다";
+        }
+        public string SellS(Item selectedItem, Player player)
+        {
+            string x = "";
+            if (selectedItem.IsEquipped)
+            {
+                x = ($"'{selectedItem.Name}'은(는) 장착 중인 아이템입니다. 판매할 수 없습니다.");
+            }
+
+            else
+            {
+
+                x = ("정말 판매하시겠습니까?");
+
+            }
+
+           
+            return x;
+        }
+        public string SellSC(Item selectedItem, Player player)
+        {
+
+            selectedItem.IsHave = false;
+            player.inventory.Remove(selectedItem);
+            player.Gold += (int)((selectedItem.Price ?? 0) * 0.8f);
+     
+
+            return ($"'{selectedItem.Name}' 을(를) 판매했습니다");
         }
 
         private void SellItem(Player player) // 판매
