@@ -83,11 +83,7 @@ namespace TEXT_RPG
         }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
         public void CharaLayout()
-=======
-        public void InitCharaMake() //캐릭터 선택 창
->>>>>>> Stashed changes
 =======
         public void InitCharaMake() //캐릭터 선택 창
 >>>>>>> Stashed changes
@@ -292,140 +288,6 @@ namespace TEXT_RPG
             bool isEnd = false;
 
 <<<<<<< Updated upstream
-=======
-
-            while (!isEnd)
-            {
-                switch (index)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-                if (index == 0)
-                {
-                   dungeonLayout["room1"].Update(
-                 new Panel("[blink]던전 1[/]").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room2"].Update(
-                 new Panel("던전 2").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room3"].Update(
-                new Panel("던전 2").AsciiBorder()
-                   .Padding(1, 1));
-
-                }
-                if (index == 1)
-                {
-                    dungeonLayout["room1"].Update(
-                 new Panel("[blink]던전 1[/]").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room2"].Update(
-                 new Panel("던전 2").AsciiBorder()
-                    .Padding(1, 1));
-                    dungeonLayout["room3"].Update(
-                new Panel("던전 2").AsciiBorder()
-                   .Padding(1, 1));
-                }
-                AnsiConsole.Clear();
-                AnsiConsole.Write(Lobbylayout);
-                key = Console.ReadKey(true);
-                switch (key.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        index = 1 - index;
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        index = 1 - index;
-                        break;
-                    case ConsoleKey.Enter:
-                        isEnd = true;
-                        break;
-                }
-            }
-
-            return index;
-            return 0;
-        }
-        public void InitQuest()
-        {
-            questLayout = new Layout();
-            questLayout.SplitRows(
-                new Layout(new Panel(new Text("퀘스트").Centered()).Expand()).Size(3),
-                new Layout("questList").Ratio(5)
-                    , new Layout("Order").Ratio(2)
-                );
-        }
-        public int SelectQMenu()
-        {
-            int index = 1;
-            ConsoleKeyInfo key;
-            bool isEnd = false;
-            List<string> menu = new List<string>();
-            menu.Add("퀘스트");
-            menu.Add("히든 업적");
-            menu.Add("뒤로");
-            Layout layout = questLayout["Order"];
-            while (!isEnd)
-            {
-                string a = "\n";
-                for (int i = 0; i < menu.Count; i++)
-                {
-                    if (i + 1 == index)
-                        a += ("[bold]-> " + menu[i] + "[/]\n");
-                    else
-                        a += (" " + menu[i] + "\n");
-                }
-                layout.Update(
-                new Panel(a)
-                   .Expand()
-                   .Padding(0, 0));
-                AnsiConsole.Clear();
-                AnsiConsole.Write(questLayout);
-                key = Console.ReadKey(true);
-                switch (key.Key)
-                {
-                    case ConsoleKey.UpArrow:
-                        index--;
-                        break;
-
-                    case ConsoleKey.DownArrow:
-                        index++;
-                        break;
-                    case ConsoleKey.Enter:
-                        isEnd = true;
-                        break;
-                }
-                if (index < 1)
-                    index = menu.Count;
-                if (index > menu.Count)
-                    index = 1;
-            }
-            return index;
-        }
-        public void InitDungeon()
-        {
-            dungeonLayout = new Layout();
-            dungeonLayout.SplitRows(
-                           new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3),
-                           new Layout("Middle")
-                    .SplitRows(new Layout().SplitRows(
-                        new Layout("dungeon"),
-                        new Layout("room1"), new Layout("room2"), new Layout("room3")).Ratio(5), new Layout("Text").Ratio(1), new Layout("Order").Ratio(2))
-                );
-        }
-        public int SelectDungeon()
-        {
-            int index=0;
-            ConsoleKeyInfo key;
-            bool isEnd = false;
-
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
 =======
 
             while (!isEnd)
@@ -1301,9 +1163,6 @@ namespace TEXT_RPG
             }
             return list[in];
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

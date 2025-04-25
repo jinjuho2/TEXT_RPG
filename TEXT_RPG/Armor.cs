@@ -23,7 +23,6 @@ namespace TEXT_RPG
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
         public static void AddDefaultArmors() // 기본 방어구 추가
         {
             Armors.Add(new Armor("가죽 갑옷", "Armor", 5, 1f, 0, 0, 100, 1, false, false, "갑옷"));
@@ -48,14 +47,6 @@ namespace TEXT_RPG
             if (i == 0)
             {
 
-=======
-        public override string show(int i)
-        {
-                        string display = "";
-            if (i == 0)
-            {
-
->>>>>>> Stashed changes
 =======
         public override string show(int i)
         {
