@@ -233,17 +233,21 @@ namespace TEXT_RPG
             return index;
 
         }
-        public int PlayerLayout() //플레이어 정보 확인
+        public void InitPlayer()
         {
-           playerlayout = new Layout();
+            playerlayout = new Layout();
 
             playerlayout.SplitRows(
                 new Layout(new Panel(new Text("Player").Centered()).Expand()).Size(3),
                 new Layout("Middle")
                     .SplitColumns(new Layout().SplitRows(
                         new Layout("status"),
-                        new Layout("item"), new Layout("skill"), new Layout("back" )).Ratio(1), new Layout("MAP").Ratio(4))
+                        new Layout("item"), new Layout("skill"), new Layout("back")).Ratio(1), new Layout("MAP").Ratio(4))
                 );
+        }
+        public int SelectPlayerLayout() //플레이어 정보 확인
+        {
+           
             int index = 1;
             ConsoleKeyInfo key;
             bool isEnd = false;
@@ -620,6 +624,8 @@ namespace TEXT_RPG
 
             int num = 5;
             int maxIndex = player.inventory.Count - 1;
+            if (maxIndex == -1)
+                return null;
             int maxPage = maxIndex / num + 1;
             if (maxIndex % num == 0)
                 maxPage--;
@@ -683,13 +689,15 @@ namespace TEXT_RPG
                     case ConsoleKey.Enter:
                         isEnd = true;
                         break;
+                    case ConsoleKey.Backspace:
+                        return null;
                 }
 
 
 
 
             }
-            return player.inventory[input-1];
+            return player.inventory[input];
         }
         public void StatLayout(Player player) //플레이어 스테이터스 보여줌
         {

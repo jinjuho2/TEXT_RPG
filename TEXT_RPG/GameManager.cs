@@ -154,7 +154,7 @@ namespace TEXT_RPG
                                    
                                     break;
                                 case 2:
-                                    item = SceneManager.Instance().ShopSell(player); //판매기능 아직 생성 안함 
+                                    item = SceneManager.Instance().ShopSell(player); //판매기능 
                                     x = shop.SellS(item, player);
                                     if (x[0] == '*')
                                     {
@@ -184,16 +184,24 @@ namespace TEXT_RPG
                         break;
                     case 3:
                         bool isRun = true;
+                        SceneManager.Instance().InitPlayer();//레이아웃 생성
                         while (isRun)
                         {
-                           int i= SceneManager.Instance().PlayerLayout(); //레이아웃 생성
+                           int i= SceneManager.Instance().SelectPlayerLayout();  //레이아웃 확인
                             switch(i)
                             {
                                 case 1:
                                     SceneManager.Instance().StatLayout(player); //스텟 보여줌
                                     break;
                                 case 2:
-                                     Item item2 = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                    while (true)
+                                    {
+                                        Item item2 = SceneManager.Instance().InvenLayout(player); //인벤 보여줌(수정 필요)
+                                        if (item2 == null)
+                                            break;
+                                        
+                                        inven.EquipS(player, item2);
+                                    }
                                     break;
                                 case 3:
                                     SceneManager.Instance().PSkillLayout(player); //스킬 보여줌

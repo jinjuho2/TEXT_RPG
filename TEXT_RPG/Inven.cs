@@ -141,7 +141,34 @@ namespace TEXT_RPG
 
             }
         }
-        
+        public void EquipS(Player player, Item selectedItem)
+        {
+
+
+            int? nullableLevel = selectedItem.Level;
+
+            if (selectedItem.IsEquipped)
+            {
+
+                selectedItem.IsEquipped = false;
+
+
+                UpdateEquipCount(selectedItem.Level, 1);
+
+
+            }
+
+            else if (selectedItem.Level > player.Level)
+            {
+
+            }
+            else
+            {
+                selectedItem.IsEquipped = false;
+                UpdateEquipCount(selectedItem.Level, -1);
+
+            }
+        }
         void UpdateEquipCount(int? level, int delta)
         {
             if (!level.HasValue) return;
