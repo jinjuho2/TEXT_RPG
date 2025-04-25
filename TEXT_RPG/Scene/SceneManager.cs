@@ -40,13 +40,14 @@ namespace TEXT_RPG
             Layout show = new Layout(new Panel(
               new FigletText("TEXT MAPLE RPG")).Expand().SquareBorder()).Ratio(3);
             Layout btn1 = new Layout("Start").Ratio(1);
-            Layout btn2 = new Layout("End").Ratio(1);
-            temp.SplitRows(show, btn1, btn2);
-            Dictionary<string, Layout> temp2 = new Dictionary<string, Layout> { { "show", show }, { "btn1", btn1 }, { "btn2", btn2 } };
+            Layout btn2 = new Layout("Load").Ratio(1);
+            Layout btn3 = new Layout("End").Ratio(1);
+            temp.SplitRows(show, btn1, btn2,btn3);
+            Dictionary<string, Layout> temp2 = new Dictionary<string, Layout> { { "show", show }, { "btn1", btn1 }, { "btn2", btn2 },{"btn3",btn3 } };
 
             startScene = new Scene(temp,"start",temp2);
-            List<string> menu= new List<string> { "시작","종료"};
-            List<string> a = new List<string> { "btn1", "btn2" };
+            List<string> menu= new List<string> { "시작","불러오기","종료"};
+            List<string> a = new List<string> { "btn1", "btn2","btn3" };
             int index = startScene.SelectPanel(a,menu);
            
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+
 namespace TEXT_RPG
 {
     internal class GameManager
@@ -43,12 +44,18 @@ namespace TEXT_RPG
             player = new Player();
 
 
-            SceneManager.Instance().InitStartScene();
-            SceneManager.Instance().InitCharaMake();
-            player.Name = SceneManager.Instance().setName();
+            int i=SceneManager.Instance().InitStartScene();
+            if (i == 1)
+            {
+                SceneManager.Instance().InitCharaMake();
+                player.Name = SceneManager.Instance().setName();
 
-            ChooseJob();
-            
+                ChooseJob();
+            }
+            else if(i==2) {
+                player =DataManager.Instance().Load();
+            }
+         
         }
        
         public void ChooseJob()
@@ -99,6 +106,7 @@ namespace TEXT_RPG
         }
         public void Run() ///임시... 만약 나는 다른 메뉴창 보고 싶지 않을 경우: 그냥 스위치 문 지우고 사용하는 메소드만 남기세요 아니면 프로그램 메인 안에 넣으면 됩니다.
         {
+            DataManager.Instance().Save(player);
             SceneManager.Instance().InitMenu();
             while (true)
             {

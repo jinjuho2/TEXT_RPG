@@ -7,9 +7,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TEXT_RPG
 {
@@ -22,6 +24,7 @@ namespace TEXT_RPG
         string jobPath = @"Data\job.json";
         string itemPath = @"Data\item.json";
         string QuestPath = @"Data\quest.json";
+        string savePath = @"Data\save.json";
         public List<Job> jobs;
         List<Skill> skills;
         List<Monster> monsters;
@@ -35,6 +38,20 @@ namespace TEXT_RPG
             if (instance == null)
                 instance = new DataManager();
             return instance;
+        }
+        public void Save(Player player)
+        {
+     
+            string jsonString = JsonConvert.SerializeObject(player);
+            File.WriteAllText(savePath, jsonString);
+        }
+        public Player Load()
+        {
+            string p = File.ReadAllText(savePath);
+            Player player = JsonConvert.DeserializeObject<Player>(p);
+
+       
+            return player;
         }
         public void Init()
         {
