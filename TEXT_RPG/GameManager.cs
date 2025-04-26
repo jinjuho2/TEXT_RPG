@@ -55,7 +55,7 @@ namespace TEXT_RPG
             else if(i==2) {
                 player =DataManager.Instance().Load();
             }
-         
+            player.Gold = 1500;
         }
        
         public void ChooseJob()
@@ -116,7 +116,7 @@ namespace TEXT_RPG
                 QuestManager.Instance().CheckQuest();
   
 
-                player.Gold = 10000;
+               
                
 
                 switch (input)

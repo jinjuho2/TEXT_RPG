@@ -19,9 +19,9 @@ namespace TEXT_RPG
         Dungeon dungeon;
         Player player;
 
-      
+        Scene dungeonScene;
 
-      
+
         //public void StartDungoen(Player player)//로비에서 첫번째로 던전을 눌렀을때
         //{
         //    Console.WriteLine("던전에 입장하였습니다.");
@@ -62,39 +62,28 @@ namespace TEXT_RPG
         public void Init(Player player)
         {
             this.player = player;
-            SceneManager.Instance().InitDungeon();
+           InitDungeon();
         }
         public void Run()
         {
             bool isRun=true;
             while (isRun) {
-                int i= SceneManager.Instance().SelectDungeon();
-                Dungeon nowD = makeDungeon();
+
+                dungeonScene.Text("head", $"{nowFloor} 층");
+                Dungeon nowD = SelectDungeon();
+
 
                 if (nowD.Run(player))
                 {
                     Floor++;
                 }
+                else break;
+
                 if (Floor == 5)
                     break;
-                else break;
+               
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -128,12 +117,13 @@ namespace TEXT_RPG
         {
 
             Random rnd = new Random();
-            int dungeonNum = rnd.Next(1, 100);
+        
             string[] arr = new string [3];
 
             for (int i = 0; i < 3; i++)
             {
                 string message;
+                    int dungeonNum = rnd.Next(1, 100);
                 if (dungeonNum >= 0 && dungeonNum < 45)//전투방
                 {
                     Console.WriteLine("전투방 입니다.");
@@ -203,6 +193,39 @@ namespace TEXT_RPG
         //    }
         //    return DungeonRun(arr[input - 1], nowFloor);
         //}
+
+        public void InitDungeon()
+        {
+            Layout temp = new Layout();
+            Layout head = new Layout("head");
+            Layout info = new Layout("Text").Ratio(1);
+            Layout btn1 = new Layout("room1");
+            Layout btn2 = new Layout("room2");
+            Layout btn3 = new Layout("room3");
+            Layout order = new Layout("Order").Ratio(2);
+            Dictionary<string, Layout> temp2 = new Dictionary<string, Layout>
+            { { "btn1", btn1 }, { "btn2", btn2 }, { "btn3", btn3 }, { "head", head },{ "order",order},{ "info",info} };
+            temp = new Layout();
+            temp.SplitRows(new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3), head,
+                          new Layout().SplitColumns(
+
+                       btn1, btn2, btn3).Ratio(5), order
+                );
+            dungeonScene = new Scene(temp, "Dungeon", temp2);
+
+            dungeonScene.show();
+
+        }
+        public Dungeon SelectDungeon()
+        {
+            List<Dungeon> duns = new List<Dungeon>();
+            for (int i = 0; i < 3; i++)
+            {
+                duns.Add(makeDungeon());
+            }
+            List<string> room = new List<string> { "btn1", "btn2", "btn3" };
+            return dungeonScene.SelectPanelD(room,duns,"order");
+        }
 
     }
 }

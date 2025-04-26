@@ -27,7 +27,7 @@ namespace TEXT_RPG
         Scene menuScene;
         Scene playerScene;
         Scene shopScene;
-        Scene dungeonScene;
+        
         
 
       
@@ -107,34 +107,7 @@ namespace TEXT_RPG
             
         }
 
-        public void InitDungeon()
-        {
-            Layout temp = new Layout();
-            Layout head = new Layout("head");
-            Layout info = new Layout("Text").Ratio(1);
-            Layout btn1 = new Layout("room1");
-            Layout btn2 = new Layout("room2");
-            Layout btn3 = new Layout("room3");
-            Layout order = new Layout("Order").Ratio(2);
-            Dictionary<string, Layout> temp2 = new Dictionary<string, Layout>
-            { { "btn1", btn1 }, { "btn2", btn2 }, { "btn3", btn3 }, { "head", head },{ "order",order},{ "info",info} };
-            temp = new Layout();
-            temp.SplitRows( new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3),head,
-                          new Layout().SplitColumns(
-                        
-                       btn1 ,btn2 ,btn3 ).Ratio(5), order 
-                );
-            dungeonScene = new Scene(temp, "Dungeon", temp2);
-
-            dungeonScene.show();
-            
-        }
-        public int SelectDungeon()
-        {
-            List<string> menu =new  List<string>{ "1번 방","2번 방","3번 방"};
-            List<string> room = new List<string> { "btn1", "btn2", "btn3" };
-            return dungeonScene.SelectPanel(room,menu);
-        }
+      
         public void InitQuest()
         {
             Layout temp = new Layout();

@@ -16,12 +16,16 @@ namespace TEXT_RPG
         Scene battleScene;
         List<Monster> nowMonsters;
         Player player;
+        int lv;
+        int hp;
+        int exp;
         int turn = 0;
         bool playerTurn=false;
         int monsterCount;
         int OriginHP;
         int pTurn;
         int mTurn;
+        List<string> monss = new List<string>{ "mon2", "mon3", "mon1", "mon4" };
         public bool Battle(Player player,List<Monster> mon)
         {
             Init(player,mon);
@@ -58,14 +62,30 @@ namespace TEXT_RPG
                 Victory();
                 return true;
             }
-            return false;
-            Thread.Sleep(1000);
-            battleScene.Text("info", "아무 키나 입력하여 다음으로");
-            Console.ReadKey();
 
+
+            Lose();
+            Console.ReadKey();
+            return false;
 
         }
-        
+        void Lose()
+        {
+            string x = "\n\n ";
+            x += "Lose!!\n\n";
+
+
+             x += $"{lv}: {player.Name}\n";
+
+            x += $"{hp}->{player.CurrentHP}\n아무 키나 입력하여 다음으로";
+   
+
+
+           
+
+            Console.ReadKey();
+
+        }
         void Victory()
         {
             int gold = 0;
@@ -74,21 +94,33 @@ namespace TEXT_RPG
                 gold += nowMonsters[i].Gold;
                 exp += nowMonsters[i].Exp;
             }
+
             player.Gold += gold;
             player.Getexp(exp);
-            string x="\n\n\n ";
+            string x="\n\n ";
             x+="WIN!!\n\n";
-            x+=$"몬스터 {nowMonsters.Count} 해결\n\n";
-   
-            x+=$"{gold}원 획득\n";
-            battleScene.Text("mon", x);
+                        
+            x+=$"몬스터 {nowMonsters.Count}마리 해결\n\n";
+            if(lv!=player.Level)
+            x += $"{lv}: {player.Name}->{player.Level}: {player.Name}\n";
+            else x += $"{lv}: {player.Name}\n";
+
+            x += $"{hp}->{player.CurrentHP}\n";
+            x += $"{exp}->{player.Exp}\n";
+            x += $"{gold}원 획득\n아무 키나 입력하여 다음으로";
             
+           
+            Console.ReadKey();
+
         }
       
         private void Init(Player _player, List<Monster> mon)
         {
              nowMonsters= new List<Monster>();
             player = _player;
+            hp = player.CurrentHP;
+            exp = player.Exp;
+            lv=player.Level;
             nowMonsters.AddRange(mon);
             for(int i = 0;i < nowMonsters.Count;i++)
             {
@@ -127,30 +159,86 @@ namespace TEXT_RPG
                 List<string> menu = new List<string>();
                 menu.Add("공격");
                 menu.Add("아이템");
-                int input = UpdatePlayerScene(menu);
-             
-
-
-                switch (input)
+                bool isRun=true;
+                while (isRun)
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        AttackMenu(); break;
+                    int input = UpdatePlayerScene(menu);
+
+
+
+                    switch (input)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            if(AttackMenu())
+                                isRun = false;
+                            break;
+                        case 2:
+                            if(ItemMenu())
+                                isRun =false; 
+                            break;
+                    }
                 }
             }
             return;
         }
-        void AttackMenu()
+        bool ItemMenu()
         {
-            Monster mon= battleScene.ScrollMenu(nowMonsters, "mon","",5,0);
-            Skill a = battleScene.ScrollMenu(player.skills, "chara", "", 5, 0);
-            battleScene.Text("chara", player.show(0));
-            battleScene.showList(nowMonsters, "mon");
-            Attack(player, mon,a);
+            List<Potion> items = player.inventory.OfType<Potion>().ToList();
+            if (items.Count == 0) {
+                battleScene.Text("info", "사용 가능 아이템 없음\n 아무 키나 입력하여 다음으로");
+                Console.ReadKey();
+                return false;
+            }
+            Potion p= battleScene.ScrollMenu(items, "chara", "", 5, 0);
+            if(p==null)
+                return false;
+            string a="아이템 사용";
+            if (p.Use(player, out a))
+            {
+                Thread.Sleep(1000);
+                battleScene.Text("info", a+"\n아무 키나 입력하여 다음으로");
+                Console.ReadKey();
+                return true;
+            }
+            else
+            {
+                Thread.Sleep(1000);
+                battleScene.Text("info", a+"\n아무 키나 입력하여 다음으로");
+                Console.ReadKey();
+                return false;
+            }
+        }
+        bool AttackMenu() //공격 메뉴
+        {
+            bool isEnd = false;
+            Skill a=null;
+            while (!isEnd){
+                 a = battleScene.ScrollMenu(player.skills, "chara", "", 5, 0);
+                if (a == null) return false;
+                if(player.UseSkill(a))
+                    isEnd = true;
+                else
+                    battleScene.Text("info", "마나 부족");
+            }
+            
+            string txt="";
+            int i =Math.Min( a.TargetNum,nowMonsters.Count(m => (m.IsAlive)));
+            List<Monster> mons =battleScene.SelectMonL(monss,nowMonsters,"info",i);
+            battleScene.showPanelD(monss, nowMonsters);
+            foreach (Monster mon in mons)
+            {
+                Attack(player, mon, a);
+                battleScene.Text("chara", player.show(0));
+                battleScene.showPanelD(monss, nowMonsters);
+            }
+
+
             playerTurn = false;
-         
+            battleScene.Text("info", "아무 키나 입력하여 다음으로");
             Console.ReadKey();
+            return true;
        
         }
         void Attack(Unit a,Unit b,Skill s) //true: 플레이어가 공격 false: 적이 공격...  
@@ -160,8 +248,9 @@ namespace TEXT_RPG
                 if (random.Next(0, 100) < a.Evasion)
                 {
                     battleScene.Text("info", $"{a.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
-                    //Console.WriteLine($"{a.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
-                    return;
+                    Thread.Sleep(1000);
+                //Console.WriteLine($"{a.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
+                return;
 
                 }
           
@@ -173,7 +262,8 @@ namespace TEXT_RPG
                     x+="[red]-치명타![/]\n";
 
                 Thread.Sleep(1000);
-                 float calAtk = s.Damage*a.showAtk();
+                Random rand = new Random();
+                 float calAtk = (s.Damage*a.showAtk()*rand.Next(90,111)/100);
                 if (s.Type == b.WeakType)
                 {
                         x += ("약점!\n");
@@ -197,7 +287,7 @@ namespace TEXT_RPG
                 battleScene.Text("info", x);
                 b.TakeDamage((int)calAtk);
             battleScene.Text("chara", player.show(0));
-            battleScene.showList(nowMonsters, "mon");
+            battleScene.showPanelD(monss, nowMonsters);
             Thread.Sleep(1000);
 
 
@@ -218,7 +308,7 @@ namespace TEXT_RPG
             while ( mTurn>0&&nowMonsters.Any(m=>m.IsAlive))
             {
                 mTurn--;
-                Console.WriteLine($"{mTurn}");
+                
                 i++;
                 if (i == nowMonsters.Count)
                     i = 0;
@@ -243,21 +333,30 @@ namespace TEXT_RPG
         {
             Layout battlelayout = new Layout();
             Layout head = new Layout("RoomInfo").Size(3);
-            Layout mon = new Layout().Ratio(3);
+            Layout mon1 = new Layout(new Panel("") .Border(BoxBorder.None));
+            Layout mon2 = new Layout(new Panel("").Border(BoxBorder.None));
+            Layout mon3 = new Layout(new Panel("").Border(BoxBorder.None));
+            Layout mon4 = new Layout(new Panel("").Border(BoxBorder.None));
+
             Layout info = new Layout("RightRight").Ratio(1);
             Layout order = new Layout("order");
             Layout chara = new Layout("DataInfo").Ratio(2);
             battlelayout.SplitRows(
-                head, new Layout("Middle").SplitColumns(mon, info),
+                head, new Layout("Middle").SplitColumns(new Layout().SplitColumns(mon1,mon2,mon3,mon4).Ratio(3), info),
                 new Layout("Bottom")
                     .SplitColumns(order, chara)
                 );
-            Dictionary<string, Layout> temp = new Dictionary<string, Layout> { {"head",head },{"mon",mon},{"info",info },{"order",order },
+            Dictionary<string, Layout> temp = new Dictionary<string, Layout> { {"head",head },{"mon1",mon1},{"mon2",mon2}
+                ,{"mon4",mon4},{"mon3",mon3},{"info",info },{"order",order },
                 {"chara",chara } };
             battleScene = new Scene(battlelayout, "battle", temp);
             battleScene.Text("head", "1층");
             battleScene.Text("info", "");
-            battleScene.showList(nowMonsters, "mon");
+            while (nowMonsters.Count < monss.Count)
+            {
+                monss.RemoveAt(monss.Count - 1);
+            }
+            battleScene.showPanelD(monss, nowMonsters);
             battleScene.Text("chara", player.show(0));
             battleScene.show();
             //Console.ReadKey(true);

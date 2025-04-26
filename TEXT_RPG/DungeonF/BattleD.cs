@@ -11,11 +11,14 @@ namespace TEXT_RPG
     {
         List<Monster> monsters { get; set; }
         BattleManager bm { get; set; }
+
         public override void Init(int i)
         {
             base.Init(i);
             bm= new BattleManager();
             monsters = new List<Monster>();
+            name = "전투 방";
+            info = "전투방 입니다.";
             GetMonsterList();
         }
         public override bool Run(Player player)
@@ -70,6 +73,7 @@ namespace TEXT_RPG
                     monsters.Add(DataManager.Instance().makeMonster(monsterID));
                 }
             }
+
            
         }
     }

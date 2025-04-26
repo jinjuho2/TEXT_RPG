@@ -10,7 +10,12 @@ namespace TEXT_RPG
     {
 
 
-       
+        public Monster clone()
+        {
+            Monster clone = (Monster)this.MemberwiseClone();
+           
+            return clone;
+        }
         protected override void Dead()
         {
             base.Dead(); 

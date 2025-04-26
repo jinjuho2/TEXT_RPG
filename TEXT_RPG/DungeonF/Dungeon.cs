@@ -8,10 +8,13 @@ using TEXT_RPG;
 
 namespace TEXT_RPG
 {
-    abstract class Dungeon
+    abstract class Dungeon :IShow
     {
         public int MonsterCount { get; set; }
         public int nowFloor { get; set; }
+
+        public string name;
+        public string info;
 
         public virtual void Init(int i) {
             nowFloor = i;
@@ -102,6 +105,16 @@ namespace TEXT_RPG
         {
             Console.WriteLine("상점입니다.");
             
+        }
+
+        public string show(int mode)
+        {
+            return name;
+        }
+
+        public string showDetail()
+        {
+            return info;
         }
     }
 }

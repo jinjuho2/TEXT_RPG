@@ -197,33 +197,50 @@ namespace TEXT_RPG
             base.Dead();
 
         }
-
-        public Skill UseSkill()//스킬 선택 후 사용
+        public bool UseSkill(Skill s)
         {
-            if (skills == null || skills.Count == 0)
-            {
-                Console.WriteLine("사용 가능한 스킬이 없습니다.");
-                return null;
-            }
-            List<int> validInputs = new List<int>();
-            for (int i = 0; i < skills.Count; i++)
-            {
-                Skill skill = skills[i];
-                Console.WriteLine($"{i + 1}. {skill.Name} 피해량 : {(int)TotalAttack * skill.Damage} 타겟수:{skill.TargetNum} (MP: {skill.MPCost})");
-                validInputs.Add(i + 1);
-
-            }
-            int a = GameManager.GetValidInput(validInputs) - 1;
-
-            return skills[a];
+            if (s.MPCost > CurrentMP)
+                return false;
+            CurrentMP-=s.MPCost;
+            return true;
         }
+        //public Skill UseSkill()//스킬 선택 후 사용
+        //{
+        //    if (skills == null || skills.Count == 0)
+        //    {
+        //        Console.WriteLine("사용 가능한 스킬이 없습니다.");
+        //        return null;
+        //    }
+        //    List<int> validInputs = new List<int>();
+        //    for (int i = 0; i < skills.Count; i++)
+        //    {
+        //        Skill skill = skills[i];
+        //        Console.WriteLine($"{i + 1}. {skill.Name} 피해량 : {(int)TotalAttack * skill.Damage} 타겟수:{skill.TargetNum} (MP: {skill.MPCost})");
+        //        validInputs.Add(i + 1);
+
+        //    }
+        //    int a = GameManager.GetValidInput(validInputs) - 1;
+
+        //    return skills[a];
+        //}
 
         public void GetItem(Item item)//아이템 획득
         {
             inventory.Add(item);
         }
+        public override string show(int mode)
+        {
+            string x = "";
+            if (!IsAlive)
+            {
 
-       
+                x += $"[gray]Lv.{Level} {Name} 기절[/]";
+
+            }
+            else x += $"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp} MP HP {CurrentMP}/{MaxMp}";
+            return x;
+        }
+
 
     }
 

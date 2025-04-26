@@ -160,7 +160,7 @@ namespace TEXT_RPG
             foreach (Monster s in monsters)
             {
                 if (s.ID == i)
-                    data = s;
+                    data = s.clone();
             }
             data.Init();
             return data;

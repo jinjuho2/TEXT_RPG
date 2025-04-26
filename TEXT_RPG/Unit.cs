@@ -40,7 +40,10 @@ namespace TEXT_RPG
             CurrentMP = MaxMp;
             CurrentHP = MaxHp;
         }
-
+        public Monster clone()
+        {
+            return new Monster();
+        }
         public virtual bool TakeDamage(int atkD)
         {
 
@@ -86,7 +89,11 @@ namespace TEXT_RPG
 
         public string showDetail()
         {
-            throw new NotImplementedException();
+            string x = $"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}\n";
+            x += $"공격력:{ATK} 방어력: {DEF}\n";
+            x += $"속도:{Speed} 치명률: {Critical}\n";
+            x += $"회피율:{Evasion} 속성: {WeakType.ToString()}\n";
+            return x;
         }
     }
 }

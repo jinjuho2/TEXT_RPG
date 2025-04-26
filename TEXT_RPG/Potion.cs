@@ -35,7 +35,7 @@ namespace TEXT_RPG
             return display;
         
         }
-        public void Use(Player player) // 포션 사용
+        public bool Use(Player player, out string a) // 포션 사용
         {
             if (Type == "HP" && player.CurrentHP < player.MaxHp && IsHave)
             {
@@ -43,7 +43,8 @@ namespace TEXT_RPG
                 if (player.CurrentHP > player.MaxHp)
                     player.CurrentHP = player.MaxHp;
 
-                Console.WriteLine($"{Name}을 사용하여 HP {RecoverHP} 회복했습니다.");
+                 a=($"{Name}을 사용하여 HP {RecoverHP} 회복했습니다.");
+                return true;
             }
             else if (Type == "MP" && player.CurrentMP < player.MaxMp && IsHave)
             {
@@ -51,11 +52,13 @@ namespace TEXT_RPG
                 if (player.CurrentMP > player.MaxMp)
                     player.CurrentMP = player.MaxMp;
 
-                Console.WriteLine($"{Name}을 사용하여 MP {RecoverMP} 회복했습니다.");
+                a=($"{Name}을 사용하여 MP {RecoverMP} 회복했습니다.");
+                return true;
             }
             else
             {
-                Console.WriteLine($"{Name}을 사용할 수 없습니다.");
+                a=($"{Name}을 사용할 수 없습니다.");
+                return false;
             }
         }
     }

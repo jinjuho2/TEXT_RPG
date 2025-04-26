@@ -432,6 +432,7 @@ namespace TEXT_RPG
                 }
             }
         }
+      
         public void ShowAchieve(int index = -1)                                                                     //업적 목록 보이기
         {
             int counter = index >= 0 ? index : -1;
