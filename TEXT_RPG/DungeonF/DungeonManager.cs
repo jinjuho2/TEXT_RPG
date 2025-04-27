@@ -87,8 +87,9 @@ namespace TEXT_RPG
         public Dungeon makeBossD()
         {
             dungeon = new BossD();
+            dungeon.Init(nowFloor);
             dungeonScene.Text("btn2", dungeon.name);
-            dungeonScene.Text("btn2", "위험한 기척이 느껴집니다......");
+            dungeonScene.Text("info", "위험한 기척이 느껴집니다......");
             List<string> temp = new List<string> { "입장 ", "도망 " };
             if (dungeonScene.SelectNum(temp, "order") == 2)
                 return null;

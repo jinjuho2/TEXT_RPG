@@ -171,8 +171,6 @@ namespace TEXT_RPG
             }
           
             return data;
-
-
         }
         public int GetItemCount()
         {

@@ -39,9 +39,6 @@ namespace TEXT_RPG
             //player.ShowStat();
           
             //Console.Clear();
-      
-            
-
             InitBattleScene("1번 방");
     
             while (player.IsAlive && nowMonsters.Any(m => (m.IsAlive))) //LINQ
@@ -279,8 +276,7 @@ namespace TEXT_RPG
        
         }
         void Attack(Unit a,Unit b,Skill s) //true: 플레이어가 공격 false: 적이 공격...  
-        {
-           
+        {     
                 Random random = new Random();
                 if (random.Next(0, 100) < a.Evasion)
                 {
@@ -288,16 +284,11 @@ namespace TEXT_RPG
                     Thread.Sleep(1000);
                 //Console.WriteLine($"{a.Name}이(가) {b.Name}을(를) 공격했지만 회피!");
                 return;
-
-                }
-          
+                }   
             string x = $"{a.Name} 이(가)  {b.Name}을(를) 공격\n";
             //Console.Write($"{a.Name} 이(가)  {b.Name}을(를) 공격");
-
-
                  if (random.Next(0,100)>s.Critical)
-                    x+="[red]-치명타![/]\n";
-
+                   x+="[red]-치명타![/]\n";
                 Thread.Sleep(1000);
                 Random rand = new Random();
                  float calAtk = (s.Damage*a.showAtk()*rand.Next(90,111)/100);
@@ -316,7 +307,6 @@ namespace TEXT_RPG
                         mTurn++;
                     x += ("한번 더\n");
                 }
-
                 }
                 else
                     x+=($"{b.Name}은(는) {(int)calAtk} 데미지를 입었다");
