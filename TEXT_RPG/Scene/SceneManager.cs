@@ -82,7 +82,7 @@ namespace TEXT_RPG
                 input =input.Remove(input.Length - 1);
                 
             }
-            else if(key.Key == ConsoleKey.Enter)
+            else if(key.Key == ConsoleKey.Enter&&input!="")
             {
                 break;
             }

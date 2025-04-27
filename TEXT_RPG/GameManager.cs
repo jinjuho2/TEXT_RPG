@@ -143,6 +143,8 @@ namespace TEXT_RPG
                             {
                                 case 1:
                                     item = SceneManager.Instance().ShopBuy(shop); //판매기능 아직 생성 안함 
+                                    if (item == null)
+                                        break;
                                     x = shop.BuyS(item, player);
                                     if (x[0] == '*')
                                     {
@@ -164,7 +166,9 @@ namespace TEXT_RPG
                                    
                                     break;
                                 case 2:
-                                    item = SceneManager.Instance().ShopSell(player); //판매기능 
+                                    item = SceneManager.Instance().ShopSell(player); //판매기능
+                                    if (item == null)
+                                    break;
                                     x = shop.SellS(item, player);
                                     if (x[0] == '*')
                                     {

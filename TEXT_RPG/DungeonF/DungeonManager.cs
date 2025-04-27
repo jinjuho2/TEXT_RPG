@@ -67,7 +67,7 @@ namespace TEXT_RPG
         public void Run()
         {
             bool isRun=true;
-            while (isRun) {
+            while (isRun) {https://x.com/home
 
                 dungeonScene.Text("head", $"{nowFloor} 층");
                 List<string> temp = new List<string> { };
