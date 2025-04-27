@@ -80,7 +80,7 @@ namespace TEXT_RPG
 
         public string showDetail()
         {
-            throw new NotImplementedException();
+            return Etc;
         }
     }
 

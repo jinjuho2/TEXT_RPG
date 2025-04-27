@@ -70,12 +70,14 @@ namespace TEXT_RPG
             while (isRun) {
 
                 dungeonScene.Text("head", $"{nowFloor} 층");
+                List<string> temp = new List<string> { };
+               
                 Dungeon nowD = SelectDungeon();
 
 
                 if (nowD.Run(player))
                 {
-                    Floor++;
+                    nowFloor++;
                 }
                 else break;
 
@@ -193,12 +195,40 @@ namespace TEXT_RPG
         //    }
         //    return DungeonRun(arr[input - 1], nowFloor);
         //}
+        void CheckQ()
+        {
+            List<string> list = new List<string> { "퀘스트 확인", "나가기" };
+            dungeonScene.showList(QuestManager.Instance().Quests, "info");
+            
+            if (dungeonScene.SelectNum(list, "order") != 1)
+                return;
+            while (true)
+            {
+                Quest quest = dungeonScene.ScrollMenu(QuestManager.Instance().Quests, "info", "btn2", 5, 0);
+                if (quest == null)
+                    break;
+                if (!quest.IsClear) continue;
+                List<string> menu;
+                if (quest.IsClear)
+                {
+                    menu = new List<string> { "보상받기", "돌아가기" };
+                    int i = dungeonScene.SelectNum(menu, "order");
+                    if (i == 1)
+                    {
+                        QuestManager.Instance().Reward(quest, player);
+                        quest.IsComplete = true;
+                        QuestManager.Instance().Quests.Remove(quest);
+                    }
+                }
+            }
 
+
+        }
         public void InitDungeon()
         {
             Layout temp = new Layout();
-            Layout head = new Layout("head");
-            Layout info = new Layout("Text").Ratio(1);
+            Layout head = new Layout("head").Ratio(1);
+            Layout info = new Layout("Text").Ratio(2);
             Layout btn1 = new Layout("room1");
             Layout btn2 = new Layout("room2");
             Layout btn3 = new Layout("room3");
@@ -209,7 +239,7 @@ namespace TEXT_RPG
             temp.SplitRows(new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3), head,
                           new Layout().SplitColumns(
 
-                       btn1, btn2, btn3).Ratio(5), order
+                       btn1, btn2, btn3).Ratio(5), info,order
                 );
             dungeonScene = new Scene(temp, "Dungeon", temp2);
 
@@ -224,7 +254,12 @@ namespace TEXT_RPG
                 duns.Add(makeDungeon());
             }
             List<string> room = new List<string> { "btn1", "btn2", "btn3" };
-            return dungeonScene.SelectPanelD(room,duns,"order");
+            dungeonScene.showPanelD(room, duns);
+            List<string> temp = new List<string> {"방 선택","퀘스트 확인" };
+            while(dungeonScene.SelectNum(temp, "order")==2) 
+                CheckQ();
+            
+            return dungeonScene.SelectPanelD(room,duns,"info");
         }
 
     }

@@ -232,7 +232,7 @@ namespace TEXT_RPG
                     {
                         case 1:
                             isRunning = false;
-                            Reward(Quests[index]);
+                           // Reward(Quests[index],player);
                             Quests[index].IsComplete = true;
                             Quests.RemoveAt(index);
                             Console.WriteLine("삭제됨");
@@ -557,11 +557,13 @@ namespace TEXT_RPG
 
 
         }
-        public void Reward(Quest Quests)
+        public void Reward(Quest Quests, Player player)
         {
             if (Quests.Level == 0)
             {
                 //player 골드 , 경험치 소량증가
+                player.Gold += Quests.Gold;
+                player.Getexp(Quests.Exp);
                 Console.WriteLine($"{Quests.Title} 보상받기 완료");
                 Thread.Sleep(1000);
 

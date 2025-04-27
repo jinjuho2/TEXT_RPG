@@ -229,13 +229,13 @@ namespace TEXT_RPG
             bool isEnd = false;
             while (!isEnd)
             {
-                string a = "\n";
+                string a = "";
                 for (int i = 0; i < menu.Count; i++)
                 {
                     if (i + 1 == index)
-                        a += ("[bold]>" + menu[i] + "[/]\n\n");
+                        a += ("[bold]>" + menu[i] + "[/]\n");
                     else
-                        a += ( menu[i] + "\n\n");
+                        a += ( menu[i] + "\n");
                 }
                 layouts[name].Update(
                 new Panel(a)

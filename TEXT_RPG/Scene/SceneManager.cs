@@ -150,7 +150,7 @@ namespace TEXT_RPG
                 int i = questScene.SelectNum(menu, "order");
                 if (i == 1)
                 {
-                    QuestManager.Instance().Reward(quest);
+                    //QuestManager.Instance().Reward(quest);
                     quest.IsComplete = true;
                     QuestManager.Instance().Quests.Remove(quest);
                 }

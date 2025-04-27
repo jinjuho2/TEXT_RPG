@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -78,10 +79,10 @@ namespace TEXT_RPG
              x += $"{lv}: {player.Name}\n";
 
             x += $"{hp}->{player.CurrentHP}\n아무 키나 입력하여 다음으로";
-   
+
+            battleScene.Text("info", x);
 
 
-           
 
             Console.ReadKey();
 
@@ -107,13 +108,47 @@ namespace TEXT_RPG
 
             x += $"{hp}->{player.CurrentHP}\n";
             x += $"{exp}->{player.Exp}\n";
-            x += $"{gold}원 획득\n아무 키나 입력하여 다음으로";
-            
+            x += $"{gold}원 획득\n";
+            battleScene.Text("info", x);
+            CheckQ();
            
             Console.ReadKey();
 
         }
-      
+        void CheckQ()
+        {
+            List<string> list = new List<string> {"퀘스트 확인","나가기" };
+            battleScene.showList(QuestManager.Instance().Quests, "chara");
+            if (QuestManager.Instance().Quests.Where(a=>a.IsActive).Count() == 0) {
+              list = new List<string> { "나가기" };
+                if (battleScene.SelectNum(list, "order") != 3)
+                    return;
+            }
+            if(battleScene.SelectNum(list,"order")!=1)
+                return;
+            while (true)
+            {
+                Quest quest = battleScene.ScrollMenu(QuestManager.Instance().Quests, "chara", "info", 5, 0);
+                if (quest == null)
+                    break;
+                if(!quest.IsClear) continue;
+                List<string> menu;
+                if (quest.IsClear)
+                {
+                    menu = new List<string> { "보상받기", "돌아가기" };
+                    int i = battleScene.SelectNum(menu, "order");
+                    if (i == 1)
+                    {
+                        QuestManager.Instance().Reward(quest,player);
+                        quest.IsComplete = true;
+                        QuestManager.Instance().Quests.Remove(quest);
+                    }
+                }
+            }
+            
+
+        }
+
         private void Init(Player _player, List<Monster> mon)
         {
              nowMonsters= new List<Monster>();
@@ -234,7 +269,7 @@ namespace TEXT_RPG
                 battleScene.showPanelD(monss, nowMonsters);
             }
 
-
+            battleScene.showPanelD(monss, nowMonsters);
             playerTurn = false;
             battleScene.Text("info", "아무 키나 입력하여 다음으로");
             Console.ReadKey();
