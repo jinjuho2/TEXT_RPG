@@ -151,34 +151,51 @@ namespace TEXT_RPG
         {
           
             List<string> menu;
-            if (quest.IsClear)
+            if (quest.Type == QuestType.Hunting || quest.Type == QuestType.Stage)
             {
-                menu = new List<string> { "보상받기", "돌아가기" };
-                int i = questScene.SelectNum(menu, "order");
-                if (i == 1)
+                if (quest.IsClear)
                 {
-                    //QuestManager.Instance().Reward(quest);
-                    quest.IsComplete = true;
-                    QuestManager.Instance().Quests.Remove(quest);
+                    menu = new List<string> { "보상받기", "돌아가기" };
+                    int i = questScene.SelectNum(menu, "order");
+                    if (i == 1)
+                    {
+                        //QuestManager.Instance().Reward(quest);
+                        quest.IsComplete = true;
+                        QuestManager.Instance().Quests.Remove(quest);
+                    }
+                }
+                else
+                {
+                    if (!quest.IsActive)
+                    {
+                        menu = new List<string> { "수락", "거절" };
+
+                        int i = questScene.SelectNum(menu, "order");
+                        if (i == 1)
+                            quest.IsActive = true;
+                    }
+                    else
+                    {
+                        menu = new List<string> { "포기하기", "돌아가기" };
+
+                        int i = questScene.SelectNum(menu, "order");
+                        if (i == 1)
+                            quest.IsActive = false;
+                    }
                 }
             }
             else
             {
-                if (!quest.IsActive)
+                if (quest.IsClear && quest.IsReward == false)
                 {
-                    menu = new List<string> { "수락", "거절" };
-
+                    menu = new List<string> { "보상받기", "돌아가기" };
                     int i = questScene.SelectNum(menu, "order");
-                    if (i == 1)
-                        quest.IsActive = true;
+                    quest.IsReward = true;
                 }
                 else
                 {
-                    menu = new List<string> { "포기하기", "돌아가기" };
-
+                    menu = new List<string> { "돌아가기" };
                     int i = questScene.SelectNum(menu, "order");
-                    if (i == 1)
-                        quest.IsActive = false;
                 }
             }
 
