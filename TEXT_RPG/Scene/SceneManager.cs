@@ -207,7 +207,7 @@ namespace TEXT_RPG
         public int MenuSelect() //메뉴
         {
 
-            List<string> menu = new List<string> { "던전", "상점", "스테이터스", "퀘스트" };
+            List<string> menu = new List<string> { "던전", "상점", "내정보", "퀘스트" };
             List<string> btns = new List<string> { "btn1", "btn2", "btn3", "btn4" };
 
             return menuScene.SelectPanel(btns, menu);

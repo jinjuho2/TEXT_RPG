@@ -4,9 +4,9 @@
     "Name": "매직 미사일",
     "Description": "기본 마법 공격이다",
     "MPCost": 0,
-    "Damage": "1.0",
+    "Damage": "1000.0",
     "Type": "Normal",
-    "TargetNum": 1,
+    "TargetNum": 3,
     "Critical": 5
   },
   {
