@@ -23,13 +23,13 @@ namespace TEXT_RPG
         {
             string display = "";
             if (i==0)
-              display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+              display = ($"{Name,-15} | {Type,-5} | 회복량 : {RecoverHP,-5} | 마나 회복량 : {RecoverMP,-5} | 가격 : {Price} ");
             else
             {
                 if (IsHave)
-                    display += ($"[gray]{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 판매완료[/]");
+                    display += ($"[gray]{Name,-15} | 회복량 : {RecoverHP,-5} | 마나 회복량 : {RecoverMP,-5} | 판매완료[/]");
                 else
-                    display = ($"{Name,-15} | {Type,-5} | 공격력 : {Atk,-5} | 방어력 : {Def,-5} | 치명타율 : {Critical,-5} | 회피율 : {Dodge,-5} | 레벨 : {Level,-5} | 가격 : {Price} ");
+                    display = ($"{Name,-15} | {Type,-5} | 회복량 : {RecoverHP,-5} | 마나 회복량 : {RecoverMP,-5} | 가격 : {Price} ");
 
             }
             return display;

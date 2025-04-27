@@ -114,10 +114,10 @@ namespace TEXT_RPG
                 QuestManager.Instance().AddQuest();
                 QuestManager.Instance().AddAchieve();
                 QuestManager.Instance().CheckQuest();
-  
+                DataManager.Instance().Save(player);
 
-               
-               
+
+
 
                 switch (input)
                 {

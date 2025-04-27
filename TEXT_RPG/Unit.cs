@@ -24,7 +24,8 @@ namespace TEXT_RPG
         public bool IsWeak { get; set; } // 약점 찌름 당함...
         public float Evasion { get; set; } // 회피율
         public float Critical { get; set; } // 치명타율
-
+        public string? IMG {  get; set; }
+        public string? skill { get; set; }
 
         public TYPE WeakType { get; set; } = TYPE.Normal;
 
@@ -76,14 +77,15 @@ namespace TEXT_RPG
 
         public virtual string show(int mode)
         {
-            string x="";
+            string x = IMG;
+            x += "\n\n";
             if (!IsAlive)
             {
                 
-                x+=$"[gray]Lv.{Level} {Name}\n 기절[/]";
+                x+=$" [gray]Lv.{Level} {Name}\n 기절[/]";
             
             }
-            else x+=$"Lv.{Level} {Name}\n HP {CurrentHP}/{MaxHp}";
+            else x+=$" Lv.{Level} {Name}\n HP {CurrentHP}/{MaxHp}";
             return x;
         }
 

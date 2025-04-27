@@ -24,7 +24,7 @@
   {
     "ID": 3,
     "Title": "초보 여행가",
-    "Etc": "타워 10층을 완료하세요",
+    "Etc": "타워 5층을 완료하세요",
     "TargetCount": 10,
     "TargetID": 0,
     "Type": "Stage",
@@ -56,7 +56,7 @@
   },
   {
     "ID": 6,
-    "Title": "중급 여행가",
+    "Title": "초보 여행가",
     "Etc": "타워 10층을 완료하세요",
     "TargetCount": 20,
     "TargetID": 0,
@@ -85,6 +85,50 @@
     "Type": "Hidden",
     "Gold": 1000,
     "Exp": 200,
+    "Level": 0
+  },
+  {
+    "ID": 102,
+    "Title": "어둠과 하나가 된",
+    "Etc": "당신은 어둠과 하나가 됐습니다",
+    "TargetCount": 1,
+    "TargetID": 0,
+    "Type": "Hidden",
+    "Gold": 300,
+    "Exp": 50,
+    "Level": 0
+  },
+  {
+    "ID": 103,
+    "Title": "나의 길을 선택하다",
+    "Etc": "당신은 온전히 당신입니다",
+    "TargetCount": 1,
+    "TargetID": 0,
+    "Type": "Hidden",
+    "Gold": 300,
+    "Exp": 50,
+    "Level": 0
+  },
+  {
+    "ID": 104,
+    "Title": "메잘알",
+    "Etc": "메이플 좀 하셨군요",
+    "TargetCount": 1,
+    "TargetID": 0,
+    "Type": "Hidden",
+    "Gold": 300,
+    "Exp": 50,
+    "Level": 0
+  },
+  {
+    "ID": 105,
+    "Title": "메알못",
+    "Etc": "메이플 좀 안하셨군요",
+    "TargetCount": 1,
+    "TargetID": 0,
+    "Type": "Hidden",
+    "Gold": 10,
+    "Exp": 10,
     "Level": 0
   }
 ]

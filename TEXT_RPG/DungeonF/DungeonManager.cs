@@ -55,7 +55,45 @@ namespace TEXT_RPG
         }
         public Dungeon makeDungeon()
         {
-             dungeon = new BattleD();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Random rnd = new Random();
+                string message;
+                int dungeonNum = rnd.Next(1, 100);
+                if (dungeonNum >= 0 && dungeonNum < 45)//전투방
+                {
+                    dungeon = new BattleD();
+
+                }
+                else if (dungeonNum >= 45 && dungeonNum < 75)//이벤트방?
+                {
+                    dungeon = new BattleD();
+                }
+                else if (dungeonNum >= 75 && dungeonNum < 90)//휴식방
+                {
+                    dungeon = new RestD();
+                }
+                else //보상방
+                {
+                    dungeon = new RestD();
+                }
+            
+            }
+         
+            dungeon.Init(Floor);
+            return dungeon;
+        }
+        public Dungeon makeBossD()
+        {
+            dungeon = new BossD();
+            dungeonScene.Text("btn2", dungeon.name);
+            dungeonScene.Text("btn2", "위험한 기척이 느껴집니다......");
+            List<string> temp = new List<string> { "입장 ", "도망 " };
+            if (dungeonScene.SelectNum(temp, "order") == 2)
+                return null;
+             
+          
             dungeon.Init(Floor);
             return dungeon;
         }
@@ -68,26 +106,53 @@ namespace TEXT_RPG
         {
             bool isRun=true;
             while (isRun) {
-
+                Dungeon nowD;
                 dungeonScene.Text("head", $"{nowFloor} 층");
                 List<string> temp = new List<string> { };
-               
-                Dungeon nowD = SelectDungeon();
+                if (nowFloor == 5) {
+                   nowD = makeBossD();
+                    
+                }
+                else
+                    nowD = SelectDungeon();
 
-
+                if (nowD == null)
+                {
+                    break;
+                }
                 if (nowD.Run(player))
                 {
                     nowFloor++;
                 }
                 else break;
 
-                if (Floor == 5)
-                    break;
                 QuestManager.Instance().Floorcheck(nowFloor);
+                if (nowFloor == 6)
+                {
+                    dungeonScene.Text("head", "종료");
+                    dungeonScene.Text("info", "현재 개발한 파트은 여기까지 입니다.\n 플레이 해주셔서 감사합니다.");
+                    dungeonScene.Text("btn2",player.showDetail());
+                    List<string>menu = new List<string> { "마을로 돌아가기", "그만두기" };
+                    int i = dungeonScene.SelectNum(menu, "order");
+                    if (i == 2)
+                    {
+                        DataManager.Instance().Save(player);
+                        Environment.Exit(0);
+                      
+
+                    }
+                  
+
+                     break;
+                }
+             
                
             }
         }
+        void end()
+        {
 
+        }
 
 
         //public bool DungeonRun(string type, int nowFloor)//던전을 한번 실행한다

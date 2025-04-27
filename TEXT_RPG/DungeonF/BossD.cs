@@ -10,6 +10,8 @@ namespace TEXT_RPG
     internal class BossD : Dungeon
     {
         Monster boss;
+
+        BattleManager bm { get; set; }
         public Monster GetBossMonsterList()
         {
             int monsterID;
@@ -43,12 +45,19 @@ namespace TEXT_RPG
 
         public override void Init(int i)
         {
-            throw new NotImplementedException();
+            base.Init(i);
+            bm = new BattleManager();
+            boss = GetBossMonsterList();
+            name = "보스 방";
+            info = "보스방 입니다.";
+          
         }
 
         public override bool Run(Player player)
         {
-            throw new NotImplementedException();
+            List<Monster> monster = new List<Monster>();
+            monster.Add(boss);
+            return bm.Battle(player, monster);
         }
     }
 }

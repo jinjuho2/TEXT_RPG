@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,38 +47,56 @@ namespace TEXT_RPG
         public Quest() { }
         public string show(int mode)
         {
-            string x=" ";
-            if (IsActive)
+            string x = " ";
+            if (mode == 0)
             {
-                if (IsClear)
+                
+                if (IsActive)
                 {
-                    x += "[red][[완료]][/]";
+                    if (IsClear)
+                    {
+                        x += "[red][[완료]][/]";
+                    }
+                    else
+                    {
+                        x += "[red][[진행중]][/]";
+                    }
                 }
-                else
+
+                switch (Type)
                 {
-                    x += "[red][[진행중]][/]";
+                    case QuestType.Hunting:
+                        x += ($"{Title} ");
+                        if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}마리 / {TargetCount}마리");
+                        Console.WriteLine("\n");
+                        break;
+                    case QuestType.Stage:
+                        x += ($"{Title} ");
+                        if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}층 / {TargetCount}층");
+                        Console.WriteLine("\n");
+                        break;
                 }
             }
-         
-            switch (Type)
-            {
-                case QuestType.Hunting:
-                    x+=($"{Title} ");
-                    if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}마리 / {TargetCount}마리");
-                    Console.WriteLine("\n");
-                    break;
-                case QuestType.Stage:
-                   x+=($"{Title} ");
-                    if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}층 / {TargetCount}층");
-                    Console.WriteLine("\n");
-                    break;
+            else {
+
+                    if (IsClear == false && IsVisible == true)
+                    {
+     
+                        x+=($"[gray]{Title} {Etc} {CurrentCount} / {TargetCount}[/] ");
+                       
+                    }
+                    else if (IsVisible == false)
+                    {
+                     
+                           x+=($"[gray]??? ??? ??? / ???[/] ");
+                 
+                    }
+                    else
+                     x+=($"{Title} {Etc} {CurrentCount} / {TargetCount} ");
+                    
             }
-   
-            return x;
+                return x;
         }
-
-      
-
         public string showDetail()
         {
             return Etc;

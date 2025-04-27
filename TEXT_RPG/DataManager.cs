@@ -163,6 +163,13 @@ namespace TEXT_RPG
                     data = s.clone();
             }
             data.Init();
+            data.skills = new List<Skill>();
+            string[] a = data.skill.Split(',');
+            foreach (string n in a)
+            {
+                data.skills.Add(DataManager.Instance().MakeSkill(int.Parse(n)));
+            }
+          
             return data;
 
 

@@ -139,6 +139,13 @@ namespace TEXT_RPG
         
         
         }
+        public Quest SelectAchieve()
+        {
+
+            return questScene.ScrollMenu(QuestManager.Instance().Achieves, "info", "", 5, 1);
+
+
+        }
 
         public void confirmQuest(Quest quest)
         {

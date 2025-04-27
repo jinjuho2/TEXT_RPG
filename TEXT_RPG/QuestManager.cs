@@ -84,6 +84,8 @@ namespace TEXT_RPG
                       
                         break;
                     case 2:
+                        isRun = false;
+                        AchieveWindow2();
                         break;
                     case 3:
                         isRun = false;
@@ -98,6 +100,19 @@ namespace TEXT_RPG
             while (isRunning)
             {
                 Quest q = SceneManager.Instance().SelectQuest();
+
+                if (q != null)
+                    SceneManager.Instance().confirmQuest(q);
+                else
+                    break;
+            }
+        }
+        void AchieveWindow2()
+        {
+            bool isRunning = true;
+            while (isRunning)
+            {
+                Quest q = SceneManager.Instance().SelectAchieve();
 
                 if (q != null)
                     SceneManager.Instance().confirmQuest(q);
@@ -137,6 +152,7 @@ namespace TEXT_RPG
                 }
             }
         }
+       
         void AchieveWindow()
         {
             bool isRunning = true;
