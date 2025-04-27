@@ -237,7 +237,7 @@ namespace TEXT_RPG
                 x += $"[gray]Lv.{Level} {Name} 기절[/]";
 
             }
-            else x += $"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp} MP HP {CurrentMP}/{MaxMp}";
+            else x += $"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp} MP {CurrentMP}/{MaxMp}";
             return x;
         }
 

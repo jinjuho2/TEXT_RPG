@@ -465,11 +465,43 @@ namespace TEXT_RPG
         public void DeadCheck(int id)                                                                       //몬스터가 죽었을때 호출
         {
 
-            foreach (Quest quest in Quests)
+            foreach (Quest quest in Quests.Where(q => (q.Type == QuestType.Hunting)).ToList())
             {
                 if (quest.TargetID == id && quest.IsActive == true)                                        //퀘스트의 타겟id와 같고 그 퀘스트가 진행중(수락상태)일때
                 {
                     quest.CurrentCount++;
+                    if (quest.CurrentCount >= quest.TargetCount)
+                        quest.IsClear = true;
+                    //Console.WriteLine($"[Quest] {quest.Title} 진행도 상승 {quest.CurrentCount} / {quest.TargetCount}");
+                    Thread.Sleep(1000);
+                }
+            }
+
+        }
+        public void ItemCheck(int id)                                                                       //몬스터가 죽었을때 호출
+        {
+
+            foreach (Quest quest in Quests.Where(q => (q.Type == QuestType.Hidden)).ToList())
+            {
+                if (quest.TargetID == id && quest.IsActive == true)                                        //퀘스트의 타겟id와 같고 그 퀘스트가 진행중(수락상태)일때
+                {
+                    quest.CurrentCount++;
+                    if (quest.CurrentCount >= quest.TargetCount)
+                        quest.IsClear = true;
+                    //Console.WriteLine($"[Quest] {quest.Title} 진행도 상승 {quest.CurrentCount} / {quest.TargetCount}");
+                    Thread.Sleep(1000);
+                }
+            }
+
+        }
+        public void Floorcheck(int floor)                                                                       //몬스터가 죽었을때 호출
+        {
+
+            foreach (Quest quest in Quests.Where(q=>(q.Type== QuestType.Stage)).ToList())
+            {
+                if (quest.TargetCount == floor && quest.IsActive == true)                                        //퀘스트의 타겟id와 같고 그 퀘스트가 진행중(수락상태)일때
+                {
+                    quest.IsClear = true;
                     Console.WriteLine($"[Quest] {quest.Title} 진행도 상승 {quest.CurrentCount} / {quest.TargetCount}");
                     Thread.Sleep(1000);
                 }
@@ -477,7 +509,7 @@ namespace TEXT_RPG
 
         }
 
-        
+
         public void CheckQuest()                                                                                //호출할때마다 현재 퀘스트or업적 클리어 체크, 마을에서 호출
         {
             foreach (Quest quest in Quests)

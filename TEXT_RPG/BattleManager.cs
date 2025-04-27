@@ -109,6 +109,8 @@ namespace TEXT_RPG
             x += $"{hp}->{player.CurrentHP}\n";
             x += $"{exp}->{player.Exp}\n";
             x += $"{gold}원 획득\n";
+            if (player.CurrentMP + 10 <= player.MaxMp)
+                player.CurrentMP += 10;
             battleScene.Text("info", x);
             CheckQ();
            
@@ -128,7 +130,7 @@ namespace TEXT_RPG
                 return;
             while (true)
             {
-                Quest quest = battleScene.ScrollMenu(QuestManager.Instance().Quests, "chara", "info", 5, 0);
+                Quest quest = battleScene.ScrollMenu(QuestManager.Instance().Quests.Where(a => a.IsActive).ToList(), "chara", "info", 5, 0);
                 if (quest == null)
                     break;
                 if(!quest.IsClear) continue;

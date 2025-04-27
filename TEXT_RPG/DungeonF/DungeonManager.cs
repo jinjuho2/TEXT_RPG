@@ -83,6 +83,7 @@ namespace TEXT_RPG
 
                 if (Floor == 5)
                     break;
+                QuestManager.Instance().Floorcheck(nowFloor);
                
             }
         }
@@ -197,14 +198,17 @@ namespace TEXT_RPG
         //}
         void CheckQ()
         {
+            
+
+
             List<string> list = new List<string> { "퀘스트 확인", "나가기" };
-            dungeonScene.showList(QuestManager.Instance().Quests, "info");
+            dungeonScene.showList(QuestManager.Instance().Quests.Where(q=>q.IsActive).ToList(), "info");
             
             if (dungeonScene.SelectNum(list, "order") != 1)
                 return;
             while (true)
             {
-                Quest quest = dungeonScene.ScrollMenu(QuestManager.Instance().Quests, "info", "btn2", 5, 0);
+                Quest quest = dungeonScene.ScrollMenu(QuestManager.Instance().Quests.Where(q=>q.IsActive).ToList(), "info", "btn2", 5, 0);
                 if (quest == null)
                     break;
                 if (!quest.IsClear) continue;
@@ -239,7 +243,7 @@ namespace TEXT_RPG
             temp.SplitRows(new Layout(new Panel(new Text("Dungeon").Centered()).Expand()).Size(3), head,
                           new Layout().SplitColumns(
 
-                       btn1, btn2, btn3).Ratio(5), info,order
+                       btn1, btn2, btn3).Ratio(4), info,order
                 );
             dungeonScene = new Scene(temp, "Dungeon", temp2);
 
@@ -255,10 +259,17 @@ namespace TEXT_RPG
             }
             List<string> room = new List<string> { "btn1", "btn2", "btn3" };
             dungeonScene.showPanelD(room, duns);
-            List<string> temp = new List<string> {"방 선택","퀘스트 확인" };
-            while(dungeonScene.SelectNum(temp, "order")==2) 
-                CheckQ();
-            
+            if (QuestManager.Instance().Quests.Count(q => q.IsActive) == 0)
+            {
+                List<string> list = new List<string> { "방 선택" };
+
+            }
+            else
+            {
+                List<string> temp = new List<string> { "방 선택", "퀘스트 확인" };
+                while (dungeonScene.SelectNum(temp, "order") == 2)
+                    CheckQ();
+            }
             return dungeonScene.SelectPanelD(room,duns,"info");
         }
 

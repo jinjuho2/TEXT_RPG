@@ -80,10 +80,10 @@ namespace TEXT_RPG
             if (!IsAlive)
             {
                 
-                x+=$"[gray]Lv.{Level} {Name} 기절[/]";
+                x+=$"[gray]Lv.{Level} {Name}\n 기절[/]";
             
             }
-            else x+=$"Lv.{Level} {Name} HP {CurrentHP}/{MaxHp}";
+            else x+=$"Lv.{Level} {Name}\n HP {CurrentHP}/{MaxHp}";
             return x;
         }
 

@@ -38,14 +38,14 @@ namespace TEXT_RPG
 
         {
             string s = "";
-            s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            s=($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost}) (속성: {Type.ToString()})");
             return s;
         }
 
         public string showDetail()
         {
             string s = "";
-            s = ($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost})");
+            s = ($" {Name} 피해량 : {Damage} 타겟수:{TargetNum} (MP: {MPCost}) (속성: {Type.ToString()})");
             s += ($" {Description}");
             return s;
         }
