@@ -43,7 +43,7 @@ namespace TEXT_RPG
                     if (i == index-1) {
                         a[i].Update(
 
-                     new Panel("[bold]>"+menu[i]+"[/]").Expand().Padding(0, 0));
+                     new Panel("[Yellow]>"+menu[i]+"[/]").Expand().Padding(0, 0));
                     }
                     else
                         a[i].Update(
@@ -96,7 +96,7 @@ namespace TEXT_RPG
                         {
                             a[i].Update(
 
-                         new Panel("[bold]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0).BorderColor(Color.Red));
+                         new Panel("[Yellow]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0).BorderColor(Color.Red));
                         }
                         else
                             a[i].Update(
@@ -106,7 +106,7 @@ namespace TEXT_RPG
                     {
                         a[i].Update(
 
-                     new Panel("[bold]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0));
+                     new Panel("[Yellow]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0));
                     }
                     else
                         a[i].Update(
@@ -157,7 +157,7 @@ namespace TEXT_RPG
                     {
                         a[i].Update(
 
-                     new Panel("[bold]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0));
+                     new Panel("[Yellow]>" + menu[i].show(0) + "[/]").Expand().Padding(0, 0));
                     }
                     else
                         a[i].Update(
@@ -233,7 +233,7 @@ namespace TEXT_RPG
                 for (int i = 0; i < menu.Count; i++)
                 {
                     if (i + 1 == index)
-                        a += ("[bold]>" + menu[i] + "[/]\n");
+                        a += ("[Yellow]>" + menu[i] + "[/]\n");
                     else
                         a += ( menu[i] + "\n");
                 }
@@ -283,7 +283,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < page * num; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
@@ -293,7 +293,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < maxIndex; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
@@ -336,7 +336,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < page * num; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
@@ -346,7 +346,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < maxIndex; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
@@ -426,7 +426,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < page * num; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
@@ -436,7 +436,7 @@ namespace TEXT_RPG
                     for (int i = (page - 1) * num; i < maxIndex; i++)
                     {
                         if (index == i)
-                            txt += "[bold]->" + list[i].show(mode) + "[/]\n";
+                            txt += "[Yellow]->" + list[i].show(mode) + "[/]\n";
                         else
                             txt += list[i].show(mode) + "\n";
                     }
