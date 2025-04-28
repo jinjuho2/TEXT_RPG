@@ -99,7 +99,7 @@ namespace TEXT_RPG
         }
         public string showDetail()
         {
-            if (!IsVisible) return "?????";
+            if (Type == QuestType.Hidden && !IsVisible) return "?????";
             else return Etc;
         }
     }
