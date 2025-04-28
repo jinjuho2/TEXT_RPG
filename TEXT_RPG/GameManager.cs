@@ -36,7 +36,7 @@ namespace TEXT_RPG
         public void Init() //시작전
         {
             ItemManager.Instance().InitializeItems();
-      
+
             dungeonManager = new DungeonManager();//추가
             questManager = new QuestManager();
             inven = new Inven();
