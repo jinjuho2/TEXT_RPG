@@ -216,7 +216,8 @@ namespace TEXT_RPG
                                         if (item2 == null)
                                             break;
                                         
-                                        inven.EquipS(player, item2); 
+                                        inven.checkEquipment(player, item2,out string x);
+                                        SceneManager.Instance().ShowinIn(x);
                                     }
                                     break;
                                 case 3:

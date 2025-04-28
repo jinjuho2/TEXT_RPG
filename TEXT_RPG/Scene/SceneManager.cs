@@ -135,18 +135,21 @@ namespace TEXT_RPG
         public Quest SelectQuest()
         {
           
-            return questScene.ScrollMenu(QuestManager.Instance().Quests, "info", "", 5, 0);
+            return questScene.ScrollMenu(QuestManager.Instance().Quests, "info", "order", 5, 0);
         
         
         }
         public Quest SelectAchieve()
         {
 
-            return questScene.ScrollMenu(QuestManager.Instance().Achieves, "info", "", 5, 1);
+            return questScene.ScrollMenu(QuestManager.Instance().Achieves, "info", "order", 5, 1);
 
 
         }
-
+        public void ShowinIn(string x)
+        {
+            playerScene.Text("btn1", x);
+        }
         public void confirmQuest(Quest quest)
         {
           

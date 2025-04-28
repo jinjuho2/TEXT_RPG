@@ -117,7 +117,7 @@ namespace TEXT_RPG
         void CheckQ()
         {
             List<string> list = new List<string> {"퀘스트 확인","나가기" };
-            battleScene.showList(QuestManager.Instance().Quests, "chara");
+            battleScene.showList(QuestManager.Instance().Quests.Where(a => a.IsActive).ToList(), "chara");
             if (QuestManager.Instance().Quests.Where(a=>a.IsActive).Count() == 0) {
               list = new List<string> { "나가기" };
                 if (battleScene.SelectNum(list, "order") != 3)

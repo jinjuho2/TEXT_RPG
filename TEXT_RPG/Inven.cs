@@ -141,7 +141,65 @@ namespace TEXT_RPG
 
             }
         }
+        public bool checkEquipment(Player player,Item selectedItem,out string x) {
 
+
+
+
+            var ownedItems = ItemManager.Instance().items.Where(item => item.IsHave).ToList();
+            int? nullableLevel = selectedItem.Level;
+
+                if (selectedItem.IsEquipped)
+                {
+
+                    selectedItem.IsEquipped = false;
+                    x= ($"'{selectedItem.Name}' 을(를) 해제했습니다");
+
+                UpdateEquipCount(selectedItem.Level, 1);
+                return true;
+                  
+                }
+
+                else if (selectedItem.Level > player.Level)
+                {
+              
+                    Thread.Sleep(1000);
+                x= ($"레벨이 부족하여 '{selectedItem.Name}' 을(를) 장착할 수 없습니다");
+                return false;
+            }
+                else
+                {
+                    foreach (var item in ownedItems)
+                    {
+                        if (selectedItem.MainType == "갑옷")
+                        {
+                            if (item.Type == selectedItem.Type && item.IsEquipped)
+                            {
+                                item.IsEquipped = false;
+                                UpdateEquipCount(item.Level, -1);
+                                x=($"'{item.Name}' 을(를) 해제했습니다");
+                            return true;
+                            }
+
+                        }
+                        else if (selectedItem.MainType == item.MainType && item.IsEquipped && selectedItem.MainType != "갑옷")
+                        {
+                            item.IsEquipped = false;
+                            UpdateEquipCount(item.Level, -1);
+                            x=($"'{item.Name}' 을(를) 해제했습니다");
+                        return true;
+                        }
+                    }
+                    selectedItem.IsEquipped = true;
+                    UpdateEquipCount(selectedItem.Level, 1);
+                   x=($"'{selectedItem.Name}' 을(를) 장착했습니다");
+                    Thread.Sleep(1000);
+                return true;
+                }
+
+
+
+        }
         public void EquipS(Player player, Item selectedItem)
         {
 
