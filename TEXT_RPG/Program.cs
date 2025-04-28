@@ -15,6 +15,8 @@ namespace TEXTRPG
             Console.OutputEncoding = Encoding.UTF8;
             DataManager.Instance().Init();
 
+            AudioManager.Instance().InitBgm();
+
             GameManager.Instance().Init();
 
             GameManager.Instance().Run();
