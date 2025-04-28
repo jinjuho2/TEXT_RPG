@@ -68,12 +68,12 @@ namespace TEXT_RPG
                     case QuestType.Hunting:
                         x += ($"{Title} ");
                         if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}마리 / {TargetCount}마리");
-                        Console.WriteLine("\n");
+                        
                         break;
                     case QuestType.Stage:
                         x += ($"{Title} ");
                         if (IsActive == true) Console.WriteLine($"진행상황 : {CurrentCount}층 / {TargetCount}층");
-                        Console.WriteLine("\n");
+                        
                         break;
                 }
             }
@@ -99,7 +99,8 @@ namespace TEXT_RPG
         }
         public string showDetail()
         {
-            return Etc;
+            if (!IsVisible) return "?????";
+            else return Etc;
         }
     }
 
