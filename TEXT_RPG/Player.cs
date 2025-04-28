@@ -11,7 +11,7 @@ namespace TEXT_RPG
 {
     internal class Player :Unit
     {
-     
+        public int SaveF { get; set; } = 1;
         //공격 처리를 위하여 Unit에게 상속 받게 함.
 
         public Job Job { get; set; } // 플레이어 직업

@@ -74,8 +74,8 @@ namespace TEXT_RPG
 
 
              x += $"{lv}: {player.Name}\n";
-
-            x += $"{hp}->{player.CurrentHP}\n아무 키나 입력하여 다음으로";
+            if (player.CurrentHP < 0) { player.CurrentHP = 0; }
+            x += $"{hp}->{player.CurrentHP}\n아무 키나 입력하여 게임 종료";
 
             battleScene.Text("info", x);
 
@@ -156,12 +156,7 @@ namespace TEXT_RPG
             exp = player.Exp;
             lv=player.Level;
             nowMonsters.AddRange(mon);
-            for(int i = 0;i < nowMonsters.Count;i++)
-            {
-                nowMonsters[i].skills.Add(DataManager.Instance().MakeSkill(1));
-
-      
-            }
+           
 
             monsterCount = 0;
             int Pspeed = player.Speed;
@@ -286,6 +281,7 @@ namespace TEXT_RPG
                 return;
                 }   
             string x = $"{a.Name} 이(가)  {b.Name}을(를) 공격\n";
+            x += $"[bold]{s.Name}![/]\n";
             //Console.Write($"{a.Name} 이(가)  {b.Name}을(를) 공격");
                  if (random.Next(0,100)>s.Critical)
                    x+="[red]-치명타![/]\n";

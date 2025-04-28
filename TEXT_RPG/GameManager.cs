@@ -49,13 +49,13 @@ namespace TEXT_RPG
             {
                 SceneManager.Instance().InitCharaMake();
                 player.Name = SceneManager.Instance().setName();
-
+                player.Gold = 1500;
                 ChooseJob();
             }
             else if(i==2) {
                 player =DataManager.Instance().Load();
             }
-            player.Gold = 1500;
+            
         }
        
         public void ChooseJob()

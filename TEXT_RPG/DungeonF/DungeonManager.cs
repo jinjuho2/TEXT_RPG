@@ -101,6 +101,7 @@ namespace TEXT_RPG
         public void Init(Player player)
         {
             this.player = player;
+            nowFloor = player.SaveF;
            InitDungeon();
         }
         public void Run()
@@ -125,11 +126,12 @@ namespace TEXT_RPG
                 {
                     nowFloor++;
                 }
-                else break;
+                else Environment.Exit(0); 
 
                 QuestManager.Instance().Floorcheck(nowFloor);
                 if (nowFloor == 6)
                 {
+                    player.SaveF = 6;
                     dungeonScene.Text("head", "종료");
                     dungeonScene.Text("info", "현재 개발한 파트은 여기까지 입니다.\n 플레이 해주셔서 감사합니다.");
                     dungeonScene.Text("btn2",player.showDetail());

@@ -35,7 +35,7 @@ namespace TEXT_RPG
                 monsterID = 19;
                 boss = DataManager.Instance().makeMonster(monsterID);
             }
-            else if (nowFloor == 50)
+            else if (nowFloor == 5)
             {
                 monsterID = 20;
                 boss = DataManager.Instance().makeMonster(monsterID);
